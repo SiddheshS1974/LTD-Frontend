@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+.step-page {
+  width: 100vw;
+  min-height: 100vh;
+  background: #f2f4f6;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ════════════════════════════════
+   Header
+   ════════════════════════════════ */
+
+.step-header {
+  background:
+    radial-gradient(ellipse at 25% 60%, rgba(74,46,26,0.5) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 20%, rgba(196,124,58,0.18) 0%, transparent 40%),
+    radial-gradient(ellipse at 60% 85%, rgba(20,10,4,0.35) 0%, transparent 40%),
+    linear-gradient(155deg, rgba(12,6,2,0.92) 0%, rgba(40,22,8,0.86) 40%, rgba(90,60,30,0.75) 70%, rgba(139,99,64,0.6) 100%),
+    url('./assets/financial_background.jpg') center / cover no-repeat;
+  padding: 5rem 6vw 3.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(255,255,255,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.step-header-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  padding-top: 56px; /* clear fixed navbar */
+}
+
+.step-number-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 1.25rem;
+}
+
+.step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.step-subtitle {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+}
+
+/* ════════════════════════════════
+   Content area — centered column
+   ════════════════════════════════ */
+
+.step-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 6vw 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+/* ════════════════════════════════
+   Section label + description
+   ════════════════════════════════ */
+
+.step-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #8b6340;
+}
+
+.step-section-icon {
+  font-size: 18px !important;
+}
+
+.step-section-desc {
+  font-size: 0.92rem;
+  color: #6b7280;
+  line-height: 1.8;
+  max-width: 560px;
+}
+
+/* ════════════════════════════════
+   Device tabs
+   ════════════════════════════════ */
+
+.step-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #e4e7eb;
+  width: 100%;
+  justify-content: center;
+}
+
+.step-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  padding: 0.6rem 1.4rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.step-tab:hover  { color: #8b6340; }
+.step-tab.active { color: #8b6340; border-bottom-color: #8b6340; font-weight: 600; }
+
+/* ════════════════════════════════
+   Steps list
+   ════════════════════════════════ */
+
+.step-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.step-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  border-radius: 18px;
+  padding: 1.75rem 2rem;
+  text-align: center;
+}
+
+.step-row-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: linear-gradient(135deg, #8b6340, #a07850);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-row-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.step-row-desc {
+  font-size: 0.88rem;
+  color: #6b7280;
+  line-height: 1.8;
+  max-width: 520px;
+}
+
+/* ════════════════════════════════
+   Step images
+   ════════════════════════════════ */
+
+.step-img-wrap {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.step-img {
+  max-width: 320px;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid #e4e7eb;
+  box-shadow: 0 8px 28px rgba(74,46,26,0.1);
+  object-fit: contain;
+}
+
+.step-link {
+  color: #8b6340;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/* ════════════════════════════════
+   Tip box
+   ════════════════════════════════ */
+
+.step-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: rgba(74,46,26,0.06);
+  border: 1px solid rgba(74,46,26,0.15);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.87rem;
+  color: #4a2e1a;
+  line-height: 1.75;
+  text-align: left;
+  width: 100%;
+}
+
+.step-tip-icon {
+  font-size: 20px !important;
+  color: #8b6340;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ════════════════════════════════
+   Responsive
+   ════════════════════════════════ */
+
+@media (max-width: 600px) {
+  .navbar-mainbg  { gap: 0; padding: 0 1rem; overflow-x: auto; }
+  .navbar-brand   { display: none; }
+  .nav-item       { padding: 12px 10px; font-size: 11px; }
+  .nav-label      { display: none; }
+  .nav-icon       { font-size: 22px !important; }
+
+  .step-header    { padding: 4rem 5vw 2.5rem; }
+  .step-content   { padding: 2rem 5vw 4rem; }
+  .step-row       { padding: 1.25rem 1.25rem; }
+  .step-img       { max-width: 100%; }
+}

@@ -1,0 +1,573 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+.admin-page {
+  width: 100vw;
+  min-height: 100vh;
+  background: #f2f4f6;
+  font-family: 'DM Sans', sans-serif;
+  padding-top: 56px;
+}
+
+.admin-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 6vw 5rem;
+}
+
+/* ── Tab switcher ── */
+.admin-tabs {
+  display: flex;
+  gap: 0.4rem;
+  background: #ffffff;
+  border: 1px solid #e4e7eb;
+  border-radius: 12px;
+  padding: 0.35rem;
+  width: fit-content;
+  margin: 0 auto 2rem;
+}
+
+.admin-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.2rem;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #8b6340;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  white-space: nowrap;
+}
+
+.admin-tab .material-icons {
+  font-size: 18px !important;
+}
+
+.admin-tab:hover:not(.admin-tab-active) {
+  background: #f5ede6;
+  color: #5a3020;
+}
+
+.admin-tab-active {
+  background: #8B3A4A;
+  color: #ffffff;
+}
+
+.admin-tab-active .material-icons {
+  color: #ffffff;
+}
+
+/* ── Header ── */
+.admin-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.admin-eyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #c47c3a;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.admin-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 600;
+  color: #1e0f06;
+  margin-bottom: 0.5rem;
+}
+
+.admin-sub {
+  font-size: 0.9rem;
+  color: #6b5040;
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ── Search bar ── */
+.admin-search-section {
+  margin-bottom: 1.25rem;
+}
+
+.admin-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid #e4e7eb;
+  border-radius: 12px;
+  padding: 0 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-search-wrapper:focus-within {
+  border-color: #8B3A4A;
+  box-shadow: 0 0 0 3px rgba(139, 58, 74, 0.1);
+}
+
+.admin-search-icon {
+  color: #8b6340;
+  font-size: 20px !important;
+  flex-shrink: 0;
+}
+
+.admin-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  color: #1e0f06;
+  padding: 0.85rem 0.75rem;
+}
+
+.admin-search-input::placeholder { color: #b0a090; }
+
+.admin-clear-icon {
+  color: #b0a090;
+  font-size: 18px !important;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.admin-clear-icon:hover { color: #8B3A4A; }
+
+.admin-count {
+  font-size: 0.78rem;
+  color: #9b8472;
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+/* ── Action error banner ── */
+.admin-action-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff0f0;
+  border: 1px solid #e8b4b4;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  color: #993333;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.admin-dismiss {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #993333;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+/* ── State messages ── */
+.admin-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 3rem 0;
+  color: #9b8472;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.admin-state-icon {
+  font-size: 2rem !important;
+  color: #d8c4ae;
+}
+
+.admin-state-error { color: #cc4444; }
+.admin-state-error .admin-state-icon { color: #e0a0a0; }
+
+/* ── Table ── */
+.admin-table-wrapper {
+  background: #faf7f4;
+  border: 1px solid #e4e7eb;
+  border-radius: 14px;
+  overflow-x: auto;
+  transform: rotateX(180deg);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  color: #1e0f06;
+  transform: rotateX(180deg);
+}
+
+.admin-table thead tr {
+  background: #faf7f4;
+  border-bottom: 2px solid #e4e7eb;
+}
+
+.admin-table th {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8b6340;
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 0.9rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0ebe6;
+  color: #3a2010;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tbody tr:hover td {
+  background: #fdf9f6;
+}
+
+.admin-row-deleting td {
+  background: #fff5f5 !important;
+}
+
+/* ── Name cell ── */
+.admin-td-name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+}
+
+/* In table context, td.admin-td-name is a <td> so flex applies to inline content */
+.admin-td-name {
+  min-width: 140px;
+}
+
+.admin-full-name {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e0f06;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.admin-username {
+  display: block;
+  font-size: 0.73rem;
+  color: #9b8472;
+  white-space: nowrap;
+}
+
+.admin-td-mono {
+  font-size: 0.82rem;
+  color: #4a3020;
+  white-space: nowrap;
+}
+
+/* ── Role column header ── */
+.admin-th-role {
+  text-align: center;
+}
+
+/* ── Role badge ── */
+.admin-role-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.admin-role-newmember {
+  background: rgba(180, 130, 60, 0.12);
+  color: #7a5020;
+}
+
+.admin-role-rmd {
+  background: rgba(60, 130, 100, 0.12);
+  color: #2a6040;
+}
+
+.admin-role-admin {
+  background: rgba(106, 158, 194, 0.15);
+  color: #3d7da8;
+}
+
+/* ── Role edit inline ── */
+.admin-role-edit {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+}
+
+.admin-role-select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  border: 1.5px solid #d0bdb0;
+  border-radius: 7px;
+  padding: 4px 6px;
+  color: #1e0f06;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+}
+
+.admin-role-select:focus {
+  border-color: #8B3A4A;
+}
+
+/* ── Confirm delete inline ── */
+.admin-confirm-delete {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+}
+
+.admin-confirm-text {
+  font-size: 0.78rem;
+  color: #993333;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── Action buttons ── */
+.admin-actions {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+  padding: 5px 10px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.admin-btn .material-icons {
+  font-size: 16px !important;
+}
+
+.admin-btn-role {
+  background: rgba(139, 58, 74, 0.08);
+  color: #8B3A4A;
+}
+
+.admin-btn-role:hover {
+  background: rgba(139, 58, 74, 0.16);
+}
+
+.admin-btn-delete {
+  background: rgba(180, 60, 60, 0.08);
+  color: #993333;
+}
+
+.admin-btn-delete:hover {
+  background: rgba(180, 60, 60, 0.16);
+}
+
+.admin-btn-save {
+  background: rgba(34, 120, 80, 0.1);
+  color: #1e6040;
+}
+
+.admin-btn-save:hover {
+  background: rgba(34, 120, 80, 0.2);
+}
+
+.admin-btn-cancel {
+  background: rgba(100, 100, 100, 0.08);
+  color: #555;
+}
+
+.admin-btn-cancel:hover {
+  background: rgba(100, 100, 100, 0.15);
+}
+
+.admin-btn-danger {
+  background: rgba(180, 60, 60, 0.12);
+  color: #993333;
+  font-weight: 600;
+}
+
+.admin-btn-danger:hover {
+  background: rgba(180, 60, 60, 0.22);
+}
+
+/* ── Panel card (wraps each section) ── */
+.admin-panel {
+  background: #ffffff;
+  border: 1px solid #e4e7eb;
+  border-radius: 16px;
+  padding: 2.5rem 2rem 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* ── HGI code count sub-line ── */
+.admin-count-claimed { color: #8B3A4A; font-weight: 600; }
+.admin-count-unclaimed { color: #2a6040; font-weight: 600; }
+
+/* ── HGI index column ── */
+.admin-td-index {
+  color: #b0a090;
+  font-size: 0.75rem;
+  width: 2.5rem;
+  text-align: right;
+  padding-right: 0.5rem !important;
+}
+
+/* ── HGI status badge ── */
+.admin-hgi-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.admin-hgi-claimed {
+  background: rgba(139, 58, 74, 0.1);
+  color: #8B3A4A;
+}
+
+.admin-hgi-unclaimed {
+  background: rgba(42, 96, 64, 0.1);
+  color: #2a6040;
+}
+
+/* ── HGI owner cell ── */
+.admin-hgi-owner {
+  font-size: 0.85rem;
+  color: #3a2010;
+}
+
+.admin-hgi-none {
+  color: #c0b0a0;
+}
+
+/* ── HGI search row (search + add button side by side) ── */
+.admin-hgi-search-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-hgi-search-row .admin-search-wrapper {
+  flex: 1;
+}
+
+.admin-btn-add {
+  background: #8B3A4A;
+  color: #ffffff;
+  flex-shrink: 0;
+  padding: 0.55rem 1rem;
+}
+
+.admin-btn-add:hover { background: #7a2f3e; }
+
+.admin-btn-add .material-icons { font-size: 16px !important; }
+
+/* ── HGI add form ── */
+.admin-hgi-add-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #fdf9f6;
+  border: 1.5px solid #e0d5cc;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.admin-hgi-input {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  border: 1.5px solid #d0bdb0;
+  border-radius: 8px;
+  padding: 0.45rem 0.75rem;
+  color: #1e0f06;
+  background: #fff;
+  outline: none;
+  flex: 1;
+  min-width: 110px;
+}
+
+.admin-hgi-input:focus {
+  border-color: #8B3A4A;
+  box-shadow: 0 0 0 3px rgba(139, 58, 74, 0.1);
+}
+
+.admin-hgi-input-inline {
+  flex: unset;
+  width: 100%;
+  min-width: unset;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.82rem;
+}
+
+/* ── Pagination ── */
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0 0.5rem;
+}
+
+.admin-page-info {
+  font-size: 0.85rem;
+  color: #5a3a2a;
+  font-weight: 500;
+}
+
+.admin-pagination .admin-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .admin-content { padding: 2rem 4vw 3.5rem; }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 0.7rem 0.6rem;
+  }
+}

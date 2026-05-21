@@ -1,0 +1,659 @@
+import { useState, useEffect, useRef } from "react";
+import "./AdminPanel.css";
+
+const ROLE_CHOICES = ["New Member", "RMD", "Admin"];
+
+export default function AdminPanel() {
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [editingRoleId, setEditingRoleId] = useState(null);
+  const [pendingRole, setPendingRole] = useState("");
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [actionError, setActionError] = useState("");
+
+  const [activeTab, setActiveTab] = useState("accounts");
+
+  const [hgiCodes, setHgiCodes] = useState([]);
+  const [hgiLoading, setHgiLoading] = useState(false);
+  const [hgiError, setHgiError] = useState("");
+  const [hgiSearch, setHgiSearch] = useState("");
+  const [hgiPage, setHgiPage] = useState(1);
+  const [hgiTotal, setHgiTotal] = useState(0);
+  const [hgiNumPages, setHgiNumPages] = useState(1);
+  const [hgiClaimedCount, setHgiClaimedCount] = useState(0);
+  const [hgiRefresh, setHgiRefresh] = useState(0);
+  const hgiTimerRef = useRef(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newCode, setNewCode] = useState({ code: "", first_name: "", last_name: "", upline_rmd_name: "" });
+  const [editingHgiId, setEditingHgiId] = useState(null);
+  const [pendingHgiEdit, setPendingHgiEdit] = useState({});
+  const [confirmDeleteHgiId, setConfirmDeleteHgiId] = useState(null);
+  const [hgiActionError, setHgiActionError] = useState("");
+
+  useEffect(() => {
+    const b = document.body;
+    const prev = {
+      height: b.style.height, display: b.style.display,
+      alignItems: b.style.alignItems, justifyContent: b.style.justifyContent,
+      flexDirection: b.style.flexDirection, overflow: b.style.overflow,
+    };
+    b.style.height = "auto"; b.style.display = "block";
+    b.style.alignItems = ""; b.style.justifyContent = "";
+    b.style.flexDirection = ""; b.style.overflow = "";
+    return () => Object.assign(b.style, prev);
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8000/api/v1/users/", {
+      headers: { Authorization: `Token ${token}` },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load accounts.");
+        return res.json();
+      })
+      .then((data) => { setUsers(data); setLoading(false); })
+      .catch((err) => { setError(err.message); setLoading(false); });
+  }, []);
+
+  useEffect(() => {
+    if (activeTab !== "hgi") return;
+    setHgiLoading(true);
+    const token = localStorage.getItem("token");
+    const params = new URLSearchParams({ page: hgiPage });
+    if (hgiSearch) params.append("search", hgiSearch);
+    const doFetch = () => {
+      fetch(`http://localhost:8000/api/v1/hgi-codes/?${params}`, {
+        headers: { Authorization: `Token ${token}` },
+      })
+        .then((res) => { if (!res.ok) throw new Error("Failed to load HGI codes."); return res.json(); })
+        .then((data) => {
+          setHgiCodes(data.results);
+          setHgiTotal(data.count);
+          setHgiNumPages(data.num_pages);
+          setHgiClaimedCount(data.claimed_count);
+          setHgiLoading(false);
+        })
+        .catch((err) => { setHgiError(err.message); setHgiLoading(false); });
+    };
+    clearTimeout(hgiTimerRef.current);
+    hgiTimerRef.current = setTimeout(doFetch, hgiSearch ? 300 : 0);
+    return () => clearTimeout(hgiTimerRef.current);
+  }, [activeTab, hgiPage, hgiSearch, hgiRefresh]);
+
+  const q = query.toLowerCase();
+  const filtered = users.filter((u) =>
+    [u.username, u.first_name, u.last_name, u.email, u.hgi_code, u.role, u.upline_rmd_name]
+      .some((f) => f?.toLowerCase().includes(q))
+  );
+
+  const registeredCodes = new Set(users.map((u) => u.hgi_code).filter(Boolean));
+
+  const fmt = (dateStr) => {
+    if (!dateStr) return "—";
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      year: "numeric", month: "short", day: "numeric",
+    });
+  };
+
+  const handleDeleteConfirm = async (userId) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/users/${userId}/delete/`, {
+        method: "DELETE",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setActionError(data.error || "Failed to delete user.");
+        return;
+      }
+      setUsers((prev) => prev.filter((u) => u.id !== userId));
+      setConfirmDeleteId(null);
+    } catch {
+      setActionError("Network error. Please try again.");
+    }
+  };
+
+  const handleRoleSave = async (userId) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/users/${userId}/role/`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Token ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ role: pendingRole }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setActionError(data.error || "Failed to update role.");
+        return;
+      }
+      setUsers((prev) =>
+        prev.map((u) => u.id === userId ? { ...u, role: pendingRole } : u)
+      );
+      setEditingRoleId(null);
+      setPendingRole("");
+    } catch {
+      setActionError("Network error. Please try again.");
+    }
+  };
+
+  const handleAddCode = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch("http://localhost:8000/api/v1/hgi-codes/", {
+        method: "POST",
+        headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify(newCode),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setHgiActionError(data.code?.[0] || data.error || "Failed to add code.");
+        return;
+      }
+      setNewCode({ code: "", first_name: "", last_name: "", upline_rmd_name: "" });
+      setShowAddForm(false);
+      setHgiPage(1);
+      setHgiRefresh((r) => r + 1);
+    } catch {
+      setHgiActionError("Network error. Please try again.");
+    }
+  };
+
+  const handleHgiEditSave = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/hgi-codes/${id}/`, {
+        method: "PATCH",
+        headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify(pendingHgiEdit),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setHgiActionError(data.code?.[0] || data.error || "Failed to update code.");
+        return;
+      }
+      setEditingHgiId(null);
+      setPendingHgiEdit({});
+      setHgiRefresh((r) => r + 1);
+    } catch {
+      setHgiActionError("Network error. Please try again.");
+    }
+  };
+
+  const handleHgiDelete = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`http://localhost:8000/api/v1/hgi-codes/${id}/`, {
+        method: "DELETE",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        setHgiActionError("Failed to delete code.");
+        return;
+      }
+      setConfirmDeleteHgiId(null);
+      setHgiRefresh((r) => r + 1);
+    } catch {
+      setHgiActionError("Network error. Please try again.");
+    }
+  };
+
+  return (
+    <div className="admin-page">
+      <main className="admin-content">
+
+        {/* ── Tab switcher ── */}
+        <div className="admin-tabs">
+          <button
+            className={`admin-tab ${activeTab === "accounts" ? "admin-tab-active" : ""}`}
+            onClick={() => setActiveTab("accounts")}
+          >
+            <span className="material-icons">manage_accounts</span>
+            Manage Accounts
+          </button>
+          <button
+            className={`admin-tab ${activeTab === "hgi" ? "admin-tab-active" : ""}`}
+            onClick={() => setActiveTab("hgi")}
+          >
+            <span className="material-icons">tag</span>
+            Valid HGI Codes
+          </button>
+        </div>
+
+        {/* ── Section 1: Manage Accounts ── */}
+        {activeTab === "accounts" && <div className="admin-panel">
+          <section className="admin-header">
+            <p className="admin-eyebrow">Administration</p>
+            <h2 className="admin-title">Manage Accounts</h2>
+            <p className="admin-sub">
+              Search and manage every account that has access to this website.
+            </p>
+          </section>
+
+          <section className="admin-search-section">
+            <div className="admin-search-wrapper">
+              <span className="material-icons admin-search-icon">search</span>
+              <input
+                className="admin-search-input"
+                type="text"
+                placeholder="Search by name, username, email, HGI code, role…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              {query && (
+                <span
+                  className="material-icons admin-clear-icon"
+                  onClick={() => setQuery("")}
+                  title="Clear"
+                >
+                  close
+                </span>
+              )}
+            </div>
+            {!loading && !error && (
+              <p className="admin-count">
+                {filtered.length} of {users.length} account{users.length !== 1 ? "s" : ""}
+              </p>
+            )}
+          </section>
+
+          {actionError && (
+            <div className="admin-action-error">
+              <span className="material-icons" style={{ fontSize: 18 }}>error_outline</span>
+              {actionError}
+              <button className="admin-dismiss" onClick={() => setActionError("")}>×</button>
+            </div>
+          )}
+
+          <section className="admin-results">
+            {loading && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">hourglass_empty</span>
+                <p>Loading accounts…</p>
+              </div>
+            )}
+
+            {!loading && error && (
+              <div className="admin-state admin-state-error">
+                <span className="material-icons admin-state-icon">error_outline</span>
+                <p>{error}</p>
+              </div>
+            )}
+
+            {!loading && !error && filtered.length === 0 && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">person_search</span>
+                <p>No accounts match your search.</p>
+              </div>
+            )}
+
+            {!loading && !error && filtered.length > 0 && (
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>HGI Code</th>
+                      <th>Upline RMD</th>
+                      <th className="admin-th-role">Role</th>
+                      <th>Last Login</th>
+                      <th>Date Joined</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.map((u) => (
+                      <tr key={u.id} className={confirmDeleteId === u.id ? "admin-row-deleting" : ""}>
+                        <td className="admin-td-name">
+                          <span className="admin-full-name">
+                            {[u.first_name, u.last_name].filter(Boolean).join(" ") || u.username}
+                          </span>
+                          <span className="admin-username">@{u.username}</span>
+                        </td>
+
+                        <td className="admin-td-mono">{u.email || "—"}</td>
+                        <td className="admin-td-mono">{u.hgi_code || "—"}</td>
+                        <td>{u.upline_rmd_name || "—"}</td>
+
+                        <td>
+                          {editingRoleId === u.id ? (
+                            <div className="admin-role-edit">
+                              <select
+                                className="admin-role-select"
+                                value={pendingRole}
+                                onChange={(e) => setPendingRole(e.target.value)}
+                              >
+                                {ROLE_CHOICES.map((r) => (
+                                  <option key={r} value={r}>{r}</option>
+                                ))}
+                              </select>
+                              <button
+                                className="admin-btn admin-btn-save"
+                                onClick={() => handleRoleSave(u.id)}
+                              >Save</button>
+                              <button
+                                className="admin-btn admin-btn-cancel"
+                                onClick={() => { setEditingRoleId(null); setPendingRole(""); }}
+                              >✕</button>
+                            </div>
+                          ) : (
+                            <span className={`admin-role-badge admin-role-${(u.role || "").replace(/\s+/g, "").toLowerCase()}`}>
+                              {u.role || "—"}
+                            </span>
+                          )}
+                        </td>
+
+                        <td>{fmt(u.last_login)}</td>
+                        <td>{fmt(u.date_joined)}</td>
+
+                        <td>
+                          {confirmDeleteId === u.id ? (
+                            <div className="admin-confirm-delete">
+                              <span className="admin-confirm-text">Sure?</span>
+                              <button
+                                className="admin-btn admin-btn-danger"
+                                onClick={() => handleDeleteConfirm(u.id)}
+                              >Yes</button>
+                              <button
+                                className="admin-btn admin-btn-cancel"
+                                onClick={() => setConfirmDeleteId(null)}
+                              >No</button>
+                            </div>
+                          ) : (
+                            <div className="admin-actions">
+                              <button
+                                className="admin-btn admin-btn-role"
+                                title="Change role"
+                                onClick={() => {
+                                  setEditingRoleId(u.id);
+                                  setPendingRole(u.role || "New Member");
+                                  setConfirmDeleteId(null);
+                                  setActionError("");
+                                }}
+                              >
+                                <span className="material-icons">manage_accounts</span>
+                              </button>
+                              <button
+                                className="admin-btn admin-btn-delete"
+                                title="Delete user"
+                                onClick={() => {
+                                  setConfirmDeleteId(u.id);
+                                  setEditingRoleId(null);
+                                  setActionError("");
+                                }}
+                              >
+                                <span className="material-icons">delete</span>
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        </div>}
+
+        {/* ── Section 2: Valid HGI Codes ── */}
+        {activeTab === "hgi" && <div className="admin-panel">
+          <section className="admin-header">
+            <p className="admin-eyebrow">CSV Registry</p>
+            <h2 className="admin-title">Valid HGI Codes</h2>
+            <p className="admin-sub">
+              Add, edit, or remove HGI codes. Claimed codes are linked to existing accounts.
+            </p>
+          </section>
+
+          <section className="admin-search-section">
+            <div className="admin-hgi-search-row">
+              <div className="admin-search-wrapper">
+                <span className="material-icons admin-search-icon">search</span>
+                <input
+                  className="admin-search-input"
+                  type="text"
+                  placeholder="Search by code, name, upline RMD…"
+                  value={hgiSearch}
+                  onChange={(e) => { setHgiSearch(e.target.value); setHgiPage(1); }}
+                />
+                {hgiSearch && (
+                  <span
+                    className="material-icons admin-clear-icon"
+                    onClick={() => { setHgiSearch(""); setHgiPage(1); }}
+                    title="Clear"
+                  >
+                    close
+                  </span>
+                )}
+              </div>
+              <button
+                className="admin-btn admin-btn-add"
+                onClick={() => { setShowAddForm(true); setEditingHgiId(null); setHgiActionError(""); }}
+              >
+                <span className="material-icons">add</span>
+                Add Code
+              </button>
+            </div>
+            {!hgiLoading && !hgiError && (
+              <p className="admin-count">
+                {hgiTotal} code{hgiTotal !== 1 ? "s" : ""}
+                {" "}·{" "}
+                <span className="admin-count-claimed">{hgiClaimedCount} claimed</span>
+                {" "}·{" "}
+                <span className="admin-count-unclaimed">{hgiTotal - hgiClaimedCount} unclaimed</span>
+              </p>
+            )}
+          </section>
+
+          {hgiActionError && (
+            <div className="admin-action-error">
+              <span className="material-icons" style={{ fontSize: 18 }}>error_outline</span>
+              {hgiActionError}
+              <button className="admin-dismiss" onClick={() => setHgiActionError("")}>×</button>
+            </div>
+          )}
+
+          {showAddForm && (
+            <div className="admin-hgi-add-form">
+              <input
+                className="admin-hgi-input"
+                placeholder="HGI Code *"
+                value={newCode.code}
+                onChange={(e) => setNewCode((p) => ({ ...p, code: e.target.value }))}
+              />
+              <input
+                className="admin-hgi-input"
+                placeholder="First Name"
+                value={newCode.first_name}
+                onChange={(e) => setNewCode((p) => ({ ...p, first_name: e.target.value }))}
+              />
+              <input
+                className="admin-hgi-input"
+                placeholder="Last Name"
+                value={newCode.last_name}
+                onChange={(e) => setNewCode((p) => ({ ...p, last_name: e.target.value }))}
+              />
+              <input
+                className="admin-hgi-input"
+                placeholder="Upline RMD"
+                value={newCode.upline_rmd_name}
+                onChange={(e) => setNewCode((p) => ({ ...p, upline_rmd_name: e.target.value }))}
+              />
+              <button className="admin-btn admin-btn-save" onClick={handleAddCode}>Add</button>
+              <button
+                className="admin-btn admin-btn-cancel"
+                onClick={() => { setShowAddForm(false); setNewCode({ code: "", first_name: "", last_name: "", upline_rmd_name: "" }); }}
+              >Cancel</button>
+            </div>
+          )}
+
+          <section className="admin-results">
+            {hgiLoading && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">hourglass_empty</span>
+                <p>Loading HGI codes…</p>
+              </div>
+            )}
+
+            {!hgiLoading && hgiError && (
+              <div className="admin-state admin-state-error">
+                <span className="material-icons admin-state-icon">error_outline</span>
+                <p>{hgiError}</p>
+              </div>
+            )}
+
+            {!hgiLoading && !hgiError && hgiTotal === 0 && !showAddForm && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">tag</span>
+                <p>{hgiSearch ? "No codes match your search." : "No HGI codes have been added yet."}</p>
+              </div>
+            )}
+
+            {!hgiLoading && !hgiError && hgiCodes.length > 0 && (
+              <>
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>HGI Code</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Upline RMD</th>
+                      <th>Status</th>
+                      <th>Claimed By</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {hgiCodes.map((c, idx) => {
+                      const owner = users.find((u) => u.hgi_code === c.code);
+                      const claimed = !!owner;
+                      const isEditing = editingHgiId === c.id;
+                      return (
+                        <tr key={c.id} className={confirmDeleteHgiId === c.id ? "admin-row-deleting" : ""}>
+                          <td className="admin-td-index">{(hgiPage - 1) * 100 + idx + 1}</td>
+                          <td className="admin-td-mono">
+                            {isEditing ? (
+                              <input
+                                className="admin-hgi-input admin-hgi-input-inline"
+                                value={pendingHgiEdit.code ?? c.code}
+                                onChange={(e) => setPendingHgiEdit((p) => ({ ...p, code: e.target.value }))}
+                              />
+                            ) : c.code}
+                          </td>
+                          <td>
+                            {isEditing ? (
+                              <input
+                                className="admin-hgi-input admin-hgi-input-inline"
+                                value={pendingHgiEdit.first_name ?? c.first_name}
+                                onChange={(e) => setPendingHgiEdit((p) => ({ ...p, first_name: e.target.value }))}
+                              />
+                            ) : (c.first_name || "—")}
+                          </td>
+                          <td>
+                            {isEditing ? (
+                              <input
+                                className="admin-hgi-input admin-hgi-input-inline"
+                                value={pendingHgiEdit.last_name ?? c.last_name}
+                                onChange={(e) => setPendingHgiEdit((p) => ({ ...p, last_name: e.target.value }))}
+                              />
+                            ) : (c.last_name || "—")}
+                          </td>
+                          <td>
+                            {isEditing ? (
+                              <input
+                                className="admin-hgi-input admin-hgi-input-inline"
+                                value={pendingHgiEdit.upline_rmd_name ?? c.upline_rmd_name}
+                                onChange={(e) => setPendingHgiEdit((p) => ({ ...p, upline_rmd_name: e.target.value }))}
+                              />
+                            ) : (c.upline_rmd_name || "—")}
+                          </td>
+                          <td>
+                            <span className={`admin-hgi-badge ${claimed ? "admin-hgi-claimed" : "admin-hgi-unclaimed"}`}>
+                              {claimed ? "Claimed" : "Unclaimed"}
+                            </span>
+                          </td>
+                          <td>
+                            {owner ? (
+                              <span className="admin-hgi-owner">
+                                {[owner.first_name, owner.last_name].filter(Boolean).join(" ") || owner.username}
+                                <span className="admin-username"> @{owner.username}</span>
+                              </span>
+                            ) : (
+                              <span className="admin-hgi-none">—</span>
+                            )}
+                          </td>
+                          <td>
+                            {isEditing ? (
+                              <div className="admin-actions">
+                                <button className="admin-btn admin-btn-save" onClick={() => handleHgiEditSave(c.id)}>Save</button>
+                                <button className="admin-btn admin-btn-cancel" onClick={() => { setEditingHgiId(null); setPendingHgiEdit({}); }}>✕</button>
+                              </div>
+                            ) : confirmDeleteHgiId === c.id ? (
+                              <div className="admin-confirm-delete">
+                                <span className="admin-confirm-text">Sure?</span>
+                                <button className="admin-btn admin-btn-danger" onClick={() => handleHgiDelete(c.id)}>Yes</button>
+                                <button className="admin-btn admin-btn-cancel" onClick={() => setConfirmDeleteHgiId(null)}>No</button>
+                              </div>
+                            ) : (
+                              <div className="admin-actions">
+                                <button
+                                  className="admin-btn admin-btn-role"
+                                  title="Edit"
+                                  onClick={() => { setEditingHgiId(c.id); setPendingHgiEdit({}); setConfirmDeleteHgiId(null); setHgiActionError(""); }}
+                                >
+                                  <span className="material-icons">edit</span>
+                                </button>
+                                <button
+                                  className="admin-btn admin-btn-delete"
+                                  title="Delete"
+                                  onClick={() => { setConfirmDeleteHgiId(c.id); setEditingHgiId(null); setHgiActionError(""); }}
+                                >
+                                  <span className="material-icons">delete</span>
+                                </button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              {hgiNumPages > 1 && (
+                <div className="admin-pagination">
+                  <button
+                    className="admin-btn admin-btn-cancel"
+                    onClick={() => setHgiPage((p) => p - 1)}
+                    disabled={hgiPage === 1}
+                  >
+                    <span className="material-icons">chevron_left</span>
+                  </button>
+                  <span className="admin-page-info">Page {hgiPage} of {hgiNumPages}</span>
+                  <button
+                    className="admin-btn admin-btn-cancel"
+                    onClick={() => setHgiPage((p) => p + 1)}
+                    disabled={hgiPage === hgiNumPages}
+                  >
+                    <span className="material-icons">chevron_right</span>
+                  </button>
+                </div>
+              )}
+              </>
+            )}
+          </section>
+        </div>}
+
+      </main>
+    </div>
+  );
+}

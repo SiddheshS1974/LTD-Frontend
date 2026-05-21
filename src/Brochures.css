@@ -1,0 +1,96 @@
+.brochure-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.brochure-card {
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.brochure-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+  border-color: #c4a07a;
+}
+
+/* ── Thumbnail preview ── */
+.brochure-preview-wrap {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+  background: #f5f4f2;
+  flex-shrink: 0;
+}
+
+.brochure-iframe {
+  width: 200%;
+  height: 640px;
+  border: none;
+  display: block;
+  pointer-events: none;
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+
+.brochure-preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(255,255,255,0.95) 100%);
+  pointer-events: none;
+}
+
+/* ── Card footer ── */
+.brochure-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid #e4e7eb;
+}
+
+.brochure-card-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1e0f06;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.brochure-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  background: #8B3A4A;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.32rem 0.75rem;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.brochure-open-btn:hover {
+  background: #6B2737;
+}
+
+.brochure-open-btn .material-icons {
+  font-size: 13px !important;
+}
+
+@media (max-width: 600px) {
+  .brochure-grid {
+    grid-template-columns: 1fr;
+  }
+}

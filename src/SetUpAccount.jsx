@@ -6,6 +6,7 @@ export default function SetupAccount() {
   const [formData, setFormData] = useState({ username: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
   const [valid, setValid] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     // Check if token is valid
@@ -43,8 +44,7 @@ export default function SetupAccount() {
 
     const data = await response.json();
     if (response.ok) {
-      alert("Account created successfully! You can now log in.");
-      window.location.href = "/login";
+      setSuccess(true);
     } else {
       setError(data.error);
     }
@@ -56,6 +56,17 @@ export default function SetupAccount() {
         <div className="setup-card">
           <h1>Invalid Link</h1>
           <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (success) {
+    return (
+      <div className="setup-wrapper">
+        <div className="setup-card">
+          <h1>Account Created!</h1>
+          <p>Your username and password have been set up successfully. You can now <a href="/login">log in</a>.</p>
         </div>
       </div>
     );

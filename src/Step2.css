@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ════════════════════════════════
+   Step 2 — unique layout classes
+   (shares .step-page, .step-header, .step-tip from Step1.css via separate import)
+   ════════════════════════════════ */
+
+/* Re-declare shared classes so Step2 doesn't depend on Step1.css */
+
+.step-page {
+  width: 100vw;
+  min-height: 100vh;
+  background: #f2f4f6;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Header ── */
+.step-header {
+  background:
+    radial-gradient(ellipse at 25% 60%, rgba(74,46,26,0.5) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 20%, rgba(196,124,58,0.18) 0%, transparent 40%),
+    radial-gradient(ellipse at 60% 85%, rgba(20,10,4,0.35) 0%, transparent 40%),
+    linear-gradient(155deg, rgba(12,6,2,0.92) 0%, rgba(40,22,8,0.86) 40%, rgba(90,60,30,0.75) 70%, rgba(139,99,64,0.6) 100%),
+    url('./assets/financial_background.jpg') center / cover no-repeat;
+  padding: 5rem 6vw 3.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.step-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(255,255,255,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+.step-header-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  padding-top: 56px;
+}
+.step-number-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 1.25rem;
+}
+.step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.step-subtitle {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+}
+
+/* ── Tip box (shared) ── */
+.step-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: rgba(74,46,26,0.06);
+  border: 1px solid rgba(74,46,26,0.15);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.87rem;
+  color: #4a2e1a;
+  line-height: 1.75;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+.step-tip-icon {
+  font-size: 20px !important;
+  color: #8b6340;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ════════════════════════════════
+   Main content wrapper
+   ════════════════════════════════ */
+
+.s2-content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 3rem 6vw 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ════════════════════════════════
+   Stat pills
+   ════════════════════════════════ */
+
+.s2-stats {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.s2-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  border-radius: 14px;
+  padding: 0.9rem 1.4rem;
+  flex: 1 1 160px;
+  min-width: 0;
+}
+
+.s2-stat-icon {
+  font-size: 22px !important;
+  color: #8b6340;
+  flex-shrink: 0;
+}
+
+.s2-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1;
+}
+
+.s2-stat-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+/* ════════════════════════════════
+   Accordion
+   ════════════════════════════════ */
+
+.s2-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.s2-card {
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.s2-card:hover {
+  box-shadow: 0 4px 20px rgba(74,46,26,0.08);
+}
+
+.s2-card--open {
+  border-color: #c4a07a;
+  box-shadow: 0 6px 28px rgba(74,46,26,0.12);
+}
+
+/* ── Card header (button) ── */
+.s2-card-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+
+.s2-card-header:hover {
+  background: #f8f9fa;
+}
+
+.s2-card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Icon wrap — rose vs maroon */
+.s2-card-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.s2-card-icon-wrap--rose {
+  background: rgba(74,46,26,0.08);
+  color: #8b6340;
+}
+
+.s2-card-icon-wrap--maroon {
+  background: rgba(74,21,37,0.1);
+  color: #4a2e1a;
+}
+
+.s2-card-icon-wrap .material-icons {
+  font-size: 20px !important;
+}
+
+.s2-card-tag {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #6b7280;
+  margin-bottom: 2px;
+}
+
+.s2-card-title {
+  font-size: 0.97rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.s2-chevron {
+  font-size: 20px !important;
+  color: #6b7280;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.s2-card--open .s2-chevron {
+  color: #8b6340;
+}
+
+/* ── Card body ── */
+.s2-card-body {
+  padding: 1rem 1.4rem 1.5rem;
+  border-top: 1px solid #e4e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Note banner ── */
+.s2-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  background: rgba(255,230,100,0.15);
+  border: 1px solid rgba(200,170,0,0.25);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: #7a6010;
+  line-height: 1.65;
+}
+
+.s2-note .material-icons {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #c89a00;
+}
+
+/* ════════════════════════════════
+   Dialogue
+   ════════════════════════════════ */
+
+.s2-dialogue {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.s2-line {
+  border-radius: 10px;
+  padding: 0.85rem 1.1rem;
+}
+
+.s2-speaker {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  margin-bottom: 0.45rem;
+}
+
+.s2-text {
+  font-size: 0.88rem;
+  color: #1f2937;
+  line-height: 1.8;
+  margin: 0 0 0.5rem;
+}
+
+.s2-text:last-child {
+  margin-bottom: 0;
+}
+
+/* ════════════════════════════════
+   Objection handler
+   ════════════════════════════════ */
+
+.s2-objection {
+  background: rgba(74,21,37,0.04);
+  border: 1px solid rgba(74,46,26,0.18);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.s2-objection-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #8b6340;
+}
+
+.s2-objection-q {
+  font-size: 0.87rem;
+  font-style: italic;
+  color: #4a2e1a;
+  font-weight: 500;
+  line-height: 1.65;
+}
+
+.s2-objection-a {
+  font-size: 0.87rem;
+  color: #1f2937;
+  line-height: 1.75;
+}
+
+/* ════════════════════════════════
+   Divider between header and first card
+   ════════════════════════════════ */
+
+.s2-section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #8b6340;
+}
+
+/* ════════════════════════════════
+   Responsive
+   ════════════════════════════════ */
+
+@media (max-width: 600px) {
+  .navbar-mainbg  { gap: 0; padding: 0 1rem; overflow-x: auto; }
+  .navbar-brand   { display: none; }
+  .nav-item       { padding: 12px 10px; font-size: 11px; }
+  .nav-label      { display: none; }
+  .nav-icon       { font-size: 22px !important; }
+
+  .step-header    { padding: 4rem 5vw 2.5rem; }
+  .s2-content     { padding: 2rem 4vw 4rem; }
+  .s2-card-header { padding: 1rem 1rem; }
+  .s2-card-body   { padding: 0.75rem 1rem 1.25rem; }
+  .s2-stats       { flex-direction: column; }
+  .s2-stat        { flex: none; }
+}

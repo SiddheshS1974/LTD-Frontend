@@ -5,7 +5,7 @@ export default function Login() {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [signInData, setSignInData] = useState({ username: "", password: "" });
-  const [signUpData, setSignUpData] = useState({ username: "", email: "", password: "" });
+  const [signUpData, setSignUpData] = useState({ firstName: "", lastName: "", email: "", uplineRMD: "", hgiCode: "" });
   const [rmdList, setRmdList] = useState([]);
   const [signInMessage, setSignInMessage] = useState({ text: "", type: "" });
   const [signUpMessage, setSignUpMessage] = useState({ text: "", type: "" });
@@ -51,6 +51,8 @@ export default function Login() {
     const data = await response.json();
     if (data.token) {
       localStorage.setItem("token", data.token);
+      localStorage.setItem("is_staff", data.is_staff ? "true" : "false");
+      localStorage.setItem("role", data.role ?? "");
       window.location.href = "/home";
     } else {
       setSignInMessage({ text: "Incorrect username or password.", type: "error" });
@@ -63,23 +65,26 @@ export default function Login() {
       setSignUpMessage({ text: "Please fill in all fields.", type: "error" });
       return;
     }
-    const response = await fetch("http://localhost:8000/api/v1/register/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-      firstName: signUpData.firstName,
-      lastName: signUpData.lastName,
-      email: signUpData.email,
-      uplineRMD: signUpData.uplineRMD,
-      hgiCode: signUpData.hgiCode
-    })
-  });
-
-  const data = await response.json();
-    if (response.ok) {
-      setSignUpMessage({ text: "Your request has been sent to your RMD for approval!", type: "success" });
-    } else {
-      setSignUpMessage({ text: data.error, type: "error" });
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/register/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: signUpData.firstName,
+          lastName: signUpData.lastName,
+          email: signUpData.email,
+          uplineRMD: signUpData.uplineRMD,
+          hgiCode: signUpData.hgiCode
+        })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setSignUpMessage({ text: "Your request has been sent to your RMD for approval!", type: "success" });
+      } else {
+        setSignUpMessage({ text: data.error || "Something went wrong. Please try again.", type: "error" });
+      }
+    } catch {
+      setSignUpMessage({ text: "Could not connect to server. Please try again.", type: "error" });
     }
   };
   return (

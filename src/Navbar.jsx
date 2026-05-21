@@ -1,0 +1,193 @@
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const isAdmin = () => {
+  return localStorage.getItem("is_staff") === "true" || localStorage.getItem("role") === "Admin";
+};
+
+const allNavItems = [
+  { id: "dashboard", label: "Home",        icon: "home",      path: "/home"    },
+  {
+    id: "members",
+    label: "LFS 6 Basics",
+    icon: "contacts",
+    dropdown: [
+      { label: "Step 1 — Prospecting & List Building", icon: "edit_note",        path: "/step1" },
+      { label: "Step 2 — Approach & Contact",          icon: "record_voice_over", path: "/step2" },
+      { label: "Step 3 — Presentation",                icon: "present_to_all",    path: "/step3" },
+      { label: "Step 4 — Follow Up (FLS)",             icon: "follow_the_signs",  path: "/step4" },
+      { label: "Step 5 — Follow Up (Business)",        icon: "handshake",         path: "/step5" },
+      { label: "Step 6 — Miscellaneous",               icon: "fact_check",        path: "/step6" },
+    ],
+  },
+  {
+    id: "videos",
+    label: "Solutions Videos",
+    icon: "ondemand_video",
+    dropdown: [
+      { label: "Illustrations", icon: "auto_stories",    path: "/videos/illustrations" },
+      { label: "Application",   icon: "app_registration", path: "/videos/application"   },
+      { label: "Stories",       icon: "menu_book",        path: "/videos/stories"       },
+    ],
+  },
+  { id: "brochures", label: "Brochures",        icon: "description",        path: "/brochures" },
+  { id: "license",   label: "License",          icon: "card_membership",    path: "/license"   },
+  { id: "admin",     label: "Admin",            icon: "manage_accounts",    path: "/admin",  adminOnly: true },
+];
+
+// Map every route to the nav item that should be highlighted
+const pathToNavId = {
+  "/home":      "dashboard",
+  "/step1":     "members",
+  "/step2":     "members",
+  "/step3":     "members",
+  "/step4":     "members",
+  "/step5":     "members",
+  "/step6":     "members",
+  "/videos/illustrations": "videos",
+  "/videos/application":   "videos",
+  "/videos/stories":       "videos",
+  "/brochures": "brochures",
+  "/license":   "license",
+  "/admin":     "admin",
+};
+
+export default function Navbar() {
+  const navigate  = useNavigate();
+  const location  = useLocation();
+  const navRef    = useRef(null);
+
+  const navItems = allNavItems.filter((item) => !item.adminOnly || isAdmin());
+
+  const indexFromPath = () => {
+    const id = pathToNavId[location.pathname] ?? "dashboard";
+    return Math.max(0, navItems.findIndex((i) => i.id === id));
+  };
+
+  const [selectorIndex, setSelectorIndex] = useState(indexFromPath);
+  const [openDropdown,  setOpenDropdown]  = useState(null);
+  const [selectorStyle, setSelectorStyle] = useState({});
+
+  const updateSelector = (index) => {
+    if (!navRef.current) return;
+    const items = navRef.current.querySelectorAll(".nav-item");
+    if (items[index]) {
+      setSelectorStyle({
+        left:  items[index].offsetLeft + "px",
+        width: items[index].offsetWidth + "px",
+      });
+    }
+  };
+
+  // Animate selector whenever selectorIndex changes (including on route change)
+  useEffect(() => {
+    setTimeout(() => updateSelector(selectorIndex), 0);
+  }, [selectorIndex]);
+
+  // Keep selector positioned correctly on resize
+  useEffect(() => {
+    const onResize = () => setTimeout(() => updateSelector(selectorIndex), 300);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [selectorIndex]);
+
+  // When the URL changes (page navigation), animate selector to the matching tab
+  useEffect(() => {
+    setSelectorIndex(indexFromPath());
+    setOpenDropdown(null);
+  }, [location.pathname]);
+
+  const handleNavClick = (index, item) => {
+    setSelectorIndex(index);
+    if (item.dropdown) {
+      setOpenDropdown(openDropdown === index ? null : index);
+    } else {
+      setOpenDropdown(null);
+      if (item.path) navigate(item.path);
+    }
+  };
+
+  const getDropdownLeft = () => {
+    if (!navRef.current || openDropdown === null) return "0px";
+    const items   = navRef.current.querySelectorAll(".nav-item");
+    const navRect = navRef.current.closest("nav").getBoundingClientRect();
+    if (items[openDropdown]) {
+      return items[openDropdown].getBoundingClientRect().left - navRect.left + "px";
+    }
+    return "0px";
+  };
+
+  return (
+    <nav
+      className="navbar-mainbg sticky-nav"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div
+        className="navbar-brand"
+        onClick={() => navigate("/home")}
+        style={{ cursor: "pointer" }}
+      >
+        <span className="brand-main">LTD</span>
+        <span className="brand-sub">Learn · Teach · Duplicate</span>
+      </div>
+
+      <ul className="navbar-nav" ref={navRef}>
+        <div className="hori-selector" style={selectorStyle}>
+          <div className="selector-left" />
+          <div className="selector-right" />
+        </div>
+
+        {navItems.map((item, index) => (
+          <li
+            key={item.id}
+            className={`nav-item ${selectorIndex === index ? "active" : ""}`}
+            onClick={() => handleNavClick(index, item)}
+          >
+            <span className="material-icons nav-icon">{item.icon}</span>
+            <span className="nav-label">{item.label}</span>
+            {item.dropdown && (
+              <span className="material-icons" style={{ fontSize: "16px" }}>
+                {openDropdown === index ? "expand_less" : "expand_more"}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      {openDropdown !== null && navItems[openDropdown]?.dropdown && (
+        <div className="dropdown-menu" style={{ left: getDropdownLeft() }}>
+          {navItems[openDropdown].dropdown.map((d, i) => (
+            <div
+              key={i}
+              className="dropdown-item"
+              onClick={() => { setOpenDropdown(null); if (d.path) navigate(d.path); }}
+            >
+              <span className="material-icons dropdown-item-icon">{d.icon}</span>
+              <span>{d.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <button
+        className="logout-btn"
+        onClick={async () => {
+          const token = localStorage.getItem("token");
+          try {
+            await fetch("http://localhost:8000/api/v1/logout/", {
+              method: "POST",
+              headers: { Authorization: `Token ${token}` },
+            });
+          } catch (_) {}
+          localStorage.removeItem("token");
+          localStorage.removeItem("is_staff");
+          localStorage.removeItem("role");
+          navigate("/login");
+        }}
+      >
+        <span className="material-icons" style={{ fontSize: "11px" }}>logout</span>
+        Logout
+      </button>
+    </nav>
+  );
+}

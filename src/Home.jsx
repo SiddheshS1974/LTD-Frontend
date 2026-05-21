@@ -1,118 +1,116 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "./Home.css";
 
+const steps = [
+  {
+    n: "01", icon: "edit_note",
+    title: "Prospecting & List Building",
+    desc: "Build a warm market list of at least 100 names. Everyone you know is a potential client or business partner — start writing names without filtering.",
+  },
+  {
+    n: "02", icon: "record_voice_over",
+    title: "Approach & Contact",
+    desc: "Reach out with curiosity, not a pitch. The goal is simply to book a time to share information — keep it brief, confident, and personal.",
+  },
+  {
+    n: "03", icon: "present_to_all",
+    title: "Presentation",
+    desc: "Show the business opportunity or product clearly and enthusiastically. Use the system's tools — don't wing it. Let the presentation do the work.",
+  },
+  {
+    n: "04", icon: "follow_the_signs",
+    title: "Follow Up (FLS)",
+    desc: "Most people need multiple touches before making a decision. Stay consistent, follow up within 24–48 hours, and never leave a conversation without a next step.",
+  },
+  {
+    n: "05", icon: "handshake",
+    title: "Follow Up (Business)",
+    desc: "Support your new team members through their first steps. Help them get started fast, attend their first appointments, and plug them into training.",
+  },
+  {
+    n: "06", icon: "fact_check",
+    title: "Miscellaneous",
+    desc: "Additional tools, scripts, and resources that support every stage of the system — from handling objections to staying motivated and organised.",
+  },
+];
+
 export default function Home() {
-  const [activeNav, setActiveNav] = useState(0);
-  const [selectorStyle, setSelectorStyle] = useState({});
-  const [openDropdown, setOpenDropdown] = useState(null);
-  const navRef = useRef(null);
-
-  const navItems = [
-    { id: "dashboard", label: "Home", icon: "home" },
-    {
-      id: "members",
-      label: "LFS 6 Basics",
-      icon: "contacts",
-      dropdown: [
-        { label: "Step 1 - Prospecting/Listbuilding", icon: "edit_note" },
-        { label: "Step 2 - Approach/Contact", icon: "record_voice_over" },
-        { label: "Step 3 - Presentation", icon: "present_to_all" },
-        { label: "Step 4 - Follow Up (FLS)", icon: "follow_the_signs" },
-        { label: "Step 5 - Follow Up (Business)", icon: "handshake" },
-        { label: "Step 6 - Miscellaneous", icon: "fact_check" },
-      ],
-    },
-    { id: "reports", label: "Reports", icon: "bar_chart" },
-    { id: "training", label: "Training", icon: "school" },
-    { id: "settings", label: "Settings", icon: "settings" },
-  ];
-
-  const updateSelector = (index) => {
-    if (navRef.current) {
-      const items = navRef.current.querySelectorAll(".nav-item");
-      if (items[index]) {
-        const item = items[index];
-        setSelectorStyle({
-          left: item.offsetLeft + "px",
-          width: item.offsetWidth + "px",
-        });
-      }
-    }
-  };
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => updateSelector(activeNav), 0);
-  }, [activeNav]);
+    const b = document.body;
+    const prev = {
+      height: b.style.height, display: b.style.display,
+      alignItems: b.style.alignItems, justifyContent: b.style.justifyContent,
+      flexDirection: b.style.flexDirection, overflow: b.style.overflow,
+    };
+    b.style.height = "auto"; b.style.display = "block";
+    b.style.alignItems = ""; b.style.justifyContent = "";
+    b.style.flexDirection = ""; b.style.overflow = "";
+    return () => Object.assign(b.style, prev);
+  }, []);
 
   useEffect(() => {
-    const handleResize = () => setTimeout(() => updateSelector(activeNav), 300);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [activeNav]);
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const handleNavClick = (index, item) => {
-    setActiveNav(index);
-    if (item.dropdown) {
-      setOpenDropdown(openDropdown === index ? null : index);
-    } else {
-      setOpenDropdown(null);
-    }
-  };
-
-  const getDropdownLeft = () => {
-    if (navRef.current && openDropdown !== null) {
-      const items = navRef.current.querySelectorAll(".nav-item");
-      if (items[openDropdown]) {
-        const item = items[openDropdown];
-        const navRect = navRef.current.closest("nav").getBoundingClientRect();
-        const itemRect = item.getBoundingClientRect();
-        return itemRect.left - navRect.left + "px";
-      }
-    }
-    return "0px";
-  };
+  const coverOpacity = Math.max(0, 1 - scrollY / (window.innerHeight * 0.55));
+  const coverScale   = 1 + scrollY * 0.0003;
 
   return (
-    <div className="home-page" onClick={() => setOpenDropdown(null)}>
-      <nav className="navbar-mainbg" onClick={(e) => e.stopPropagation()}>
-        <div className="navbar-brand">
-          <span className="brand-main">LTD</span>
-          <span className="brand-sub">Learn · Teach · Duplicate</span>
+    <div className="home-page">
+
+      {/* ── Hero Cover ── */}
+      <div className="hero-cover" style={{ opacity: coverOpacity }} aria-hidden="true">
+        <div className="hero-cover-bg" style={{ transform: `scale(${coverScale})` }} />
+        <div className="hero-cover-overlay" />
+        <div className="hero-cover-content">
+          <p className="hero-cover-eyebrow">Welcome to the LTD Program</p>
+          <p className="hero-cover-sub">Learn · Teach · Duplicate</p>
         </div>
+        <div className="hero-cover-scroll-hint">
+          <span className="material-icons hero-cover-arrow">expand_more</span>
+        </div>
+      </div>
 
-        <ul className="navbar-nav" ref={navRef}>
-          <div className="hori-selector" style={selectorStyle}>
-            <div className="selector-left"></div>
-            <div className="selector-right"></div>
-          </div>
-          {navItems.map((item, index) => (
-            <li
-              key={item.id}
-              className={`nav-item ${activeNav === index ? "active" : ""}`}
-              onClick={() => handleNavClick(index, item)}
-            >
-              <span className="material-icons nav-icon">{item.icon}</span>
-              <span className="nav-label">{item.label}</span>
-              {item.dropdown && (
-                <span className="material-icons" style={{ fontSize: "16px" }}>
-                  {openDropdown === index ? "expand_less" : "expand_more"}
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+      <main className="home-content">
 
-        {openDropdown !== null && navItems[openDropdown]?.dropdown && (
-          <div className="dropdown-menu" style={{ left: getDropdownLeft() }}>
-            {navItems[openDropdown].dropdown.map((d, i) => (
-              <div key={i} className="dropdown-item">
-                <span className="material-icons dropdown-item-icon">{d.icon}</span>
-                <span>{d.label}</span>
+        {/* ── Overview ── */}
+        <section className="home-overview">
+          <p className="home-eyebrow">Welcome</p>
+          <h2 className="home-overview-title">Your Business Intranet</h2>
+          <p className="home-overview-sub">
+            This intranet is designed to accelerate learning, helping you master the fundamentals
+            quickly and put your business on the fast track to success. With a focus on duplication,
+            you can seamlessly replicate proven systems, empowering your team to grow efficiently
+            and achieve massive results.
+          </p>
+          <p className="home-overview-tagline">Learn, Teach, Duplicate — success starts here!</p>
+        </section>
+
+        {/* ── Steps Grid ── */}
+        <section className="home-steps">
+          <p className="home-eyebrow" style={{ textAlign: "center", marginBottom: "0.5rem" }}>The LFS 6-Step System</p>
+          <h3 className="home-steps-label">Your Roadmap to Results</h3>
+          <div className="home-steps-grid">
+            {steps.map((s) => (
+              <div key={s.n} className="home-step-card">
+                <div className="home-step-top">
+                  <span className="home-step-n">{s.n}</span>
+                  <div className="home-step-icon-wrap">
+                    <span className="material-icons home-step-icon">{s.icon}</span>
+                  </div>
+                </div>
+                <h3 className="home-step-title">{s.title}</h3>
+                <p className="home-step-desc">{s.desc}</p>
               </div>
             ))}
           </div>
-        )}
-      </nav>
+        </section>
+
+      </main>
     </div>
   );
 }
