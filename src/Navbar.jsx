@@ -192,37 +192,28 @@ export default function Navbar() {
         </div>
       )}
 
-      <div className="nav-user-area">
-        {(() => {
-          const fn = localStorage.getItem("first_name") || "";
-          const ln = localStorage.getItem("last_name") || "";
-          const un = localStorage.getItem("username") || "";
-          const display = `${fn} ${ln}`.trim() || un;
-          return display ? <span className="nav-username-label">{display}</span> : null;
-        })()}
-        <button
-          className="logout-btn"
-          onClick={async () => {
-            const token = localStorage.getItem("token");
-            try {
-              await fetch(`${API}/api/v1/logout/`, {
-                method: "POST",
-                headers: { Authorization: `Token ${token}` },
-              });
-            } catch (_) {}
-            localStorage.removeItem("token");
-            localStorage.removeItem("is_staff");
-            localStorage.removeItem("role");
-            localStorage.removeItem("first_name");
-            localStorage.removeItem("last_name");
-            localStorage.removeItem("username");
-            navigate("/login");
-          }}
-        >
-          <span className="material-icons" style={{ fontSize: "11px" }}>logout</span>
-          Logout
-        </button>
-      </div>
+      <button
+        className="logout-btn"
+        onClick={async () => {
+          const token = localStorage.getItem("token");
+          try {
+            await fetch(`${API}/api/v1/logout/`, {
+              method: "POST",
+              headers: { Authorization: `Token ${token}` },
+            });
+          } catch (_) {}
+          localStorage.removeItem("token");
+          localStorage.removeItem("is_staff");
+          localStorage.removeItem("role");
+          localStorage.removeItem("first_name");
+          localStorage.removeItem("last_name");
+          localStorage.removeItem("username");
+          navigate("/login");
+        }}
+      >
+        <span className="material-icons" style={{ fontSize: "11px" }}>logout</span>
+        Logout
+      </button>
     </nav>
   );
 }
