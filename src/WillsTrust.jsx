@@ -237,21 +237,21 @@ export default function WillsTrust() {
           <div className="wt-resources-grid">
             <div className="wt-resource-card">
               <span className="material-icons wt-resource-icon">table_chart</span>
-              <div>
+              <div className="wt-resource-info">
                 <p className="wt-resource-title">Nominees Template</p>
                 <p className="wt-resource-desc">Send this spreadsheet to the client to build their list of nominees and roles.</p>
               </div>
             </div>
             <div className="wt-resource-card">
               <span className="material-icons wt-resource-icon">play_circle</span>
-              <div>
+              <div className="wt-resource-info">
                 <p className="wt-resource-title">Step by Step Video</p>
                 <p className="wt-resource-desc">HGI Members: log into HGI account → Business → Product Providers → Netlaw → "Netlaw Legacy Demonstration". Clients: use the Google form in Step 4 above.</p>
               </div>
             </div>
             <div className="wt-resource-card">
               <span className="material-icons wt-resource-icon">article</span>
-              <div>
+              <div className="wt-resource-info">
                 <p className="wt-resource-title">Netlaw Estate Planning Brochure</p>
                 <p className="wt-resource-desc">Netlaw Estate Planning Brochure — coming soon.</p>
               </div>
