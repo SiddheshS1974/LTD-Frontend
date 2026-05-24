@@ -54,6 +54,9 @@ export default function Login() {
       localStorage.setItem("token", data.token);
       localStorage.setItem("is_staff", data.is_staff ? "true" : "false");
       localStorage.setItem("role", data.role ?? "");
+      localStorage.setItem("first_name", data.first_name ?? "");
+      localStorage.setItem("last_name", data.last_name ?? "");
+      localStorage.setItem("username", data.username ?? "");
       window.location.href = "/home";
     } else {
       setSignInMessage({ text: "Incorrect username or password.", type: "error" });
