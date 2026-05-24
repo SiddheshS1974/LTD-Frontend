@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
 }
 
 .logo {
