@@ -94,3 +94,110 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── FLS tab ── */
+
+.fls-tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.fls-icon-preview {
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.fls-file-icon {
+  font-size: 52px !important;
+}
+
+.fls-file-type-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fls-card-body {
+  align-items: flex-start !important;
+  flex-direction: column;
+  gap: 0.5rem !important;
+}
+
+.fls-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.brochure-card-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.fls-card-body .brochure-open-btn {
+  align-self: flex-end;
+}
+
+/* ── FLS video section ── */
+
+.fls-video-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.fls-video-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #8b6340;
+  margin: 0;
+}
+
+.fls-video-label .material-icons {
+  font-size: 18px !important;
+}
+
+.fls-video-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #f0ede9;
+  border: 2px dashed #d4b896;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #9e7c5a;
+}
+
+.fls-video-ph-icon {
+  font-size: 48px !important;
+}
+
+.fls-video-placeholder p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+}

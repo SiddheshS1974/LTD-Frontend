@@ -257,7 +257,7 @@
   .navbar-brand   { display: none; }
   .nav-item       { padding: 12px 10px; font-size: 11px; }
   .nav-label      { display: none; }
-  .nav-icon       { font-size: 22px !important; }
+  .nav-icon       { display: inline; font-size: 22px !important; }
 
   .step-header    { padding: 4rem 5vw 2.5rem; }
   .step-content   { padding: 2rem 5vw 4rem; }

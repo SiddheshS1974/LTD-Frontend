@@ -8,11 +8,17 @@ import Home from "./Home";
 import "./Home.css";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
+import Step3 from "./Step3";
 import Step4 from "./Step4";
+import Step6 from "./Step6";
+import WillsTrust from "./WillsTrust";
+import Rollovers from "./Rollovers";
 import Brochures from "./Brochures";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
 import AdminPanel from "./AdminPanel";
+import RmdPanel from "./RmdPanel";
+import License from "./License";
 import Layout from "./Layout";
 
 function App() {
@@ -33,9 +39,15 @@ function App() {
           <Route path="/home"  element={<Home />} />
           <Route path="/step1" element={<Step1 />} />
           <Route path="/step2" element={<Step2 />} />
+          <Route path="/step3" element={<Step3 />} />
           <Route path="/step4" element={<Step4 />} />
-          <Route path="/brochures" element={<Brochures />} />
+          <Route path="/step6"       element={<Step6 />} />
+          <Route path="/wills-trust" element={<WillsTrust />} />
+          <Route path="/rollovers"   element={<Rollovers />} />
+          <Route path="/brochures"   element={<Brochures />} />
+          <Route path="/license"  element={<License />} />
           <Route path="/admin"    element={<AdminPanel />} />
+          <Route path="/rmd"      element={<RmdPanel />} />
         </Route>
       </Routes>
     </BrowserRouter>

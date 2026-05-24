@@ -5,6 +5,10 @@ const isAdmin = () => {
   return localStorage.getItem("is_staff") === "true" || localStorage.getItem("role") === "Admin";
 };
 
+const isRmd = () => {
+  return localStorage.getItem("role") === "RMD";
+};
+
 const allNavItems = [
   { id: "dashboard", label: "Home",        icon: "home",      path: "/home"    },
   {
@@ -20,6 +24,8 @@ const allNavItems = [
       { label: "Step 6 — Miscellaneous",               icon: "fact_check",        path: "/step6" },
     ],
   },
+  { id: "wills",     label: "Wills & Trust", icon: "balance",           path: "/wills-trust" },
+  { id: "rollovers", label: "Rollovers",     icon: "currency_exchange",  path: "/rollovers"   },
   {
     id: "videos",
     label: "Solutions Videos",
@@ -33,6 +39,7 @@ const allNavItems = [
   { id: "brochures", label: "Brochures",        icon: "description",        path: "/brochures" },
   { id: "license",   label: "License",          icon: "card_membership",    path: "/license"   },
   { id: "admin",     label: "Admin",            icon: "manage_accounts",    path: "/admin",  adminOnly: true },
+  { id: "rmd",       label: "RMD Panel",        icon: "supervisor_account", path: "/rmd",    rmdOnly: true   },
 ];
 
 // Map every route to the nav item that should be highlighted
@@ -43,13 +50,16 @@ const pathToNavId = {
   "/step3":     "members",
   "/step4":     "members",
   "/step5":     "members",
-  "/step6":     "members",
+  "/step6":       "members",
+  "/wills-trust": "wills",
+  "/rollovers":   "rollovers",
   "/videos/illustrations": "videos",
   "/videos/application":   "videos",
   "/videos/stories":       "videos",
   "/brochures": "brochures",
   "/license":   "license",
   "/admin":     "admin",
+  "/rmd":       "rmd",
 };
 
 export default function Navbar() {
@@ -57,7 +67,11 @@ export default function Navbar() {
   const location  = useLocation();
   const navRef    = useRef(null);
 
-  const navItems = allNavItems.filter((item) => !item.adminOnly || isAdmin());
+  const navItems = allNavItems.filter((item) => {
+    if (item.adminOnly) return isAdmin();
+    if (item.rmdOnly) return isRmd();
+    return true;
+  });
 
   const indexFromPath = () => {
     const id = pathToNavId[location.pathname] ?? "dashboard";
@@ -112,7 +126,15 @@ export default function Navbar() {
     const items   = navRef.current.querySelectorAll(".nav-item");
     const navRect = navRef.current.closest("nav").getBoundingClientRect();
     if (items[openDropdown]) {
-      return items[openDropdown].getBoundingClientRect().left - navRect.left + "px";
+      const itemLeft = items[openDropdown].getBoundingClientRect().left;
+      const dropdownWidth = 220;
+      let left = itemLeft - navRect.left;
+      // Clamp so the dropdown doesn't overflow the right edge of the screen
+      const rightEdge = itemLeft + dropdownWidth;
+      if (rightEdge > window.innerWidth - 8) {
+        left = Math.max(0, window.innerWidth - 8 - dropdownWidth - navRect.left);
+      }
+      return left + "px";
     }
     return "0px";
   };

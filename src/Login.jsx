@@ -92,6 +92,17 @@ export default function Login() {
       className={`container ${isRightPanelActive ? "right-panel-active" : ""}`}
       id="container"
     >
+      <div className="mobile-auth-toggle">
+        {!isRightPanelActive ? (
+          <p>Don't have an account?{" "}
+            <span className="mobile-toggle-link" onClick={() => setIsRightPanelActive(true)}>Sign Up</span>
+          </p>
+        ) : (
+          <p>Already have an account?{" "}
+            <span className="mobile-toggle-link" onClick={() => setIsRightPanelActive(false)}>Sign In</span>
+          </p>
+        )}
+      </div>
       {/* Sign Up Form */}
     <div className="form-container sign-up-container">
       <form onSubmit={handleSignUp}>

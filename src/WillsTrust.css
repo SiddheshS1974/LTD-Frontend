@@ -1,0 +1,181 @@
+.wt-main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.wt-section {
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  border-radius: 20px;
+  padding: 1.75rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.wt-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0ece7;
+}
+
+.wt-section-icon {
+  font-size: 22px !important;
+  color: #8b6340;
+}
+
+.wt-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* ── Key Concepts grid ── */
+
+.wt-concepts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.wt-concept-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: #fafafa;
+  border: 1px solid #e8e3dd;
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+}
+
+.wt-concept-icon {
+  font-size: 22px !important;
+  color: #8b6340;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.wt-concept-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.wt-concept-desc {
+  font-size: 0.82rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* ── Presentations grid ── */
+
+.wt-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.wt-pres-card {
+  background: #fafafa;
+  border: 1px solid #e8e3dd;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s;
+}
+
+.wt-pres-card:hover {
+  box-shadow: 0 6px 24px rgba(139, 99, 64, 0.1);
+}
+
+.wt-iframe-clip {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  overflow: hidden;
+  background: #f3f4f6;
+  border-bottom: 1px solid #e8e3dd;
+}
+
+.wt-drive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  border: none;
+  transform: scale(0.5);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+.wt-pres-body {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+.wt-pres-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8b6340;
+}
+
+.wt-pres-tag .material-icons { font-size: 15px !important; }
+
+.wt-pres-desc {
+  font-size: 0.86rem;
+  color: #6b7280;
+  line-height: 1.65;
+  flex: 1;
+}
+
+.wt-open-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #8b6340, #a07850);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.wt-open-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.wt-open-btn .material-icons { font-size: 14px !important; }
+
+/* ── Responsive ── */
+
+@media (max-width: 860px) {
+  .wt-concepts-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+  .wt-main { padding: 1.5rem 1rem 4rem; }
+  .wt-section { padding: 1.25rem 1.25rem 1.5rem; }
+  .wt-concepts-grid,
+  .wt-cards-grid { grid-template-columns: 1fr; }
+}

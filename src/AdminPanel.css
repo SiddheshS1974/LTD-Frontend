@@ -566,8 +566,39 @@
 @media (max-width: 700px) {
   .admin-content { padding: 2rem 4vw 3.5rem; }
 
+  .admin-tabs {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .admin-table th,
   .admin-table td {
     padding: 0.7rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .admin-hgi-add-form {
+    flex-direction: column;
+  }
+
+  .admin-hgi-input {
+    width: 100%;
+    flex: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-full-name,
+  .admin-username,
+  .admin-td-mono {
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .admin-btn {
+    padding: 4px 7px;
+    font-size: 0.72rem;
   }
 }
