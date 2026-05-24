@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "./AdminPanel.css";
+import API from "./api";
 
 const ROLE_CHOICES = ["New Member", "RMD", "Admin"];
 
@@ -47,7 +48,7 @@ export default function AdminPanel() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:8000/api/v1/users/", {
+    fetch(`${API}/api/v1/users/`, {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => {
@@ -65,7 +66,7 @@ export default function AdminPanel() {
     const params = new URLSearchParams({ page: hgiPage });
     if (hgiSearch) params.append("search", hgiSearch);
     const doFetch = () => {
-      fetch(`http://localhost:8000/api/v1/hgi-codes/?${params}`, {
+      fetch(`${API}/api/v1/hgi-codes/?${params}`, {
         headers: { Authorization: `Token ${token}` },
       })
         .then((res) => { if (!res.ok) throw new Error("Failed to load HGI codes."); return res.json(); })
@@ -101,7 +102,7 @@ export default function AdminPanel() {
   const handleDeleteConfirm = async (userId) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/users/${userId}/delete/`, {
+      const res = await fetch(`${API}/api/v1/users/${userId}/delete/`, {
         method: "DELETE",
         headers: { Authorization: `Token ${token}` },
       });
@@ -120,7 +121,7 @@ export default function AdminPanel() {
   const handleRoleSave = async (userId) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/users/${userId}/role/`, {
+      const res = await fetch(`${API}/api/v1/users/${userId}/role/`, {
         method: "PATCH",
         headers: {
           Authorization: `Token ${token}`,
@@ -146,7 +147,7 @@ export default function AdminPanel() {
   const handleAddCode = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://localhost:8000/api/v1/hgi-codes/", {
+      const res = await fetch(`${API}/api/v1/hgi-codes/`, {
         method: "POST",
         headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify(newCode),
@@ -168,7 +169,7 @@ export default function AdminPanel() {
   const handleHgiEditSave = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/hgi-codes/${id}/`, {
+      const res = await fetch(`${API}/api/v1/hgi-codes/${id}/`, {
         method: "PATCH",
         headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify(pendingHgiEdit),
@@ -189,7 +190,7 @@ export default function AdminPanel() {
   const handleHgiDelete = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/hgi-codes/${id}/`, {
+      const res = await fetch(`${API}/api/v1/hgi-codes/${id}/`, {
         method: "DELETE",
         headers: { Authorization: `Token ${token}` },
       });

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import API from "./api";
 
 const isAdmin = () => {
   return localStorage.getItem("is_staff") === "true" || localStorage.getItem("role") === "Admin";
@@ -196,7 +197,7 @@ export default function Navbar() {
         onClick={async () => {
           const token = localStorage.getItem("token");
           try {
-            await fetch("http://localhost:8000/api/v1/logout/", {
+            await fetch(`${API}/api/v1/logout/`, {
               method: "POST",
               headers: { Authorization: `Token ${token}` },
             });

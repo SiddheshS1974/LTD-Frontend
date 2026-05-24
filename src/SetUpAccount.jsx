@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import API from "./api";
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,20}$/;
 
@@ -22,7 +23,7 @@ export default function SetupAccount() {
   const debounceRef = useRef(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/verify-token/${token}/`)
+    fetch(`${API}/api/v1/verify-token/${token}/`)
       .then(res => res.json())
       .then(data => {
         if (data.valid) setValid(true);
@@ -38,7 +39,7 @@ export default function SetupAccount() {
     setUsernameStatus('checking');
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      fetch(`http://localhost:8000/api/v1/check-username/?username=${encodeURIComponent(username)}`)
+      fetch(`${API}/api/v1/check-username/?username=${encodeURIComponent(username)}`)
         .then(res => res.json())
         .then(data => setUsernameStatus(data.available ? 'available' : 'taken'));
     }, 500);
@@ -78,7 +79,7 @@ export default function SetupAccount() {
       return;
     }
 
-    const response = await fetch("http://localhost:8000/api/v1/setup-account/", {
+    const response = await fetch(`${API}/api/v1/setup-account/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, username: formData.username, password: formData.password })

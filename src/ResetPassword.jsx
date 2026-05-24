@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import API from "./api";
 
 export default function ResetPassword() {
   const { token } = useParams();
@@ -8,7 +9,7 @@ export default function ResetPassword() {
   const [valid, setValid] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/v1/verify-reset-token/${token}/`)
+    fetch(`${API}/api/v1/verify-reset-token/${token}/`)
       .then(res => res.json())
       .then(data => {
         if (data.valid) setValid(true);
@@ -23,7 +24,7 @@ export default function ResetPassword() {
       return;
     }
 
-    const response = await fetch("http://localhost:8000/api/v1/reset-password/", {
+    const response = await fetch(`${API}/api/v1/reset-password/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, password: formData.password })

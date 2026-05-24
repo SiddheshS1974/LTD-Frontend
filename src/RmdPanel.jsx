@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./AdminPanel.css";
+import API from "./api";
 
 export default function RmdPanel() {
   const [members, setMembers] = useState([]);
@@ -22,7 +23,7 @@ export default function RmdPanel() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:8000/api/v1/rmd/members/", {
+    fetch(`${API}/api/v1/rmd/members/`, {
       headers: { Authorization: `Token ${token}` },
     })
       .then((res) => {
