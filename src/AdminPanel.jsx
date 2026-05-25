@@ -421,7 +421,7 @@ export default function AdminPanel() {
                 <input
                   className="admin-search-input"
                   type="text"
-                  placeholder="Search by code, name, upline RMD…"
+                  placeholder="Search by code or name…"
                   value={hgiSearch}
                   onChange={(e) => { setHgiSearch(e.target.value); setHgiPage(1); }}
                 />
