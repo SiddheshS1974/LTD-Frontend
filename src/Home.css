@@ -84,16 +84,17 @@
   gap: 5px;
   padding: 22px 10px;
   cursor: pointer;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.7);
   font-size: 13px;
   font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
   transition: color 0.3s;
   position: relative;
   z-index: 1;
   white-space: nowrap;
 }
 
-.nav-item.active { color: #fff; }
+.nav-item.active { color: #fff; font-weight: 600; }
 .nav-icon { font-size: 18px !important; }
 
 .logout-btn {
