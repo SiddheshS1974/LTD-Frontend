@@ -43,7 +43,7 @@
 .navbar-brand {
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
+  padding: 14px 0;
   min-width: fit-content;
   cursor: pointer;
 }
@@ -51,7 +51,7 @@
 .brand-main {
   color: #fff;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   line-height: 1;
@@ -59,7 +59,7 @@
 
 .brand-sub {
   color: rgba(255,255,255,0.6);
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -81,11 +81,11 @@
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 14px 4px;
+  gap: 4px;
+  padding: 18px 8px;
   cursor: pointer;
   color: rgba(255,255,255,0.5);
-  font-size: 9px;
+  font-size: 11px;
   font-family: 'DM Sans', sans-serif;
   transition: color 0.3s;
   position: relative;
@@ -94,20 +94,20 @@
 }
 
 .nav-item.active { color: #fff; }
-.nav-icon { font-size: 11px !important; }
+.nav-icon { font-size: 15px !important; }
 
 .logout-btn {
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 3px;
-  padding: 4px 9px;
+  gap: 4px;
+  padding: 6px 12px;
   border: 1px solid rgba(255,255,255,0.5);
   border-radius: 20px;
   background: transparent;
   color: rgba(255,255,255,0.85);
   font-family: 'DM Sans', sans-serif;
-  font-size: 9.5px;
+  font-size: 11px;
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
@@ -394,7 +394,7 @@
 /* Tablet */
 @media (max-width: 900px) {
   .navbar-mainbg    { gap: 0; }
-  .nav-item         { padding: 14px 4px; font-size: 9px; }
+  .nav-item         { padding: 18px 6px; font-size: 10px; }
   .home-steps-grid  { grid-template-columns: repeat(2, 1fr); }
 }
 
