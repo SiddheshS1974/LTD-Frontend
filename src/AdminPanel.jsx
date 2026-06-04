@@ -33,6 +33,13 @@ export default function AdminPanel() {
   const [confirmDeleteHgiId, setConfirmDeleteHgiId] = useState(null);
   const [hgiActionError, setHgiActionError] = useState("");
 
+  const [rmdQuery, setRmdQuery] = useState("");
+  const [showAddRmdForm, setShowAddRmdForm] = useState(false);
+  const [newRmd, setNewRmd] = useState({ first_name: "", last_name: "", email: "", username: "", password: "", hgi_code: "" });
+  const [rmdActionError, setRmdActionError] = useState("");
+  const [addingRmd, setAddingRmd] = useState(false);
+  const [showRmdPassword, setShowRmdPassword] = useState(false);
+
   useEffect(() => {
     const b = document.body;
     const prev = {
@@ -84,6 +91,32 @@ export default function AdminPanel() {
     return () => clearTimeout(hgiTimerRef.current);
   }, [activeTab, hgiPage, hgiSearch, hgiRefresh]);
 
+  const handleAddRmd = async () => {
+    setAddingRmd(true);
+    setRmdActionError("");
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/users/create-rmd/`, {
+        method: "POST",
+        headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify(newRmd),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRmdActionError(data.error || "Failed to create RMD account.");
+        setAddingRmd(false);
+        return;
+      }
+      setUsers((prev) => [...prev, data]);
+      setNewRmd({ first_name: "", last_name: "", email: "", username: "", password: "", hgi_code: "" });
+      setShowAddRmdForm(false);
+      setShowRmdPassword(false);
+    } catch {
+      setRmdActionError("Network error. Please try again.");
+    }
+    setAddingRmd(false);
+  };
+
   const q = query.toLowerCase();
   const filtered = users.filter((u) =>
     [u.username, u.first_name, u.last_name, u.email, u.hgi_code, u.role, u.upline_rmd_name]
@@ -91,6 +124,12 @@ export default function AdminPanel() {
   );
 
   const registeredCodes = new Set(users.map((u) => u.hgi_code).filter(Boolean));
+
+  const rmdQ = rmdQuery.toLowerCase();
+  const rmds = users
+    .filter((u) => u.role === "RMD")
+    .filter((u) => !rmdQ || [u.username, u.first_name, u.last_name, u.email, u.hgi_code]
+      .some((f) => f?.toLowerCase().includes(rmdQ)));
 
   const fmt = (dateStr) => {
     if (!dateStr) return "—";
@@ -218,6 +257,13 @@ export default function AdminPanel() {
           >
             <span className="material-icons">manage_accounts</span>
             Manage Accounts
+          </button>
+          <button
+            className={`admin-tab ${activeTab === "rmd" ? "admin-tab-active" : ""}`}
+            onClick={() => setActiveTab("rmd")}
+          >
+            <span className="material-icons">groups</span>
+            RMD Accounts
           </button>
           <button
             className={`admin-tab ${activeTab === "hgi" ? "admin-tab-active" : ""}`}
@@ -412,7 +458,185 @@ export default function AdminPanel() {
           </section>
         </div>}
 
-        {/* ── Section 2: Valid HGI Codes ── */}
+        {/* ── Section 2: RMD Accounts ── */}
+        {activeTab === "rmd" && <div className="admin-panel">
+          <section className="admin-header">
+            <p className="admin-eyebrow">Team Management</p>
+            <h2 className="admin-title">RMD Accounts</h2>
+            <p className="admin-sub">
+              View all RMD accounts and manually create new ones.
+            </p>
+          </section>
+
+          <section className="admin-search-section">
+            <div className="admin-hgi-search-row">
+              <div className="admin-search-wrapper">
+                <span className="material-icons admin-search-icon">search</span>
+                <input
+                  className="admin-search-input"
+                  type="text"
+                  placeholder="Search by name, username, email, HGI code…"
+                  value={rmdQuery}
+                  onChange={(e) => setRmdQuery(e.target.value)}
+                />
+                {rmdQuery && (
+                  <span
+                    className="material-icons admin-clear-icon"
+                    onClick={() => setRmdQuery("")}
+                    title="Clear"
+                  >close</span>
+                )}
+              </div>
+              <button
+                className="admin-btn admin-btn-add"
+                onClick={() => { setShowAddRmdForm(true); setRmdActionError(""); }}
+              >
+                <span className="material-icons">person_add</span>
+                Add RMD
+              </button>
+            </div>
+            {!loading && (
+              <p className="admin-count">
+                {rmds.length} RMD{rmds.length !== 1 ? "s" : ""}
+              </p>
+            )}
+          </section>
+
+          {rmdActionError && (
+            <div className="admin-action-error">
+              <span className="material-icons" style={{ fontSize: 18 }}>error_outline</span>
+              {rmdActionError}
+              <button className="admin-dismiss" onClick={() => setRmdActionError("")}>×</button>
+            </div>
+          )}
+
+          {showAddRmdForm && (
+            <div className="admin-rmd-add-form">
+              <div className="admin-rmd-form-grid">
+                <input
+                  className="admin-hgi-input"
+                  placeholder="First Name *"
+                  value={newRmd.first_name}
+                  onChange={(e) => setNewRmd((p) => ({ ...p, first_name: e.target.value }))}
+                />
+                <input
+                  className="admin-hgi-input"
+                  placeholder="Last Name *"
+                  value={newRmd.last_name}
+                  onChange={(e) => setNewRmd((p) => ({ ...p, last_name: e.target.value }))}
+                />
+                <input
+                  className="admin-hgi-input"
+                  placeholder="Email *"
+                  type="email"
+                  value={newRmd.email}
+                  onChange={(e) => setNewRmd((p) => ({ ...p, email: e.target.value }))}
+                />
+                <input
+                  className="admin-hgi-input"
+                  placeholder="Username * (3–20 chars)"
+                  value={newRmd.username}
+                  onChange={(e) => setNewRmd((p) => ({ ...p, username: e.target.value }))}
+                />
+                <div className="admin-rmd-password-wrap">
+                  <input
+                    className="admin-hgi-input"
+                    placeholder="Password * (8+ chars, letter + number)"
+                    type={showRmdPassword ? "text" : "password"}
+                    value={newRmd.password}
+                    onChange={(e) => setNewRmd((p) => ({ ...p, password: e.target.value }))}
+                  />
+                  <span
+                    className="material-icons admin-rmd-eye"
+                    onClick={() => setShowRmdPassword((v) => !v)}
+                    title={showRmdPassword ? "Hide password" : "Show password"}
+                  >
+                    {showRmdPassword ? "visibility_off" : "visibility"}
+                  </span>
+                </div>
+                <input
+                  className="admin-hgi-input"
+                  placeholder="HGI Code (optional)"
+                  value={newRmd.hgi_code}
+                  onChange={(e) => setNewRmd((p) => ({ ...p, hgi_code: e.target.value }))}
+                />
+              </div>
+              <div className="admin-rmd-form-actions">
+                <button
+                  className="admin-btn admin-btn-save"
+                  onClick={handleAddRmd}
+                  disabled={addingRmd}
+                >
+                  {addingRmd ? "Creating…" : "Create RMD"}
+                </button>
+                <button
+                  className="admin-btn admin-btn-cancel"
+                  onClick={() => {
+                    setShowAddRmdForm(false);
+                    setNewRmd({ first_name: "", last_name: "", email: "", username: "", password: "", hgi_code: "" });
+                    setRmdActionError("");
+                    setShowRmdPassword(false);
+                  }}
+                >Cancel</button>
+              </div>
+            </div>
+          )}
+
+          <section className="admin-results">
+            {loading && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">hourglass_empty</span>
+                <p>Loading accounts…</p>
+              </div>
+            )}
+            {!loading && rmds.length === 0 && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">groups</span>
+                <p>{rmdQuery ? "No RMDs match your search." : "No RMD accounts yet."}</p>
+              </div>
+            )}
+            {!loading && rmds.length > 0 && (
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Username</th>
+                      <th>HGI Code</th>
+                      <th>Status</th>
+                      <th>Last Login</th>
+                      <th>Date Joined</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rmds.map((u) => (
+                      <tr key={u.id}>
+                        <td className="admin-td-name">
+                          <span className="admin-full-name">
+                            {[u.first_name, u.last_name].filter(Boolean).join(" ") || u.username}
+                          </span>
+                          <span className="admin-username">@{u.username}</span>
+                        </td>
+                        <td className="admin-td-mono">{u.email || "—"}</td>
+                        <td className="admin-td-mono">{u.username}</td>
+                        <td className="admin-td-mono">{u.hgi_code || "—"}</td>
+                        <td>
+                          <span className={`admin-status-badge ${u.is_active ? "admin-status-active" : "admin-status-inactive"}`}>
+                            {u.is_active ? "Active" : "Inactive"}
+                          </span>
+                        </td>
+                        <td>{fmt(u.last_login)}</td>
+                        <td>{fmt(u.date_joined)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        </div>}
+
         {activeTab === "hgi" && <div className="admin-panel">
           <section className="admin-header">
             <p className="admin-eyebrow">CSV Registry</p>
