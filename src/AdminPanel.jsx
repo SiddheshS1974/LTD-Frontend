@@ -11,7 +11,7 @@ export default function AdminPanel() {
   const [error, setError] = useState("");
   const [editingRoleId, setEditingRoleId] = useState(null);
   const [pendingRole, setPendingRole] = useState("");
-  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [confirmToggleId, setConfirmToggleId] = useState(null);
   const [actionError, setActionError] = useState("");
 
   const [activeTab, setActiveTab] = useState("accounts");
@@ -99,20 +99,21 @@ export default function AdminPanel() {
     });
   };
 
-  const handleDeleteConfirm = async (userId) => {
+  const handleToggleActive = async (userId) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`${API}/api/v1/users/${userId}/delete/`, {
-        method: "DELETE",
+      const res = await fetch(`${API}/api/v1/users/${userId}/toggle-active/`, {
+        method: "PATCH",
         headers: { Authorization: `Token ${token}` },
       });
       if (!res.ok) {
         const data = await res.json();
-        setActionError(data.error || "Failed to delete user.");
+        setActionError(data.error || "Failed to update account status.");
         return;
       }
-      setUsers((prev) => prev.filter((u) => u.id !== userId));
-      setConfirmDeleteId(null);
+      const data = await res.json();
+      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, is_active: data.is_active } : u));
+      setConfirmToggleId(null);
     } catch {
       setActionError("Network error. Please try again.");
     }
@@ -304,6 +305,7 @@ export default function AdminPanel() {
                       <th>HGI Code</th>
                       <th>Upline RMD</th>
                       <th className="admin-th-role">Role</th>
+                      <th>Status</th>
                       <th>Last Login</th>
                       <th>Date Joined</th>
                       <th>Actions</th>
@@ -311,7 +313,7 @@ export default function AdminPanel() {
                   </thead>
                   <tbody>
                     {filtered.map((u) => (
-                      <tr key={u.id} className={confirmDeleteId === u.id ? "admin-row-deleting" : ""}>
+                      <tr key={u.id} className={confirmToggleId === u.id ? "admin-row-confirming" : ""}>
                         <td className="admin-td-name">
                           <span className="admin-full-name">
                             {[u.first_name, u.last_name].filter(Boolean).join(" ") || u.username}
@@ -351,20 +353,26 @@ export default function AdminPanel() {
                           )}
                         </td>
 
+                        <td>
+                          <span className={`admin-status-badge ${u.is_active ? "admin-status-active" : "admin-status-inactive"}`}>
+                            {u.is_active ? "Active" : "Inactive"}
+                          </span>
+                        </td>
+
                         <td>{fmt(u.last_login)}</td>
                         <td>{fmt(u.date_joined)}</td>
 
                         <td>
-                          {confirmDeleteId === u.id ? (
+                          {confirmToggleId === u.id ? (
                             <div className="admin-confirm-delete">
-                              <span className="admin-confirm-text">Sure?</span>
+                              <span className="admin-confirm-text">{u.is_active ? "Deactivate?" : "Activate?"}</span>
                               <button
-                                className="admin-btn admin-btn-danger"
-                                onClick={() => handleDeleteConfirm(u.id)}
+                                className={`admin-btn ${u.is_active ? "admin-btn-danger" : "admin-btn-save"}`}
+                                onClick={() => handleToggleActive(u.id)}
                               >Yes</button>
                               <button
                                 className="admin-btn admin-btn-cancel"
-                                onClick={() => setConfirmDeleteId(null)}
+                                onClick={() => setConfirmToggleId(null)}
                               >No</button>
                             </div>
                           ) : (
@@ -375,22 +383,22 @@ export default function AdminPanel() {
                                 onClick={() => {
                                   setEditingRoleId(u.id);
                                   setPendingRole(u.role || "New Member");
-                                  setConfirmDeleteId(null);
+                                  setConfirmToggleId(null);
                                   setActionError("");
                                 }}
                               >
                                 <span className="material-icons">manage_accounts</span>
                               </button>
                               <button
-                                className="admin-btn admin-btn-delete"
-                                title="Delete user"
+                                className={`admin-btn ${u.is_active ? "admin-btn-deactivate" : "admin-btn-activate"}`}
+                                title={u.is_active ? "Deactivate account" : "Activate account"}
                                 onClick={() => {
-                                  setConfirmDeleteId(u.id);
+                                  setConfirmToggleId(u.id);
                                   setEditingRoleId(null);
                                   setActionError("");
                                 }}
                               >
-                                <span className="material-icons">delete</span>
+                                <span className="material-icons">{u.is_active ? "lock" : "lock_open"}</span>
                               </button>
                             </div>
                           )}
