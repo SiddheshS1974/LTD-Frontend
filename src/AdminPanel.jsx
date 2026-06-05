@@ -27,7 +27,7 @@ export default function AdminPanel() {
   const [hgiRefresh, setHgiRefresh] = useState(0);
   const hgiTimerRef = useRef(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [newCode, setNewCode] = useState({ code: "", first_name: "", last_name: "", upline_rmd_name: "" });
+  const [newCode, setNewCode] = useState({ code: "", first_name: "", last_name: "", upline_rmd_name: "", upline_rmd_hgi_code: "" });
   const [editingHgiId, setEditingHgiId] = useState(null);
   const [pendingHgiEdit, setPendingHgiEdit] = useState({});
   const [confirmDeleteHgiId, setConfirmDeleteHgiId] = useState(null);
@@ -234,7 +234,7 @@ export default function AdminPanel() {
         setHgiActionError(data.code?.[0] || data.error || "Failed to add code.");
         return;
       }
-      setNewCode({ code: "", first_name: "", last_name: "", upline_rmd_name: "" });
+      setNewCode({ code: "", first_name: "", last_name: "", upline_rmd_name: "", upline_rmd_hgi_code: "" });
       setShowAddForm(false);
       setHgiPage(1);
       setHgiRefresh((r) => r + 1);
@@ -754,14 +754,20 @@ export default function AdminPanel() {
               />
               <input
                 className="admin-hgi-input"
-                placeholder="Upline RMD"
+                placeholder="Upline RMD Name"
                 value={newCode.upline_rmd_name}
                 onChange={(e) => setNewCode((p) => ({ ...p, upline_rmd_name: e.target.value }))}
+              />
+              <input
+                className="admin-hgi-input"
+                placeholder="Upline RMD HGI Code"
+                value={newCode.upline_rmd_hgi_code}
+                onChange={(e) => setNewCode((p) => ({ ...p, upline_rmd_hgi_code: e.target.value }))}
               />
               <button className="admin-btn admin-btn-save" onClick={handleAddCode}>Add</button>
               <button
                 className="admin-btn admin-btn-cancel"
-                onClick={() => { setShowAddForm(false); setNewCode({ code: "", first_name: "", last_name: "", upline_rmd_name: "" }); }}
+                onClick={() => { setShowAddForm(false); setNewCode({ code: "", first_name: "", last_name: "", upline_rmd_name: "", upline_rmd_hgi_code: "" }); }}
               >Cancel</button>
             </div>
           )}
@@ -799,6 +805,7 @@ export default function AdminPanel() {
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Upline RMD</th>
+                      <th>Upline RMD Code</th>
                       <th>Status</th>
                       <th>Claimed By</th>
                       <th>Actions</th>
@@ -847,6 +854,15 @@ export default function AdminPanel() {
                                 onChange={(e) => setPendingHgiEdit((p) => ({ ...p, upline_rmd_name: e.target.value }))}
                               />
                             ) : (c.upline_rmd_name || "—")}
+                          </td>
+                          <td className="admin-td-mono">
+                            {isEditing ? (
+                              <input
+                                className="admin-hgi-input admin-hgi-input-inline"
+                                value={pendingHgiEdit.upline_rmd_hgi_code ?? c.upline_rmd_hgi_code}
+                                onChange={(e) => setPendingHgiEdit((p) => ({ ...p, upline_rmd_hgi_code: e.target.value }))}
+                              />
+                            ) : (c.upline_rmd_hgi_code || "—")}
                           </td>
                           <td>
                             <span className={`admin-hgi-badge ${claimed ? "admin-hgi-claimed" : "admin-hgi-unclaimed"}`}>
