@@ -6,17 +6,10 @@ export default function Login() {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [signInData, setSignInData] = useState({ username: "", password: "" });
-  const [signUpData, setSignUpData] = useState({ firstName: "", lastName: "", email: "", uplineRMD: "", hgiCode: "" });
-  const [rmdList, setRmdList] = useState([]);
+  const [signUpData, setSignUpData] = useState({ firstName: "", lastName: "", email: "", hgiCode: "" });
   const [signInMessage, setSignInMessage] = useState({ text: "", type: "" });
   const [signUpMessage, setSignUpMessage] = useState({ text: "", type: "" });
   const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
-    fetch(`${API}/api/v1/rmds/`)
-        .then(res => res.json())
-        .then(data => setRmdList(data));
-  }, []);
   useEffect(() => {
     let opened = false;
     const handleScroll = () => {
@@ -65,7 +58,7 @@ export default function Login() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (!signUpData.firstName || !signUpData.lastName || !signUpData.email || !signUpData.uplineRMD || !signUpData.hgiCode) {
+    if (!signUpData.firstName || !signUpData.lastName || !signUpData.email || !signUpData.hgiCode) {
       setSignUpMessage({ text: "Please fill in all fields.", type: "error" });
       return;
     }
@@ -77,7 +70,6 @@ export default function Login() {
           firstName: signUpData.firstName,
           lastName: signUpData.lastName,
           email: signUpData.email,
-          uplineRMD: signUpData.uplineRMD,
           hgiCode: signUpData.hgiCode
         })
       });
@@ -134,18 +126,6 @@ export default function Login() {
             value={signUpData.email}
             onChange={handleSignUpChange}
           />
-        </div>
-        <div className="select-wrapper">
-          <select
-            name="uplineRMD"
-            value={signUpData.uplineRMD}
-            onChange={handleSignUpChange}
-          >
-            <option value="">Select Upline RMD</option>
-            {rmdList.map(rmd => (
-                <option key={rmd.id} value={rmd.id}>{rmd.name}</option>
-            ))}
-          </select>
         </div>
         <div className="input-icon-wrapper">
           <span className="material-icons input-icon">tag</span>
