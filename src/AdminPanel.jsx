@@ -127,7 +127,7 @@ export default function AdminPanel() {
 
   const rmdQ = rmdQuery.toLowerCase();
   const rmds = users
-    .filter((u) => u.role === "RMD")
+    .filter((u) => u.is_rmd_member)
     .filter((u) => !rmdQ || [u.username, u.first_name, u.last_name, u.email, u.hgi_code]
       .some((f) => f?.toLowerCase().includes(rmdQ)));
 
