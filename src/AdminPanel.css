@@ -524,6 +524,17 @@
   margin-bottom: 0.85rem;
 }
 
+.admin-rmd-form-grid-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.admin-rmd-form-hint {
+  font-size: 0.78rem;
+  color: #9b8472;
+  margin: 0 0 0.85rem;
+  line-height: 1.5;
+}
+
 .admin-rmd-password-wrap {
   position: relative;
   display: flex;
@@ -705,7 +716,8 @@
     flex: none;
   }
 
-  .admin-rmd-form-grid {
+  .admin-rmd-form-grid,
+  .admin-rmd-form-grid-3 {
     grid-template-columns: 1fr;
   }
 }
