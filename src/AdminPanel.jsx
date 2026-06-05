@@ -39,6 +39,7 @@ export default function AdminPanel() {
   const [rmdActionError, setRmdActionError] = useState("");
   const [addingRmd, setAddingRmd] = useState(false);
   const [showRmdPassword, setShowRmdPassword] = useState(false);
+  const [togglingRequestsId, setTogglingRequestsId] = useState(null);
 
   useEffect(() => {
     const b = document.body;
@@ -90,6 +91,28 @@ export default function AdminPanel() {
     hgiTimerRef.current = setTimeout(doFetch, hgiSearch ? 300 : 0);
     return () => clearTimeout(hgiTimerRef.current);
   }, [activeTab, hgiPage, hgiSearch, hgiRefresh]);
+
+  const handleToggleRequests = async (userId) => {
+    setTogglingRequestsId(userId);
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/users/${userId}/toggle-requests/`, {
+        method: "PATCH",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setRmdActionError(data.error || "Failed to update access control.");
+        setTogglingRequestsId(null);
+        return;
+      }
+      const data = await res.json();
+      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, can_receive_requests: data.can_receive_requests } : u));
+    } catch {
+      setRmdActionError("Network error. Please try again.");
+    }
+    setTogglingRequestsId(null);
+  };
 
   const handleAddRmd = async () => {
     setAddingRmd(true);
@@ -602,9 +625,9 @@ export default function AdminPanel() {
                     <tr>
                       <th>Name</th>
                       <th>Email</th>
-                      <th>Username</th>
                       <th>HGI Code</th>
                       <th>Status</th>
+                      <th>Team Requests</th>
                       <th>Last Login</th>
                       <th>Date Joined</th>
                     </tr>
@@ -619,12 +642,28 @@ export default function AdminPanel() {
                           <span className="admin-username">@{u.username}</span>
                         </td>
                         <td className="admin-td-mono">{u.email || "—"}</td>
-                        <td className="admin-td-mono">{u.username}</td>
                         <td className="admin-td-mono">{u.hgi_code || "—"}</td>
                         <td>
                           <span className={`admin-status-badge ${u.is_active ? "admin-status-active" : "admin-status-inactive"}`}>
                             {u.is_active ? "Active" : "Inactive"}
                           </span>
+                        </td>
+                        <td>
+                          <div className="admin-access-cell">
+                            <span className={`admin-access-badge ${u.can_receive_requests ? "admin-access-on" : "admin-access-off"}`}>
+                              {u.can_receive_requests ? "Direct" : "Via Admin"}
+                            </span>
+                            <button
+                              className={`admin-btn ${u.can_receive_requests ? "admin-btn-deactivate" : "admin-btn-activate"}`}
+                              title={u.can_receive_requests ? "Revoke — requests go back to admin" : "Grant — this RMD receives their team's requests directly"}
+                              disabled={togglingRequestsId === u.id}
+                              onClick={() => handleToggleRequests(u.id)}
+                            >
+                              <span className="material-icons">
+                                {togglingRequestsId === u.id ? "hourglass_empty" : u.can_receive_requests ? "person_off" : "how_to_reg"}
+                              </span>
+                            </button>
+                          </div>
                         </td>
                         <td>{fmt(u.last_login)}</td>
                         <td>{fmt(u.date_joined)}</td>

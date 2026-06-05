@@ -470,6 +470,34 @@
   color: #963232;
 }
 
+/* ── Access control cell ── */
+.admin-access-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-access-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.admin-access-on {
+  background: rgba(42, 96, 64, 0.1);
+  color: #2a6040;
+}
+
+.admin-access-off {
+  background: rgba(100, 100, 100, 0.08);
+  color: #777;
+}
+
 /* ── Panel card (wraps each section) ── */
 .admin-panel {
   background: #ffffff;
