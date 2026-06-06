@@ -7,7 +7,7 @@ const isAdmin = () => {
 };
 
 const isRmd = () => {
-  return localStorage.getItem("role") === "RMD";
+  return localStorage.getItem("is_rmd_member") === "true";
 };
 
 const allNavItems = [
@@ -205,6 +205,7 @@ export default function Navbar() {
           localStorage.removeItem("token");
           localStorage.removeItem("is_staff");
           localStorage.removeItem("role");
+          localStorage.removeItem("is_rmd_member");
           localStorage.removeItem("first_name");
           localStorage.removeItem("last_name");
           localStorage.removeItem("username");

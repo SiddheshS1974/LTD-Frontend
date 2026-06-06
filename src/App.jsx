@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import Login from "./Login";
 import SetUpAccount from "./SetUpAccount";
 import "./App.css";
@@ -22,6 +22,11 @@ import AdminPanel from "./AdminPanel";
 import RmdPanel from "./RmdPanel";
 import License from "./License";
 import Layout from "./Layout";
+
+function RmdRoute() {
+  const isRmd = localStorage.getItem("is_rmd_member") === "true";
+  return isRmd ? <Outlet /> : <Navigate to="/home" replace />;
+}
 
 function App() {
   return (
@@ -53,7 +58,9 @@ function App() {
           <Route path="/brochures"   element={<Brochures />} />
           <Route path="/license"  element={<License />} />
           <Route path="/admin"    element={<AdminPanel />} />
-          <Route path="/rmd"      element={<RmdPanel />} />
+          <Route element={<RmdRoute />}>
+            <Route path="/rmd" element={<RmdPanel />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
