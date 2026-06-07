@@ -41,6 +41,7 @@ export default function AdminPanel() {
   const [rmdActionError, setRmdActionError] = useState("");
   const [addingRmd, setAddingRmd] = useState(false);
   const [togglingRequestsId, setTogglingRequestsId] = useState(null);
+  const [confirmDeleteRmdId, setConfirmDeleteRmdId] = useState(null);
 
   useEffect(() => {
     const b = document.body;
@@ -152,6 +153,25 @@ export default function AdminPanel() {
       setRmdActionError("Network error. Please try again.");
     }
     setAddingRmd(false);
+  };
+
+  const handleDeleteRmd = async (profileId) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/rmd-profiles/${profileId}/`, {
+        method: "DELETE",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setRmdActionError(data.error || "Failed to delete RMD.");
+        return;
+      }
+      setRmdProfiles((prev) => prev.filter((p) => p.id !== profileId));
+      setConfirmDeleteRmdId(null);
+    } catch {
+      setRmdActionError("Network error. Please try again.");
+    }
   };
 
   const q = query.toLowerCase();
@@ -621,6 +641,7 @@ export default function AdminPanel() {
                       <th>Team Requests</th>
                       <th>Last Login</th>
                       <th>Date Joined</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -666,6 +687,23 @@ export default function AdminPanel() {
                         </td>
                         <td>{p.is_claimed ? fmt(p.last_login) : "—"}</td>
                         <td>{p.is_claimed ? fmt(p.date_joined) : "—"}</td>
+                        <td>
+                          {confirmDeleteRmdId === p.id ? (
+                            <div className="admin-confirm-delete">
+                              <span className="admin-confirm-text">Remove?</span>
+                              <button className="admin-btn admin-btn-danger" onClick={() => handleDeleteRmd(p.id)}>Yes</button>
+                              <button className="admin-btn admin-btn-cancel" onClick={() => setConfirmDeleteRmdId(null)}>No</button>
+                            </div>
+                          ) : (
+                            <button
+                              className="admin-btn admin-btn-delete"
+                              title="Remove from RMD list"
+                              onClick={() => { setConfirmDeleteRmdId(p.id); setRmdActionError(""); }}
+                            >
+                              <span className="material-icons">delete</span>
+                            </button>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
