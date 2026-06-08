@@ -53,7 +53,7 @@ export default function Login() {
       localStorage.setItem("username", data.username ?? "");
       window.location.href = "/home";
     } else {
-      setSignInMessage({ text: "Incorrect username or password.", type: "error" });
+      setSignInMessage({ text: data.error || "Incorrect username or password.", type: "error" });
     }
   };
 
