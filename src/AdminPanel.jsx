@@ -12,6 +12,7 @@ export default function AdminPanel() {
   const [editingRoleId, setEditingRoleId] = useState(null);
   const [pendingRole, setPendingRole] = useState("");
   const [confirmToggleId, setConfirmToggleId] = useState(null);
+  const [confirmDeleteUserId, setConfirmDeleteUserId] = useState(null);
   const [actionError, setActionError] = useState("");
 
   const [activeTab, setActiveTab] = useState("accounts");
@@ -210,6 +211,25 @@ export default function AdminPanel() {
       const data = await res.json();
       setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, is_active: data.is_active } : u));
       setConfirmToggleId(null);
+    } catch {
+      setActionError("Network error. Please try again.");
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/users/${userId}/delete/`, {
+        method: "DELETE",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setActionError(data.error || "Failed to delete account.");
+        return;
+      }
+      setUsers((prev) => prev.filter((u) => u.id !== userId));
+      setConfirmDeleteUserId(null);
     } catch {
       setActionError("Network error. Please try again.");
     }
@@ -478,6 +498,18 @@ export default function AdminPanel() {
                                 onClick={() => setConfirmToggleId(null)}
                               >No</button>
                             </div>
+                          ) : confirmDeleteUserId === u.id ? (
+                            <div className="admin-confirm-delete">
+                              <span className="admin-confirm-text">Delete?</span>
+                              <button
+                                className="admin-btn admin-btn-danger"
+                                onClick={() => handleDeleteUser(u.id)}
+                              >Yes</button>
+                              <button
+                                className="admin-btn admin-btn-cancel"
+                                onClick={() => setConfirmDeleteUserId(null)}
+                              >No</button>
+                            </div>
                           ) : (
                             <div className="admin-actions">
                               <button
@@ -487,6 +519,7 @@ export default function AdminPanel() {
                                   setEditingRoleId(u.id);
                                   setPendingRole(u.role || "New Member");
                                   setConfirmToggleId(null);
+                                  setConfirmDeleteUserId(null);
                                   setActionError("");
                                 }}
                               >
@@ -497,11 +530,24 @@ export default function AdminPanel() {
                                 title={u.is_active ? "Deactivate account" : "Activate account"}
                                 onClick={() => {
                                   setConfirmToggleId(u.id);
+                                  setConfirmDeleteUserId(null);
                                   setEditingRoleId(null);
                                   setActionError("");
                                 }}
                               >
                                 <span className="material-icons">{u.is_active ? "lock" : "lock_open"}</span>
+                              </button>
+                              <button
+                                className="admin-btn admin-btn-delete"
+                                title="Delete account"
+                                onClick={() => {
+                                  setConfirmDeleteUserId(u.id);
+                                  setConfirmToggleId(null);
+                                  setEditingRoleId(null);
+                                  setActionError("");
+                                }}
+                              >
+                                <span className="material-icons">delete</span>
                               </button>
                             </div>
                           )}
