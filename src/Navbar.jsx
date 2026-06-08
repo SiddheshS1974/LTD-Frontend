@@ -206,6 +206,7 @@ export default function Navbar() {
           localStorage.removeItem("is_staff");
           localStorage.removeItem("role");
           localStorage.removeItem("is_rmd_member");
+          localStorage.removeItem("can_receive_requests");
           localStorage.removeItem("first_name");
           localStorage.removeItem("last_name");
           localStorage.removeItem("username");
