@@ -34,6 +34,11 @@ export default function AdminPanel() {
   const [confirmDeleteHgiId, setConfirmDeleteHgiId] = useState(null);
   const [hgiActionError, setHgiActionError] = useState("");
 
+  const [pendingUsers, setPendingUsers] = useState([]);
+  const [pendingLoading, setPendingLoading] = useState(false);
+  const [pendingError, setPendingError] = useState("");
+  const [confirmDeletePendingId, setConfirmDeletePendingId] = useState(null);
+
   const [rmdQuery, setRmdQuery] = useState("");
   const [rmdProfiles, setRmdProfiles] = useState([]);
   const [rmdProfilesLoading, setRmdProfilesLoading] = useState(false);
@@ -71,6 +76,16 @@ export default function AdminPanel() {
   }, []);
 
   useEffect(() => {
+    if (activeTab !== "pending") return;
+    setPendingLoading(true);
+    const token = localStorage.getItem("token");
+    fetch(`${API}/api/v1/pending-users/`, { headers: { Authorization: `Token ${token}` } })
+      .then((res) => { if (!res.ok) throw new Error("Failed to load pending users."); return res.json(); })
+      .then((data) => { setPendingUsers(data); setPendingLoading(false); })
+      .catch((err) => { setPendingError(err.message); setPendingLoading(false); });
+  }, [activeTab]);
+
+  useEffect(() => {
     if (activeTab !== "rmd") return;
     setRmdProfilesLoading(true);
     const token = localStorage.getItem("token");
@@ -106,6 +121,24 @@ export default function AdminPanel() {
     hgiTimerRef.current = setTimeout(doFetch, hgiSearch ? 300 : 0);
     return () => clearTimeout(hgiTimerRef.current);
   }, [activeTab, hgiPage, hgiSearch, hgiRefresh]);
+
+  const handleDeletePending = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/pending-users/${id}/`, {
+        method: "DELETE",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        setPendingError("Failed to delete pending user.");
+        return;
+      }
+      setPendingUsers((prev) => prev.filter((p) => p.id !== id));
+      setConfirmDeletePendingId(null);
+    } catch {
+      setPendingError("Network error. Please try again.");
+    }
+  };
 
   const handleToggleRequests = async (userId) => {
     setTogglingRequestsId(userId);
@@ -348,6 +381,13 @@ export default function AdminPanel() {
           >
             <span className="material-icons">tag</span>
             Valid HGI Codes
+          </button>
+          <button
+            className={`admin-tab ${activeTab === "pending" ? "admin-tab-active" : ""}`}
+            onClick={() => setActiveTab("pending")}
+          >
+            <span className="material-icons">pending</span>
+            Pending Approvals
           </button>
         </div>
 
@@ -1004,6 +1044,89 @@ export default function AdminPanel() {
                 </div>
               )}
               </>
+            )}
+          </section>
+        </div>}
+
+        {activeTab === "pending" && <div className="admin-panel">
+          <section className="admin-header">
+            <p className="admin-eyebrow">Administration</p>
+            <h2 className="admin-title">Pending Approvals</h2>
+            <p className="admin-sub">
+              Signup requests that are waiting for account setup or have been approved.
+            </p>
+          </section>
+
+          {pendingError && (
+            <div className="admin-action-error">
+              <span className="material-icons" style={{ fontSize: 18 }}>error_outline</span>
+              {pendingError}
+              <button className="admin-dismiss" onClick={() => setPendingError("")}>×</button>
+            </div>
+          )}
+
+          <section className="admin-results">
+            {pendingLoading && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">hourglass_empty</span>
+                <p>Loading pending approvals…</p>
+              </div>
+            )}
+            {!pendingLoading && pendingUsers.length === 0 && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">check_circle</span>
+                <p>No pending approvals.</p>
+              </div>
+            )}
+            {!pendingLoading && pendingUsers.length > 0 && (
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>HGI Code</th>
+                      <th>Status</th>
+                      <th>Submitted</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingUsers.map((p) => (
+                      <tr key={p.id}>
+                        <td className="admin-td-name">
+                          <span className="admin-full-name">{p.first_name} {p.last_name}</span>
+                        </td>
+                        <td className="admin-td-mono">{p.email}</td>
+                        <td className="admin-td-mono">{p.hgi_code || "—"}</td>
+                        <td>
+                          <span className={`admin-status-badge ${p.is_approved ? "admin-status-active" : "admin-status-inactive"}`}>
+                            {p.is_approved ? "Approved — Awaiting Setup" : "Awaiting Approval"}
+                          </span>
+                        </td>
+                        <td>{fmt(p.created_at)}</td>
+                        <td>
+                          {confirmDeletePendingId === p.id ? (
+                            <div className="admin-confirm-delete">
+                              <span className="admin-confirm-text">Cancel?</span>
+                              <button className="admin-btn admin-btn-danger" onClick={() => handleDeletePending(p.id)}>Yes</button>
+                              <button className="admin-btn admin-btn-cancel" onClick={() => setConfirmDeletePendingId(null)}>No</button>
+                            </div>
+                          ) : (
+                            <button
+                              className="admin-btn admin-btn-delete"
+                              title="Cancel request"
+                              onClick={() => setConfirmDeletePendingId(p.id)}
+                            >
+                              <span className="material-icons">delete</span>
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </section>
         </div>}
