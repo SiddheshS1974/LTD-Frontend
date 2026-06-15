@@ -1,0 +1,383 @@
+.app-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* ── Section card ── */
+.app-section {
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  border-radius: 20px;
+  padding: 1.75rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.app-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0ece7;
+}
+
+.app-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(139,99,64,0.14), rgba(139,99,64,0.06));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.app-icon-wrap .material-icons {
+  font-size: 22px !important;
+  color: #8b6340;
+}
+
+.app-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* ── Tags ── */
+.app-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.6rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.app-tag--green  { background: #dcfce7; color: #15803d; }
+.app-tag--blue   { background: #dbeafe; color: #1d4ed8; }
+.app-tag--amber  { background: #fef3c7; color: #b45309; }
+.app-tag--purple { background: #ede9fe; color: #6d28d9; }
+
+/* ── Sub-sections within a card ── */
+.app-subsection {
+  border-left: 3px solid #e4ddd5;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.app-subsection-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #4b3621;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0;
+}
+
+.app-sub-icon {
+  font-size: 17px !important;
+  color: #8b6340;
+}
+
+.app-optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #9ca3af;
+  font-size: 0.82rem;
+}
+
+/* ── Numbered lists ── */
+.app-list {
+  padding-left: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.88rem;
+  color: #374151;
+  line-height: 1.7;
+}
+
+.app-list--alpha {
+  list-style-type: lower-alpha;
+  padding-left: 1.6rem;
+  margin-top: 0.4rem;
+}
+
+/* ── Documents grid ── */
+.app-doc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+}
+
+.app-doc-card {
+  background: #fafafa;
+  border: 1px solid #e8e3dd;
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.app-doc-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.app-doc-card-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.app-doc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.app-doc-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  color: #374151;
+  line-height: 1.55;
+}
+
+.app-check-icon {
+  font-size: 16px !important;
+  color: #6b9e7a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Note / callout ── */
+.app-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: #fef9f4;
+  border: 1px solid #e8d9c8;
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.87rem;
+  color: #4b3621;
+  line-height: 1.65;
+}
+
+.app-note-icon {
+  font-size: 18px !important;
+  color: #8b6340;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.app-body-text {
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ── Email card (Athene rollover) ── */
+.app-email-card {
+  background: #fafafa;
+  border: 1px solid #e8e3dd;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.app-email-subject-row {
+  background: #f3ede6;
+  border-bottom: 1px solid #e8e3dd;
+  padding: 0.65rem 1.25rem;
+}
+
+.app-email-meta-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b6340;
+}
+
+.app-email-body {
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.app-email-para {
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.app-email-detail {
+  background: #fff;
+  border: 1px solid #e4e0db;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.app-email-detail-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #8b6340;
+}
+
+.app-email-detail-value {
+  font-size: 0.91rem;
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.5;
+}
+
+/* ── Provider chips ── */
+.app-provider-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.app-provider-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f0f4f8;
+  border: 1px solid #d1dce8;
+  color: #1d4ed8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+}
+
+/* ── Numbered steps for medical exam ── */
+.app-steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.app-steps-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.app-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b6340, #a07850);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.app-step-body {
+  font-size: 0.89rem;
+  color: #374151;
+  line-height: 1.75;
+  flex: 1;
+}
+
+/* ── Email template inside a step ── */
+.app-email-template {
+  background: #fff;
+  border: 1px solid #e4e0db;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 0.65rem;
+}
+
+.app-email-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #f0ece7;
+}
+
+.app-email-row:last-child { border-bottom: none; }
+
+.app-email-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #8b6340;
+}
+
+.app-email-value {
+  font-size: 0.88rem;
+  color: #111827;
+  line-height: 1.65;
+}
+
+.app-link {
+  color: #8b6340;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/* ── Disclaimer ── */
+.app-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.83rem;
+  color: #6b7280;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .app-main { padding: 1.5rem 1rem 4rem; }
+  .app-section { padding: 1.25rem 1.25rem 1.5rem; }
+  .app-doc-grid { grid-template-columns: 1fr; }
+}

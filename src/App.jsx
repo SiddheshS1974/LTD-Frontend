@@ -22,6 +22,7 @@ import AdminPanel from "./AdminPanel";
 import RmdPanel from "./RmdPanel";
 import More from "./More";
 import Information from "./Information";
+import Applications from "./Applications";
 import License from "./License";
 import Layout from "./Layout";
 
@@ -64,7 +65,7 @@ function App() {
             <Route path="/rmd" element={<RmdPanel />} />
           </Route>
           <Route path="/more/information"       element={<Information />} />
-          <Route path="/more/applications"      element={<More />} />
+          <Route path="/more/applications"      element={<Applications />} />
           <Route path="/more/setups"            element={<More />} />
           <Route path="/more/register-accounts" element={<More />} />
           <Route path="/more/address-book"      element={<More />} />
