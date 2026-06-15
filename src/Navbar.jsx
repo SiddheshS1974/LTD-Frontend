@@ -39,6 +39,18 @@ const allNavItems = [
   },
   { id: "brochures", label: "Brochures",        icon: "description",        path: "/brochures" },
   { id: "license",   label: "License",          icon: "card_membership",    path: "/license"   },
+  {
+    id: "more",
+    label: "More",
+    icon: "more_horiz",
+    dropdown: [
+      { label: "Information",                icon: "info",        path: "/more/information"       },
+      { label: "Applications & Medical Exams", icon: "assignment",  path: "/more/applications"      },
+      { label: "Setups",                     icon: "settings",    path: "/more/setups"            },
+      { label: "Register Accounts",          icon: "how_to_reg",  path: "/more/register-accounts" },
+      { label: "Address Book",               icon: "contacts",    path: "/more/address-book"      },
+    ],
+  },
   { id: "admin",     label: "Admin",            icon: "manage_accounts",    path: "/admin",  adminOnly: true },
   { id: "rmd",       label: "RMD Panel",        icon: "supervisor_account", path: "/rmd",    rmdOnly: true   },
 ];
@@ -59,6 +71,11 @@ const pathToNavId = {
   "/videos/stories":       "videos",
   "/brochures": "brochures",
   "/license":   "license",
+  "/more/information":       "more",
+  "/more/applications":      "more",
+  "/more/setups":            "more",
+  "/more/register-accounts": "more",
+  "/more/address-book":      "more",
   "/admin":     "admin",
   "/rmd":       "rmd",
 };
