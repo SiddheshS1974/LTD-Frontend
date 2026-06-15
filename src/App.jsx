@@ -21,6 +21,7 @@ import ResetPassword from "./ResetPassword";
 import AdminPanel from "./AdminPanel";
 import RmdPanel from "./RmdPanel";
 import More from "./More";
+import Information from "./Information";
 import License from "./License";
 import Layout from "./Layout";
 
@@ -62,7 +63,7 @@ function App() {
           <Route element={<RmdRoute />}>
             <Route path="/rmd" element={<RmdPanel />} />
           </Route>
-          <Route path="/more/information"       element={<More />} />
+          <Route path="/more/information"       element={<Information />} />
           <Route path="/more/applications"      element={<More />} />
           <Route path="/more/setups"            element={<More />} />
           <Route path="/more/register-accounts" element={<More />} />

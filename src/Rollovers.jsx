@@ -87,17 +87,6 @@ export default function Rollovers() {
 
       <main className="ro-main">
 
-        <div className="ro-notes">
-          <div className="ro-note">
-            <span className="material-icons ro-note-icon">info</span>
-            <p><strong>Note 1:</strong> This is a sample format. Main thing is the details for the check.</p>
-          </div>
-          <div className="ro-note">
-            <span className="material-icons ro-note-icon">info</span>
-            <p><strong>Note 2:</strong> The same info is for cash annuities as well.</p>
-          </div>
-        </div>
-
         {companies.map((company) => (
           <section key={company.name} className="ro-section">
             <div className="ro-section-header">
