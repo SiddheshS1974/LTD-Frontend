@@ -81,11 +81,11 @@
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 22px 10px;
+  gap: 3px;
+  padding: 22px 7px;
   cursor: pointer;
   color: rgba(255,255,255,0.7);
-  font-size: 13px;
+  font-size: 12px;
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
   transition: color 0.3s;
@@ -95,7 +95,7 @@
 }
 
 .nav-item.active { color: #fff; font-weight: 600; }
-.nav-icon { font-size: 18px !important; }
+.nav-icon { font-size: 16px !important; }
 
 .logout-btn {
   flex-shrink: 0;
@@ -395,7 +395,7 @@
 /* Tablet */
 @media (max-width: 900px) {
   .navbar-mainbg    { gap: 0; }
-  .nav-item         { padding: 22px 8px; font-size: 12px; }
+  .nav-item         { padding: 22px 5px; font-size: 11px; }
   .home-steps-grid  { grid-template-columns: repeat(2, 1fr); }
 }
 
