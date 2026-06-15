@@ -2,44 +2,61 @@ import { useEffect } from "react";
 import "./Step1.css";
 import "./Rollovers.css";
 
-const rolloverTypes = [
+const companies = [
   {
-    icon: "sync",
-    title: "401K Rollover",
-    desc: "Move funds from a former employer's 401K into an IRA or new employer plan without tax penalty.",
-    tag: "Most Common",
-    tagColor: "green",
-  },
-  {
-    icon: "swap_horiz",
-    title: "IRA Rollover",
-    desc: "Transfer assets between IRAs or from an employer plan into an IRA to consolidate retirement savings.",
-    tag: "Flexible",
+    name: "Athene",
+    icon: "business",
+    tag: "Annuity",
     tagColor: "blue",
+    subject: "401K Rollover Application Approved",
+    body: [
+      { type: "para", text: "Hi (Client)," },
+      { type: "para", text: "Your 401K rollover application is approved!!" },
+      { type: "para", text: "Here is what you will need to do for your 401K rollover." },
+      { type: "para", text: "Call your custodian and let them know you are ROLLING OVER your 401K and to send the check with following details:" },
+      { type: "detail", label: "Check made to", value: "Athene Annuity and Life Company" },
+      { type: "detail", label: "Memo", value: "FBO (Client FirstName) (Client LastName) (Policy Number)" },
+      { type: "detail", label: "Mailing Address", value: "7700 Mills Civic Parkway, West Des Moines, IA, 50266-3862" },
+      { type: "para", text: "Let me know if you have any questions." },
+      { type: "para", text: "I will call you today evening." },
+    ],
   },
   {
-    icon: "currency_exchange",
-    title: "Roth Conversion",
-    desc: "Convert pre-tax retirement funds into a Roth IRA — pay taxes now for tax-free growth and withdrawals later.",
-    tag: "Tax Strategy",
+    name: "Fidelity & Guaranty",
+    icon: "account_balance",
+    tag: "F&G",
+    tagColor: "green",
+    subject: "401K Rollover Application Approved",
+    body: [
+      { type: "para", text: "Hi (Client)," },
+      { type: "para", text: "Your 401K rollover application is approved!!" },
+      { type: "para", text: "Here is what you will need to do for your 401K rollover." },
+      { type: "para", text: "Call your custodian and let them know you are ROLLING OVER your 401K and to send the check with following details:" },
+      { type: "detail", label: "Check made to", value: "F&G Annuities and Life" },
+      { type: "detail", label: "Memo", value: "FBO (Client FirstName) (Client LastName) (Policy Number)" },
+      { type: "detail", label: "Mailing Address (Overnight)", value: "F&G Annuity and Life, 777, Research Dr. Lincoln, NE 68521" },
+      { type: "detail", label: "Mailing Address (Regular)", value: "F&G Annuity and Life, PO BOX 81497, Lincoln, NE 68501" },
+      { type: "para", text: "Let me know if you have any questions." },
+      { type: "para", text: "I will call you today evening." },
+    ],
+  },
+  {
+    name: "Nationwide",
+    icon: "public",
+    tag: "Insurance",
     tagColor: "amber",
+    subject: "401K Rollover Application Approved",
+    body: [
+      { type: "para", text: "Hi (Client)," },
+      { type: "para", text: "Your application is approved!!" },
+      { type: "para", text: "Call your custodian and let them know you are ROLLING OVER your 401K/IRA and to send the check with following details:" },
+      { type: "detail", label: "Check made to", value: "Nationwide FBO <Client Name>" },
+      { type: "detail", label: "Memo", value: "Contract #" },
+      { type: "detail", label: "Mailing Address", value: "Nationwide Financial\nPO Box # 182021, Columbus, OH 43218" },
+      { type: "para", text: "Let me know if you have any questions." },
+      { type: "para", text: "I will call you today evening." },
+    ],
   },
-  {
-    icon: "business_center",
-    title: "403(b) Rollover",
-    desc: "Roll over funds from a non-profit or school district 403(b) plan when changing employers or retiring.",
-    tag: "Non-Profit",
-    tagColor: "purple",
-  },
-];
-
-const reasons = [
-  { icon: "lock_open",     text: "Avoid the 10% early withdrawal penalty" },
-  { icon: "trending_up",   text: "Maintain tax-deferred or tax-free growth" },
-  { icon: "hub",           text: "Consolidate accounts into one place" },
-  { icon: "tune",          text: "Gain access to more investment options" },
-  { icon: "shield",        text: "Protect assets with better beneficiary options" },
-  { icon: "timer",         text: "60-day rule — act fast to avoid taxes" },
 ];
 
 export default function Rollovers() {
@@ -63,70 +80,55 @@ export default function Rollovers() {
           <span className="step-number-badge">Resources</span>
           <h1 className="step-title">Rollovers</h1>
           <p className="step-subtitle">
-            Help clients move retirement assets without triggering taxes or
-            penalties. Use these resources to explain rollover options and guide
-            them to the right solution.
+            Once suitability is approved, email your client the relevant details below based on their annuity provider.
           </p>
         </div>
       </header>
 
       <main className="ro-main">
 
-        {/* ── Rollover Types ── */}
-        <section className="ro-section">
-          <div className="ro-section-header">
-            <span className="material-icons ro-section-icon">currency_exchange</span>
-            <h2 className="ro-section-title">Types of Rollovers</h2>
+        <div className="ro-notes">
+          <div className="ro-note">
+            <span className="material-icons ro-note-icon">info</span>
+            <p><strong>Note 1:</strong> This is a sample format. Main thing is the details for the check.</p>
           </div>
-          <div className="ro-types-grid">
-            {rolloverTypes.map((r) => (
-              <div key={r.title} className="ro-type-card">
-                <div className="ro-type-top">
-                  <div className="ro-type-icon-wrap">
-                    <span className="material-icons">{r.icon}</span>
-                  </div>
-                  <span className={`ro-tag ro-tag--${r.tagColor}`}>{r.tag}</span>
-                </div>
-                <p className="ro-type-title">{r.title}</p>
-                <p className="ro-type-desc">{r.desc}</p>
-              </div>
-            ))}
+          <div className="ro-note">
+            <span className="material-icons ro-note-icon">info</span>
+            <p><strong>Note 2:</strong> The same info is for cash annuities as well.</p>
           </div>
-        </section>
+        </div>
 
-        {/* ── Why Roll Over ── */}
-        <section className="ro-section">
-          <div className="ro-section-header">
-            <span className="material-icons ro-section-icon">help_outline</span>
-            <h2 className="ro-section-title">Why Do a Rollover?</h2>
-          </div>
-          <div className="ro-reasons-grid">
-            {reasons.map((r) => (
-              <div key={r.text} className="ro-reason">
-                <span className="material-icons ro-reason-icon">{r.icon}</span>
-                <span className="ro-reason-text">{r.text}</span>
+        {companies.map((company) => (
+          <section key={company.name} className="ro-section">
+            <div className="ro-section-header">
+              <div className="ro-type-icon-wrap">
+                <span className="material-icons">{company.icon}</span>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Resources placeholder ── */}
-        <section className="ro-section">
-          <div className="ro-section-header">
-            <span className="material-icons ro-section-icon">folder_open</span>
-            <h2 className="ro-section-title">Resources</h2>
-          </div>
-          <div className="ro-placeholder">
-            <span className="material-icons ro-placeholder-icon">upload_file</span>
-            <div>
-              <p className="ro-placeholder-title">Add Rollover Resources</p>
-              <p className="ro-placeholder-desc">
-                Spreadsheets, presentations, and guides for rollover conversations
-                will appear here once added.
-              </p>
+              <h2 className="ro-section-title">{company.name}</h2>
+              <span className={`ro-tag ro-tag--${company.tagColor}`}>{company.tag}</span>
             </div>
-          </div>
-        </section>
+
+            <div className="ro-email-card">
+              <div className="ro-email-subject-row">
+                <span className="ro-email-label">Subject</span>
+                <span className="ro-email-subject">{company.subject}</span>
+              </div>
+
+              <div className="ro-email-body">
+                {company.body.map((item, i) =>
+                  item.type === "para" ? (
+                    <p key={i} className="ro-email-para">{item.text}</p>
+                  ) : (
+                    <div key={i} className="ro-email-detail">
+                      <span className="ro-email-detail-label">{item.label}:</span>
+                      <span className="ro-email-detail-value" style={{ whiteSpace: "pre-line" }}>{item.value}</span>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </section>
+        ))}
 
       </main>
     </div>

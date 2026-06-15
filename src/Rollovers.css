@@ -172,6 +172,106 @@
   line-height: 1.7;
 }
 
+/* ── Notes ── */
+
+.ro-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ro-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: #fef9f4;
+  border: 1px solid #e8d9c8;
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.88rem;
+  color: #4b3621;
+  line-height: 1.6;
+}
+
+.ro-note-icon {
+  font-size: 18px !important;
+  color: #8b6340;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Email template card ── */
+
+.ro-email-card {
+  background: #fafafa;
+  border: 1px solid #e8e3dd;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.ro-email-subject-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f3ede6;
+  border-bottom: 1px solid #e8e3dd;
+  padding: 0.75rem 1.25rem;
+}
+
+.ro-email-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b6340;
+  flex-shrink: 0;
+}
+
+.ro-email-subject {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.ro-email-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ro-email-para {
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ro-email-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  background: #fff;
+  border: 1px solid #e4e0db;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+}
+
+.ro-email-detail-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #8b6340;
+}
+
+.ro-email-detail-value {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.6;
+}
+
 /* ── Responsive ── */
 
 @media (max-width: 700px) {
