@@ -382,6 +382,17 @@
   font-weight: 600;
   padding: 0.4rem 0.9rem;
   border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.app-provider-chip--link {
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.app-provider-chip--link:hover {
+  background: #dbeafe;
+  box-shadow: 0 2px 8px rgba(29,78,216,0.15);
 }
 
 /* ── Numbered steps for medical exam ── */

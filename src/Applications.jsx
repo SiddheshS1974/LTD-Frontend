@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Step1.css";
 import "./Applications.css";
 
@@ -139,6 +140,8 @@ const examSteps = [
 ];
 
 export default function Applications() {
+  const navigate = useNavigate();
+
   useEffect(() => {
     const b = document.body;
     const prev = {
@@ -326,10 +329,11 @@ export default function Applications() {
           </div>
 
           <div className="app-provider-row">
-            <div className="app-provider-chip">
+            <button className="app-provider-chip app-provider-chip--link" onClick={() => navigate("/more/examone")}>
               <span className="material-icons" style={{ fontSize: 16 }}>science</span>
               ExamOne
-            </div>
+              <span className="material-icons" style={{ fontSize: 14, marginLeft: 2 }}>arrow_forward</span>
+            </button>
             <div className="app-provider-chip">
               <span className="material-icons" style={{ fontSize: 16 }}>science</span>
               APPS

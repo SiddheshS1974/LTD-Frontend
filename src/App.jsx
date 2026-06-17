@@ -23,6 +23,7 @@ import RmdPanel from "./RmdPanel";
 import More from "./More";
 import Information from "./Information";
 import Applications from "./Applications";
+import ExamOne from "./ExamOne";
 import License from "./License";
 import Layout from "./Layout";
 
@@ -66,6 +67,7 @@ function App() {
           </Route>
           <Route path="/more/information"       element={<Information />} />
           <Route path="/more/applications"      element={<Applications />} />
+          <Route path="/more/examone"           element={<ExamOne />} />
           <Route path="/more/setups"            element={<More />} />
           <Route path="/more/register-accounts" element={<More />} />
           <Route path="/more/address-book"      element={<More />} />
