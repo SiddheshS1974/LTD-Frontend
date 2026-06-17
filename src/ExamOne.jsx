@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "./Step1.css";
 import "./ExamOne.css";
 
@@ -51,11 +50,7 @@ export default function ExamOne() {
     <div className="step-page">
       <header className="step-header">
         <div className="step-header-inner">
-          <button className="eo-back-btn" onClick={() => navigate("/more/applications")}>
-            <span className="material-icons" style={{ fontSize: 17 }}>arrow_back</span>
-            Applications &amp; Medical Exams
-          </button>
-          <span className="step-number-badge" style={{ marginTop: "0.75rem" }}>ExamOne</span>
+          <span className="step-number-badge">ExamOne</span>
           <h1 className="step-title">ExamOne Guide</h1>
           <p className="step-subtitle">
             How to register, sign up, and order medical exam cases on ExamOne.
