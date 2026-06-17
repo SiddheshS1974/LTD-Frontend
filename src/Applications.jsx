@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Step1.css";
 import "./Applications.css";
+import nurseReceipt from "./assets/nurse-receipt-barcode.png";
 
 const applicantGroups = [
   {
@@ -361,6 +362,12 @@ export default function Applications() {
               </li>
             ))}
           </ol>
+
+          <div className="app-subsection-label" style={{ marginTop: "0.5rem" }}>
+            <span className="material-icons app-sub-icon">receipt</span>
+            Sample Receipt from Nurse (contains barcode)
+          </div>
+          <img src={nurseReceipt} alt="Sample nurse receipt with barcode" className="app-screenshot" />
 
           <div className="app-disclaimer">
             <span className="material-icons" style={{ fontSize: 17, color: "#9ca3af", flexShrink: 0, marginTop: 1 }}>policy</span>
