@@ -101,26 +101,28 @@
 .ab-rows {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  border: 1px solid #ede9e3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fafafa;
 }
 
 .ab-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(180px, 42%) 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.5rem 0.85rem;
-  background: #fafafa;
-  border: 1px solid #ede9e3;
-  border-radius: 10px;
-  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid #f0ece7;
+}
+
+.ab-row:last-child {
+  border-bottom: none;
 }
 
 .ab-row-label {
-  font-size: 0.84rem;
+  font-size: 0.83rem;
   color: #4b5563;
-  flex: 1;
-  min-width: 160px;
 }
 
 .ab-row-value {
@@ -206,5 +208,6 @@
 @media (max-width: 600px) {
   .ab-main { padding: 1.5rem 1rem 4rem; }
   .ab-card-header, .ab-body { padding-left: 1.1rem; padding-right: 1.1rem; }
-  .ab-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+  .ab-row { grid-template-columns: 1fr; gap: 0.1rem; }
+  .ab-row-value, .ab-phone-link, .ab-email-link, .ab-fax { padding-top: 0; }
 }
