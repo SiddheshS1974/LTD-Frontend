@@ -26,6 +26,7 @@ import Applications from "./Applications";
 import ExamOne from "./ExamOne";
 import Setups from "./Setups";
 import RegisterAccounts from "./RegisterAccounts";
+import AddressBook from "./AddressBook";
 import License from "./License";
 import Layout from "./Layout";
 
@@ -72,7 +73,7 @@ function App() {
           <Route path="/more/examone"           element={<ExamOne />} />
           <Route path="/more/setups"            element={<Setups />} />
           <Route path="/more/register-accounts" element={<RegisterAccounts />} />
-          <Route path="/more/address-book"      element={<More />} />
+          <Route path="/more/address-book"      element={<AddressBook />} />
         </Route>
       </Routes>
     </BrowserRouter>

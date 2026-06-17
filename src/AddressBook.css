@@ -1,0 +1,210 @@
+.ab-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Carrier card ── */
+.ab-card {
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.ab-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid #f0ece7;
+  background: #fafaf9;
+}
+
+.ab-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(139,99,64,0.14), rgba(139,99,64,0.06));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ab-icon-wrap .material-icons {
+  font-size: 20px !important;
+  color: #8b6340;
+}
+
+.ab-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  flex: 1;
+}
+
+/* ── Tags ── */
+.ab-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.ab-tag--green  { background: #dcfce7; color: #15803d; }
+.ab-tag--blue   { background: #dbeafe; color: #1d4ed8; }
+.ab-tag--amber  { background: #fef3c7; color: #b45309; }
+.ab-tag--purple { background: #ede9fe; color: #6d28d9; }
+.ab-tag--gray   { background: #f3f4f6; color: #4b5563; }
+
+/* ── Card body ── */
+.ab-body {
+  padding: 1.25rem 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* ── Phone / Email groups ── */
+.ab-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ab-group-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8b6340;
+  margin: 0;
+}
+
+.ab-group-icon {
+  font-size: 15px !important;
+}
+
+.ab-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ab-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.85rem;
+  background: #fafafa;
+  border: 1px solid #ede9e3;
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+
+.ab-row-label {
+  font-size: 0.84rem;
+  color: #4b5563;
+  flex: 1;
+  min-width: 160px;
+}
+
+.ab-row-value {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+}
+
+.ab-phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: color 0.15s;
+}
+
+.ab-phone-link:hover { color: #1e40af; text-decoration: underline; }
+
+.ab-fax {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.ab-email-link {
+  color: #8b6340;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.87rem;
+  word-break: break-all;
+  transition: color 0.15s;
+}
+
+.ab-email-link:hover { color: #5a3a1a; text-decoration: underline; }
+
+/* ── HGI note ── */
+.ab-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: #fef9f4;
+  border: 1px solid #e8d9c8;
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+}
+
+.ab-note-icon {
+  font-size: 20px !important;
+  color: #8b6340;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ab-note-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ab-note-body p {
+  font-size: 0.87rem;
+  color: #4b3621;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ab-note-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #8b6340;
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.ab-note-link:hover { color: #5a3a1a; text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .ab-main { padding: 1.5rem 1rem 4rem; }
+  .ab-card-header, .ab-body { padding-left: 1.1rem; padding-right: 1.1rem; }
+  .ab-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+}
