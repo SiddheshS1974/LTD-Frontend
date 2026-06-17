@@ -31,8 +31,6 @@ const selections = [
 ];
 
 export default function ExamOne() {
-  const navigate = useNavigate();
-
   useEffect(() => {
     const b = document.body;
     const prev = {
