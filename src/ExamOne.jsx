@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import "./Step1.css";
 import "./ExamOne.css";
+import imgRegister from "./assets/examone-register.png";
+import imgCreateCase from "./assets/examone-create-case.png";
+import imgAIG from "./assets/examone-aig.png";
+import imgAllianz from "./assets/examone-allianz.png";
+import imgNorthAmerican from "./assets/examone-northamerican.png";
 
 const companies = [
   "American General Life and Accident",
@@ -29,6 +34,8 @@ const selections = [
     note: null,
   },
 ];
+
+const selectionImages = [imgAIG, imgAllianz, imgNorthAmerican];
 
 export default function ExamOne() {
   useEffect(() => {
@@ -103,6 +110,7 @@ export default function ExamOne() {
                 </div>
               ))}
             </div>
+            <img src={imgRegister} alt="Register/Signup form" className="eo-screenshot" />
           </div>
 
           {/* Agency */}
@@ -147,6 +155,7 @@ export default function ExamOne() {
               Click <strong>Create Case</strong> to open the new case form.
             </span>
           </div>
+          <img src={imgCreateCase} alt="Create Case form" className="eo-screenshot" />
         </section>
 
         {/* ── Selections ── */}
@@ -167,17 +176,14 @@ export default function ExamOne() {
           </div>
 
           <div className="eo-carriers">
-            {selections.map((sel) => (
+            {selections.map((sel, i) => (
               <div key={sel.carrier} className="eo-carrier-card">
                 <div className="eo-carrier-header">
                   <span className="eo-carrier-name">{sel.carrier}</span>
                   <span className={`eo-tag eo-tag--${sel.tagColor}`}>{sel.tag}</span>
                 </div>
 
-                <div className="eo-img-placeholder">
-                  <span className="material-icons eo-img-icon">image</span>
-                  <span>Screenshot — {sel.carrier} selections</span>
-                </div>
+                <img src={selectionImages[i]} alt={`${sel.carrier} selections`} className="eo-screenshot" />
 
                 {sel.note && (
                   <div className="eo-carrier-note">
