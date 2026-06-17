@@ -226,6 +226,48 @@
   font-style: italic;
 }
 
+/* ── Register Accounts carrier cards ── */
+.reg-carrier-card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: #fafafa;
+  border: 1px solid #e4ddd5;
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  color: #111827;
+}
+
+.reg-carrier-card:hover {
+  background: #f3ede6;
+  box-shadow: 0 3px 12px rgba(139,99,64,0.1);
+}
+
+.reg-carrier-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(139,99,64,0.14), rgba(139,99,64,0.06));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reg-carrier-icon-wrap .material-icons {
+  font-size: 22px !important;
+  color: #8b6340;
+}
+
+.reg-carrier-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 600px) {
   .info-main { padding: 1.5rem 1rem 4rem; }
 }
