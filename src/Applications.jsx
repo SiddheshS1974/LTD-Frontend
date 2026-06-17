@@ -2,59 +2,77 @@ import { useEffect } from "react";
 import "./Step1.css";
 import "./Applications.css";
 
-const applicantFields = [
-  "Full name",
-  "Postal Address",
-  "Phone number",
-  "Email",
-  "Immigration status — H1B / H4 / Green Card / Citizen",
-  "Current employer name",
-  "Current employment start date",
-  "Occupation details",
-  "Job duties",
-  "Date of Birth",
-  "SSN",
-  "Applicant's personal annual income",
-  "Total household income",
-  "Total household value",
-  "First date of entry into US",
-  "Names of employers and date ranges (if applicant has worked less than 3 years for current employer)",
-  "If applicant is not working — amount of insurance on the spouse",
+const applicantGroups = [
+  {
+    label: "Personal Identity",
+    icon: "badge",
+    fields: ["Full name", "Date of Birth", "SSN", "Driver's license number"],
+  },
+  {
+    label: "Contact",
+    icon: "contact_mail",
+    fields: ["Postal address", "Phone number", "Email"],
+  },
+  {
+    label: "Immigration & Employment",
+    icon: "work",
+    fields: [
+      "Immigration status (H1B / H4 / Green Card / Citizen)",
+      "Current employer name",
+      "Current employment start date",
+      "Occupation details",
+      "Job duties",
+      "First date of entry into US",
+      "Previous employer names and date ranges — only if applicant has worked less than 3 years for their current employer",
+    ],
+  },
+  {
+    label: "Financials",
+    icon: "attach_money",
+    fields: [
+      "Applicant's personal annual income",
+      "Total household income",
+      "Total household value",
+    ],
+  },
 ];
 
-const existingInsuranceFields = [
-  "Company name",
-  "Policy number",
-  "Amount of coverage / benefit",
-  "Year of issue",
-  "Type (Individual / Business / Pending)",
+const applicantConditional = [
+  {
+    condition: "If applicant is not working",
+    fields: ["Amount of insurance on the spouse"],
+  },
+  {
+    condition: "If applicant has existing insurance (for each policy)",
+    fields: [
+      "Company name",
+      "Policy number",
+      "Amount of coverage / benefit",
+      "Year of issue",
+      "Type (Individual / Business / Pending)",
+    ],
+  },
 ];
 
-const ownerFields = [
-  "Full name",
-  "Postal address (if different)",
-  "Phone number",
-  "Email",
-  "Date of Birth",
-  "SSN",
-  "Driver's license number",
-];
-
-const spouseFields = [
-  "Full name",
-  "Postal address (if different)",
-  "Phone number",
-  "Email",
-  "Date of Birth",
-  "SSN",
-];
-
-const kidsFields = [
-  "Full name",
-  "Phone number (if applicable)",
-  "Email",
-  "Date of Birth",
-  "SSN",
+const otherParties = [
+  {
+    label: "Owner",
+    icon: "manage_accounts",
+    optional: "if different from applicant",
+    fields: ["Full name", "Postal address (if different)", "Phone number", "Email", "Date of Birth", "SSN", "Driver's license number"],
+  },
+  {
+    label: "Spouse",
+    icon: "people",
+    optional: "if applicable",
+    fields: ["Full name", "Postal address (if different)", "Phone number", "Email", "Date of Birth", "SSN"],
+  },
+  {
+    label: "Kids",
+    icon: "child_care",
+    optional: "if applicable",
+    fields: ["Full name", "Phone number (if applicable)", "Email", "Date of Birth", "SSN"],
+  },
 ];
 
 const docGroups = [
@@ -157,65 +175,70 @@ export default function Applications() {
             <h2 className="app-section-title">Information for Application</h2>
           </div>
 
-          {/* Applicant */}
-          <div className="app-subsection">
-            <p className="app-subsection-label">
-              <span className="material-icons app-sub-icon">person</span>
-              Applicant
-            </p>
-            <ol className="app-list">
-              {applicantFields.map((f, i) => (
-                <li key={i}>{f}</li>
-              ))}
-              <li>
-                If applicant has existing insurance, for each policy:
-                <ol className="app-list app-list--alpha" type="a">
-                  {existingInsuranceFields.map((f, i) => (
-                    <li key={i}>{f}</li>
+          {/* Applicant — grouped clusters */}
+          <p className="app-subsection-label">
+            <span className="material-icons app-sub-icon">person</span>
+            Applicant
+          </p>
+
+          <div className="app-field-groups">
+            {applicantGroups.map((group) => (
+              <div key={group.label} className="app-field-group">
+                <div className="app-field-group-header">
+                  <span className="material-icons app-field-group-icon">{group.icon}</span>
+                  <span className="app-field-group-label">{group.label}</span>
+                </div>
+                <ul className="app-field-list">
+                  {group.fields.map((f, i) => (
+                    <li key={i}>
+                      <span className="material-icons app-check-icon">check_circle</span>
+                      {f}
+                    </li>
                   ))}
-                </ol>
-              </li>
-              <li>Driver's license number</li>
-            </ol>
+                </ul>
+              </div>
+            ))}
+
+            {/* Conditional fields */}
+            {applicantConditional.map((block) => (
+              <div key={block.condition} className="app-field-group app-field-group--conditional">
+                <div className="app-field-group-header">
+                  <span className="material-icons app-field-group-icon">help_outline</span>
+                  <span className="app-field-group-label">{block.condition}</span>
+                </div>
+                <ul className="app-field-list">
+                  {block.fields.map((f, i) => (
+                    <li key={i}>
+                      <span className="material-icons app-check-icon">check_circle</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
-          {/* Owner */}
-          <div className="app-subsection">
-            <p className="app-subsection-label">
-              <span className="material-icons app-sub-icon">manage_accounts</span>
-              Owner <span className="app-optional">(if different from applicant)</span>
-            </p>
-            <ol className="app-list">
-              {ownerFields.map((f, i) => (
-                <li key={i}>{f}</li>
-              ))}
-            </ol>
-          </div>
-
-          {/* Spouse */}
-          <div className="app-subsection">
-            <p className="app-subsection-label">
-              <span className="material-icons app-sub-icon">people</span>
-              Spouse <span className="app-optional">(if applicable)</span>
-            </p>
-            <ol className="app-list">
-              {spouseFields.map((f, i) => (
-                <li key={i}>{f}</li>
-              ))}
-            </ol>
-          </div>
-
-          {/* Kids */}
-          <div className="app-subsection">
-            <p className="app-subsection-label">
-              <span className="material-icons app-sub-icon">child_care</span>
-              Kids <span className="app-optional">(if applicable)</span>
-            </p>
-            <ol className="app-list">
-              {kidsFields.map((f, i) => (
-                <li key={i}>{f}</li>
-              ))}
-            </ol>
+          {/* Owner / Spouse / Kids grid */}
+          <div className="app-parties-grid">
+            {otherParties.map((party) => (
+              <div key={party.label} className="app-party-card">
+                <div className="app-party-header">
+                  <span className="material-icons app-party-icon">{party.icon}</span>
+                  <div>
+                    <span className="app-party-label">{party.label}</span>
+                    <span className="app-optional"> ({party.optional})</span>
+                  </div>
+                </div>
+                <ul className="app-field-list">
+                  {party.fields.map((f, i) => (
+                    <li key={i}>
+                      <span className="material-icons app-check-icon">check_circle</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </section>
 

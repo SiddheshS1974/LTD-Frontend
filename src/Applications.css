@@ -67,6 +67,107 @@
 .app-tag--amber  { background: #fef3c7; color: #b45309; }
 .app-tag--purple { background: #ede9fe; color: #6d28d9; }
 
+/* ── Field group clusters (Applicant) ── */
+.app-field-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.85rem;
+}
+
+.app-field-group {
+  background: #fafafa;
+  border: 1px solid #e8e3dd;
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.app-field-group--conditional {
+  background: #fffbf5;
+  border-color: #e8d9c8;
+  border-style: dashed;
+}
+
+.app-field-group-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid #ede9e3;
+}
+
+.app-field-group-icon {
+  font-size: 16px !important;
+  color: #8b6340;
+}
+
+.app-field-group-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #5a3a1a;
+}
+
+/* ── Field lists (shared by groups and party cards) ── */
+.app-field-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.app-field-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: 0.86rem;
+  color: #374151;
+  line-height: 1.55;
+}
+
+/* ── Owner / Spouse / Kids grid ── */
+.app-parties-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.app-party-card {
+  background: #fafafa;
+  border: 1px solid #e8e3dd;
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.app-party-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid #ede9e3;
+}
+
+.app-party-icon {
+  font-size: 18px !important;
+  color: #8b6340;
+  flex-shrink: 0;
+}
+
+.app-party-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
 /* ── Sub-sections within a card ── */
 .app-subsection {
   border-left: 3px solid #e4ddd5;
@@ -376,8 +477,14 @@
 }
 
 /* ── Responsive ── */
+@media (max-width: 860px) {
+  .app-parties-grid { grid-template-columns: 1fr 1fr; }
+}
+
 @media (max-width: 640px) {
   .app-main { padding: 1.5rem 1rem 4rem; }
   .app-section { padding: 1.25rem 1.25rem 1.5rem; }
   .app-doc-grid { grid-template-columns: 1fr; }
+  .app-field-groups { grid-template-columns: 1fr; }
+  .app-parties-grid { grid-template-columns: 1fr; }
 }
