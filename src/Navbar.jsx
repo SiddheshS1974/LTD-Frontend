@@ -10,6 +10,20 @@ const isRmd = () => {
   return localStorage.getItem("is_rmd_member") === "true";
 };
 
+const isNewMember = () => {
+  return localStorage.getItem("role") === "New Member";
+};
+
+// New Members only get these six pages in the nav.
+const newMemberNavItems = [
+  { id: "dashboard", label: "Home",            icon: "home",         path: "/home"               },
+  { id: "wills",     label: "Wills & Trust",   icon: "balance",      path: "/wills-trust"        },
+  { id: "brochures", label: "Brochures",       icon: "description",  path: "/brochures"          },
+  { id: "more",      label: "Address Book",    icon: "contacts",     path: "/more/address-book"  },
+  { id: "success",   label: "Success Stories", icon: "emoji_events", path: "/success-stories"    },
+  { id: "members",   label: "Helpful Links",   icon: "link",         path: "/step6"               },
+];
+
 const allNavItems = [
   { id: "dashboard", label: "Home",        icon: "home",      path: "/home"    },
   {
@@ -78,6 +92,7 @@ const pathToNavId = {
   "/more/address-book":      "more",
   "/admin":     "admin",
   "/rmd":       "rmd",
+  "/success-stories": "success",
 };
 
 export default function Navbar() {
@@ -85,11 +100,13 @@ export default function Navbar() {
   const location  = useLocation();
   const navRef    = useRef(null);
 
-  const navItems = allNavItems.filter((item) => {
-    if (item.adminOnly) return isAdmin();
-    if (item.rmdOnly) return isRmd();
-    return true;
-  });
+  const navItems = isNewMember()
+    ? newMemberNavItems
+    : allNavItems.filter((item) => {
+        if (item.adminOnly) return isAdmin();
+        if (item.rmdOnly) return isRmd();
+        return true;
+      });
 
   const indexFromPath = () => {
     const id = pathToNavId[location.pathname] ?? "dashboard";

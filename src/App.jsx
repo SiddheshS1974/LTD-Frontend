@@ -28,11 +28,19 @@ import Setups from "./Setups";
 import RegisterAccounts from "./RegisterAccounts";
 import AddressBook from "./AddressBook";
 import License from "./License";
+import SuccessStories from "./SuccessStories";
 import Layout from "./Layout";
 
 function RmdRoute() {
   const isRmd = localStorage.getItem("is_rmd_member") === "true";
   return isRmd ? <Outlet /> : <Navigate to="/home" replace />;
+}
+
+// New Members only have access to: Home, Wills & Trust, Brochures,
+// Address Book, Success Stories, and Helpful Links (Step 6).
+function NewMemberRoute() {
+  const role = localStorage.getItem("role");
+  return role === "New Member" ? <Navigate to="/home" replace /> : <Outlet />;
 }
 
 function App() {
@@ -50,30 +58,36 @@ function App() {
 
         {/* App routes — share one persistent Navbar via Layout */}
         <Route element={<Layout />}>
-          <Route path="/home"  element={<Home />} />
-          <Route path="/step1" element={<Step1 />} />
-          <Route path="/step2" element={<Step2 />} />
-          <Route path="/step3" element={<Step3 />} />
-          <Route path="/step4" element={<Step4 />} />
-          <Route path="/step5" element={<Step5 />} />
-          <Route path="/step6" element={<Step6 />} />
-          <Route path="/videos/illustrations" element={<Videos />} />
-          <Route path="/videos/application"   element={<Videos />} />
-          <Route path="/videos/stories"       element={<Videos />} />
-          <Route path="/wills-trust" element={<WillsTrust />} />
-          <Route path="/rollovers"   element={<Rollovers />} />
-          <Route path="/brochures"   element={<Brochures />} />
-          <Route path="/license"  element={<License />} />
-          <Route path="/admin"    element={<AdminPanel />} />
-          <Route element={<RmdRoute />}>
-            <Route path="/rmd" element={<RmdPanel />} />
+          {/* Open to all roles, including New Member */}
+          <Route path="/home"              element={<Home />} />
+          <Route path="/wills-trust"       element={<WillsTrust />} />
+          <Route path="/brochures"         element={<Brochures />} />
+          <Route path="/more/address-book" element={<AddressBook />} />
+          <Route path="/success-stories"   element={<SuccessStories />} />
+          <Route path="/step6"             element={<Step6 />} />
+
+          {/* Restricted from New Members */}
+          <Route element={<NewMemberRoute />}>
+            <Route path="/step1" element={<Step1 />} />
+            <Route path="/step2" element={<Step2 />} />
+            <Route path="/step3" element={<Step3 />} />
+            <Route path="/step4" element={<Step4 />} />
+            <Route path="/step5" element={<Step5 />} />
+            <Route path="/videos/illustrations" element={<Videos />} />
+            <Route path="/videos/application"   element={<Videos />} />
+            <Route path="/videos/stories"       element={<Videos />} />
+            <Route path="/rollovers" element={<Rollovers />} />
+            <Route path="/license"   element={<License />} />
+            <Route path="/admin"     element={<AdminPanel />} />
+            <Route element={<RmdRoute />}>
+              <Route path="/rmd" element={<RmdPanel />} />
+            </Route>
+            <Route path="/more/information"       element={<Information />} />
+            <Route path="/more/applications"      element={<Applications />} />
+            <Route path="/more/examone"           element={<ExamOne />} />
+            <Route path="/more/setups"            element={<Setups />} />
+            <Route path="/more/register-accounts" element={<RegisterAccounts />} />
           </Route>
-          <Route path="/more/information"       element={<Information />} />
-          <Route path="/more/applications"      element={<Applications />} />
-          <Route path="/more/examone"           element={<ExamOne />} />
-          <Route path="/more/setups"            element={<Setups />} />
-          <Route path="/more/register-accounts" element={<RegisterAccounts />} />
-          <Route path="/more/address-book"      element={<AddressBook />} />
         </Route>
       </Routes>
     </BrowserRouter>
