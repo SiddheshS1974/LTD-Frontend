@@ -14,16 +14,6 @@ const isNewMember = () => {
   return localStorage.getItem("role") === "New Member";
 };
 
-// New Members only get these six pages in the nav.
-const newMemberNavItems = [
-  { id: "dashboard", label: "Home",            icon: "home",         path: "/home"               },
-  { id: "wills",     label: "Wills & Trust",   icon: "balance",      path: "/wills-trust"        },
-  { id: "brochures", label: "Brochures",       icon: "description",  path: "/brochures"          },
-  { id: "more",      label: "Address Book",    icon: "contacts",     path: "/more/address-book"  },
-  { id: "success",   label: "Success Stories", icon: "emoji_events", path: "/success-stories"    },
-  { id: "members",   label: "Helpful Links",   icon: "link",         path: "/step6"               },
-];
-
 const allNavItems = [
   { id: "dashboard", label: "Home",        icon: "home",      path: "/home"    },
   {
@@ -31,40 +21,41 @@ const allNavItems = [
     label: "LFS 6 Basics",
     icon: "contacts",
     dropdown: [
-      { label: "Step 1 — Prospecting & List Building", icon: "edit_note",        path: "/step1" },
-      { label: "Step 2 — Approach & Contact",          icon: "record_voice_over", path: "/step2" },
-      { label: "Step 3 — Presentation",                icon: "present_to_all",    path: "/step3" },
-      { label: "Step 4 — Follow Up (FLS)",             icon: "follow_the_signs",  path: "/step4" },
-      { label: "Step 5 — Follow Up (Business)",        icon: "handshake",         path: "/step5" },
+      { label: "Step 1 — Prospecting & List Building", icon: "edit_note",        path: "/step1", restricted: true },
+      { label: "Step 2 — Approach & Contact",          icon: "record_voice_over", path: "/step2", restricted: true },
+      { label: "Step 3 — Presentation",                icon: "present_to_all",    path: "/step3", restricted: true },
+      { label: "Step 4 — Follow Up (FLS)",             icon: "follow_the_signs",  path: "/step4", restricted: true },
+      { label: "Step 5 — Follow Up (Business)",        icon: "handshake",         path: "/step5", restricted: true },
       { label: "Step 6 — Miscellaneous",               icon: "fact_check",        path: "/step6" },
     ],
   },
   { id: "wills",     label: "Wills & Trust", icon: "balance",           path: "/wills-trust" },
-  { id: "rollovers", label: "Rollovers",     icon: "currency_exchange",  path: "/rollovers"   },
+  { id: "rollovers", label: "Rollovers",     icon: "currency_exchange",  path: "/rollovers",  restricted: true },
   {
     id: "videos",
     label: "Solutions Videos",
     icon: "ondemand_video",
     dropdown: [
-      { label: "Illustrations", icon: "auto_stories",    path: "/videos/illustrations" },
-      { label: "Application",   icon: "app_registration", path: "/videos/application"   },
-      { label: "Stories",       icon: "menu_book",        path: "/videos/stories"       },
+      { label: "Illustrations", icon: "auto_stories",    path: "/videos/illustrations", restricted: true },
+      { label: "Application",   icon: "app_registration", path: "/videos/application",  restricted: true },
+      { label: "Stories",       icon: "menu_book",        path: "/videos/stories",       restricted: true },
     ],
   },
   { id: "brochures", label: "Brochures",        icon: "description",        path: "/brochures" },
-  { id: "license",   label: "License",          icon: "card_membership",    path: "/license"   },
+  { id: "license",   label: "License",          icon: "card_membership",    path: "/license", restricted: true },
   {
     id: "more",
     label: "More",
     icon: "more_horiz",
     dropdown: [
-      { label: "Information",                icon: "info",        path: "/more/information"       },
-      { label: "Applications & Medical Exams", icon: "assignment",  path: "/more/applications"      },
-      { label: "Setups",                     icon: "settings",    path: "/more/setups"            },
-      { label: "Register Accounts",          icon: "how_to_reg",  path: "/more/register-accounts" },
+      { label: "Information",                icon: "info",        path: "/more/information",       restricted: true },
+      { label: "Applications & Medical Exams", icon: "assignment",  path: "/more/applications",      restricted: true },
+      { label: "Setups",                     icon: "settings",    path: "/more/setups",            restricted: true },
+      { label: "Register Accounts",          icon: "how_to_reg",  path: "/more/register-accounts", restricted: true },
       { label: "Address Book",               icon: "contacts",    path: "/more/address-book"      },
     ],
   },
+  { id: "success",   label: "Success Stories",  icon: "emoji_events",       path: "/success-stories" },
   { id: "admin",     label: "Admin",            icon: "manage_accounts",    path: "/admin",  adminOnly: true },
   { id: "rmd",       label: "RMD Panel",        icon: "supervisor_account", path: "/rmd",    rmdOnly: true   },
 ];
@@ -100,13 +91,11 @@ export default function Navbar() {
   const location  = useLocation();
   const navRef    = useRef(null);
 
-  const navItems = isNewMember()
-    ? newMemberNavItems
-    : allNavItems.filter((item) => {
-        if (item.adminOnly) return isAdmin();
-        if (item.rmdOnly) return isRmd();
-        return true;
-      });
+  const navItems = allNavItems.filter((item) => {
+    if (item.adminOnly) return isAdmin();
+    if (item.rmdOnly) return isRmd();
+    return true;
+  });
 
   const indexFromPath = () => {
     const id = pathToNavId[location.pathname] ?? "dashboard";
@@ -147,10 +136,11 @@ export default function Navbar() {
   }, [location.pathname]);
 
   const handleNavClick = (index, item) => {
-    setSelectorIndex(index);
     if (item.dropdown) {
+      setSelectorIndex(index);
       setOpenDropdown(openDropdown === index ? null : index);
-    } else {
+    } else if (!(item.restricted && isNewMember())) {
+      setSelectorIndex(index);
       setOpenDropdown(null);
       if (item.path) navigate(item.path);
     }
@@ -194,35 +184,45 @@ export default function Navbar() {
           <div className="selector-right" />
         </div>
 
-        {navItems.map((item, index) => (
-          <li
-            key={item.id}
-            className={`nav-item ${selectorIndex === index ? "active" : ""}`}
-            onClick={() => handleNavClick(index, item)}
-          >
-            <span className="material-icons nav-icon">{item.icon}</span>
-            <span className="nav-label">{item.label}</span>
-            {item.dropdown && (
-              <span className="material-icons" style={{ fontSize: "16px" }}>
-                {openDropdown === index ? "expand_less" : "expand_more"}
-              </span>
-            )}
-          </li>
-        ))}
+        {navItems.map((item, index) => {
+          const disabled = item.restricted && isNewMember();
+          return (
+            <li
+              key={item.id}
+              className={`nav-item ${selectorIndex === index ? "active" : ""} ${disabled ? "disabled" : ""}`}
+              onClick={() => handleNavClick(index, item)}
+            >
+              <span className="material-icons nav-icon">{item.icon}</span>
+              <span className="nav-label">{item.label}</span>
+              {item.dropdown && (
+                <span className="material-icons" style={{ fontSize: "16px" }}>
+                  {openDropdown === index ? "expand_less" : "expand_more"}
+                </span>
+              )}
+            </li>
+          );
+        })}
       </ul>
 
       {openDropdown !== null && navItems[openDropdown]?.dropdown && (
         <div className="dropdown-menu" style={{ left: getDropdownLeft() }}>
-          {navItems[openDropdown].dropdown.map((d, i) => (
-            <div
-              key={i}
-              className="dropdown-item"
-              onClick={() => { setOpenDropdown(null); if (d.path) navigate(d.path); }}
-            >
-              <span className="material-icons dropdown-item-icon">{d.icon}</span>
-              <span>{d.label}</span>
-            </div>
-          ))}
+          {navItems[openDropdown].dropdown.map((d, i) => {
+            const disabled = d.restricted && isNewMember();
+            return (
+              <div
+                key={i}
+                className={`dropdown-item ${disabled ? "disabled" : ""}`}
+                onClick={() => {
+                  if (disabled) return;
+                  setOpenDropdown(null);
+                  if (d.path) navigate(d.path);
+                }}
+              >
+                <span className="material-icons dropdown-item-icon">{d.icon}</span>
+                <span>{d.label}</span>
+              </div>
+            );
+          })}
         </div>
       )}
 

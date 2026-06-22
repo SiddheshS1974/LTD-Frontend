@@ -95,6 +95,8 @@
 }
 
 .nav-item.active { color: #fff; font-weight: 600; }
+.nav-item.disabled { color: rgba(255,255,255,0.3); cursor: not-allowed; }
+.nav-item.disabled:hover { color: rgba(255,255,255,0.3); }
 .nav-icon { font-size: 16px !important; }
 
 .logout-btn {
@@ -168,6 +170,10 @@
 
 .dropdown-item:hover  { background: #fdf4ec; color: #5a3010; }
 .dropdown-item-icon   { font-size: 18px !important; color: #8b6340; }
+
+.dropdown-item.disabled              { color: #b9b9b9; cursor: not-allowed; }
+.dropdown-item.disabled:hover        { background: none; color: #b9b9b9; }
+.dropdown-item.disabled .dropdown-item-icon { color: #c9bdb3; }
 
 /* ════════════════════════════════
    Hero Cover
