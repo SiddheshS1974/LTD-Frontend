@@ -53,9 +53,9 @@ const allNavItems = [
       { label: "Setups",                     icon: "settings",    path: "/more/setups",            restricted: true },
       { label: "Register Accounts",          icon: "how_to_reg",  path: "/more/register-accounts", restricted: true },
       { label: "Address Book",               icon: "contacts",    path: "/more/address-book"      },
+      { label: "Success Stories",            icon: "emoji_events", path: "/success-stories"       },
     ],
   },
-  { id: "success",   label: "Success Stories",  icon: "emoji_events",       path: "/success-stories" },
   { id: "admin",     label: "Admin",            icon: "manage_accounts",    path: "/admin",  adminOnly: true },
   { id: "rmd",       label: "RMD Panel",        icon: "supervisor_account", path: "/rmd",    rmdOnly: true   },
 ];
@@ -83,7 +83,7 @@ const pathToNavId = {
   "/more/address-book":      "more",
   "/admin":     "admin",
   "/rmd":       "rmd",
-  "/success-stories": "success",
+  "/success-stories": "more",
 };
 
 export default function Navbar() {
