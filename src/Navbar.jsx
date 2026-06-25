@@ -39,7 +39,7 @@ const allNavItems = [
   { id: "rollovers",      label: "Rollovers",       icon: "currency_exchange", path: "/rollovers", restricted: true },
   {
     id: "videos",
-    label: "Solutions Videos",
+    label: "Videos",
     icon: "ondemand_video",
     restricted: true,
     dropdown: [
