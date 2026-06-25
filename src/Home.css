@@ -97,7 +97,7 @@
 .nav-item.active { color: #fff; font-weight: 600; }
 .nav-item.disabled { color: rgba(255,255,255,0.3); cursor: not-allowed; }
 .nav-item.disabled:hover { color: rgba(255,255,255,0.3); }
-.nav-icon { font-size: 14px !important; }
+.nav-icon { display: none; }
 
 .logout-btn {
   flex-shrink: 0;
