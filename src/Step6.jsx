@@ -17,15 +17,6 @@ const presentations = [
   },
 ];
 
-const helpfulLinks = [
-  { url: "https://vanguardcollege.ssnc.cloud/csp.php",                                                                                                                                                   label: "Vanguard College Savings Planner",         icon: "school"        },
-  { url: "https://www.forbes.com/advisor/income-tax-calculator/georgia/?deductions=0&dependents=0&filing=married&income=230000&ira=0&k401=0",                                                            label: "Effective Income Tax Calculator (Forbes)", icon: "calculate"     },
-  { url: "https://www.bankrate.com/retirement/calculators/401-k-retirement-calculator/",                                                                                                                  label: "Bank Rate 401K Calculator",               icon: "savings"       },
-  { url: "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator",                                                                                                 label: "Compound Interest Calculator",            icon: "trending_up"   },
-  { url: "https://www.fdic.gov/resources/deposit-insurance/understanding-deposit-insurance/",                                                                                                             label: "Info About FDIC",                         icon: "account_balance"},
-  { url: "https://econnections.aglife.com/MVC/QoLRapidRater",                                                                                                                                            label: "AIG QoL Rapid Rater",                     icon: "speed"         },
-  { url: "https://smartasset.com/taxes/income-taxes",                                                                                                                                                    label: "Effective Income Tax Calculator (SmartAsset)", icon: "receipt_long"},
-];
 
 export default function Step6() {
   useEffect(() => {
@@ -90,29 +81,6 @@ export default function Step6() {
                   </a>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Helpful Links ── */}
-        <section className="s6-section">
-          <div className="s6-section-header">
-            <span className="material-icons s6-section-icon">link</span>
-            <h2 className="s6-section-title">Helpful Links</h2>
-          </div>
-          <div className="s6-links-grid">
-            {helpfulLinks.map((item) => (
-              <a
-                key={item.url}
-                href={item.url}
-                target="_blank"
-                rel="noreferrer"
-                className="s6-link-card"
-              >
-                <span className="material-icons s6-link-icon">{item.icon}</span>
-                <span className="s6-link-label">{item.label}</span>
-                <span className="material-icons s6-link-arrow">open_in_new</span>
-              </a>
             ))}
           </div>
         </section>

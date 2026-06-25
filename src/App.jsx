@@ -29,6 +29,7 @@ import RegisterAccounts from "./RegisterAccounts";
 import AddressBook from "./AddressBook";
 import License from "./License";
 import SuccessStories from "./SuccessStories";
+import HelpfulLinks from "./HelpfulLinks";
 import Layout from "./Layout";
 
 function RmdRoute() {
@@ -64,6 +65,7 @@ function App() {
           <Route path="/brochures"         element={<Brochures />} />
           <Route path="/more/address-book" element={<AddressBook />} />
           <Route path="/success-stories"   element={<SuccessStories />} />
+          <Route path="/helpful-links"     element={<HelpfulLinks />} />
           <Route path="/step6"             element={<Step6 />} />
 
           {/* Restricted from New Members */}

@@ -104,7 +104,7 @@ export default function AddressBook() {
     <div className="step-page">
       <header className="step-header">
         <div className="step-header-inner">
-          <span className="step-number-badge">More</span>
+          <span className="step-number-badge">Contacts</span>
           <h1 className="step-title">Address Book</h1>
           <p className="step-subtitle">
             Key contacts for each carrier. Keep your agent number handy when calling.
