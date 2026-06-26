@@ -6,12 +6,11 @@
 
 .s3-seg {
   display: inline-flex;
-  align-self: center;
+  margin: 0 auto 0.5rem;
   background: #f0ece7;
   border-radius: 10px;
   padding: 3px;
   gap: 3px;
-  margin-bottom: 0.5rem;
 }
 
 .s3-seg-btn {
