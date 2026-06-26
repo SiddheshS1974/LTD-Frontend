@@ -78,7 +78,7 @@ export default function Step6() {
               className={`s6-seg-btn ${presTab === "other" ? "s6-seg-btn--active" : ""}`}
               onClick={() => setPresTab("other")}
             >
-              Presentations
+              SOP
             </button>
           </div>
 
