@@ -38,6 +38,7 @@ export default function AdminPanel() {
   const [pendingLoading, setPendingLoading] = useState(false);
   const [pendingError, setPendingError] = useState("");
   const [confirmDeletePendingId, setConfirmDeletePendingId] = useState(null);
+  const [confirmApprovePendingId, setConfirmApprovePendingId] = useState(null);
 
   const [rmdQuery, setRmdQuery] = useState("");
   const [rmdProfiles, setRmdProfiles] = useState([]);
@@ -130,11 +131,30 @@ export default function AdminPanel() {
         headers: { Authorization: `Token ${token}` },
       });
       if (!res.ok) {
-        setPendingError("Failed to delete pending user.");
+        setPendingError("Failed to deny request.");
         return;
       }
       setPendingUsers((prev) => prev.filter((p) => p.id !== id));
       setConfirmDeletePendingId(null);
+    } catch {
+      setPendingError("Network error. Please try again.");
+    }
+  };
+
+  const handleApprovePending = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/pending-users/${id}/approve/`, {
+        method: "POST",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setPendingError(data.error || "Failed to approve request.");
+        return;
+      }
+      setPendingUsers((prev) => prev.map((p) => p.id === id ? { ...p, is_approved: true } : p));
+      setConfirmApprovePendingId(null);
     } catch {
       setPendingError("Network error. Please try again.");
     }
@@ -1106,20 +1126,37 @@ export default function AdminPanel() {
                         </td>
                         <td>{fmt(p.created_at)}</td>
                         <td>
-                          {confirmDeletePendingId === p.id ? (
+                          {confirmApprovePendingId === p.id ? (
                             <div className="admin-confirm-delete">
-                              <span className="admin-confirm-text">Cancel?</span>
+                              <span className="admin-confirm-text">Approve?</span>
+                              <button className="admin-btn admin-btn-save" onClick={() => handleApprovePending(p.id)}>Yes</button>
+                              <button className="admin-btn admin-btn-cancel" onClick={() => setConfirmApprovePendingId(null)}>No</button>
+                            </div>
+                          ) : confirmDeletePendingId === p.id ? (
+                            <div className="admin-confirm-delete">
+                              <span className="admin-confirm-text">Deny?</span>
                               <button className="admin-btn admin-btn-danger" onClick={() => handleDeletePending(p.id)}>Yes</button>
                               <button className="admin-btn admin-btn-cancel" onClick={() => setConfirmDeletePendingId(null)}>No</button>
                             </div>
                           ) : (
-                            <button
-                              className="admin-btn admin-btn-delete"
-                              title="Cancel request"
-                              onClick={() => setConfirmDeletePendingId(p.id)}
-                            >
-                              <span className="material-icons">delete</span>
-                            </button>
+                            <div className="admin-actions">
+                              {!p.is_approved && (
+                                <button
+                                  className="admin-btn admin-btn-activate"
+                                  title="Approve request"
+                                  onClick={() => { setConfirmApprovePendingId(p.id); setConfirmDeletePendingId(null); }}
+                                >
+                                  <span className="material-icons">check_circle</span>
+                                </button>
+                              )}
+                              <button
+                                className="admin-btn admin-btn-delete"
+                                title="Deny request"
+                                onClick={() => { setConfirmDeletePendingId(p.id); setConfirmApprovePendingId(null); }}
+                              >
+                                <span className="material-icons">cancel</span>
+                              </button>
+                            </div>
                           )}
                         </td>
                       </tr>

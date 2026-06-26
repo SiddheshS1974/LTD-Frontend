@@ -15,6 +15,13 @@ export default function RmdPanel() {
   const [pendingRole, setPendingRole] = useState("");
   const [confirmToggleId, setConfirmToggleId] = useState(null);
 
+  const [activeTab, setActiveTab] = useState("members");
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [pendingLoading, setPendingLoading] = useState(false);
+  const [pendingError, setPendingError] = useState("");
+  const [confirmApprovePendingId, setConfirmApprovePendingId] = useState(null);
+  const [confirmDenyPendingId, setConfirmDenyPendingId] = useState(null);
+
   const hasDirectAccess = localStorage.getItem("can_receive_requests") === "true";
 
   useEffect(() => {
@@ -42,6 +49,16 @@ export default function RmdPanel() {
       .then((data) => { setMembers(data); setLoading(false); })
       .catch((err) => { setError(err.message); setLoading(false); });
   }, []);
+
+  useEffect(() => {
+    if (activeTab !== "pending" || !hasDirectAccess) return;
+    setPendingLoading(true);
+    const token = localStorage.getItem("token");
+    fetch(`${API}/api/v1/rmd/pending/`, { headers: { Authorization: `Token ${token}` } })
+      .then((res) => { if (!res.ok) throw new Error("Failed to load pending requests."); return res.json(); })
+      .then((data) => { setPendingRequests(data); setPendingLoading(false); })
+      .catch((err) => { setPendingError(err.message); setPendingLoading(false); });
+  }, [activeTab]);
 
   const handleToggleActive = async (userId) => {
     const token = localStorage.getItem("token");
@@ -84,6 +101,43 @@ export default function RmdPanel() {
     }
   };
 
+  const handleApprovePending = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/pending-users/${id}/approve/`, {
+        method: "POST",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setPendingError(data.error || "Failed to approve request.");
+        return;
+      }
+      setPendingRequests((prev) => prev.map((p) => p.id === id ? { ...p, is_approved: true } : p));
+      setConfirmApprovePendingId(null);
+    } catch {
+      setPendingError("Network error. Please try again.");
+    }
+  };
+
+  const handleDenyPending = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/pending-users/${id}/`, {
+        method: "DELETE",
+        headers: { Authorization: `Token ${token}` },
+      });
+      if (!res.ok) {
+        setPendingError("Failed to deny request.");
+        return;
+      }
+      setPendingRequests((prev) => prev.filter((p) => p.id !== id));
+      setConfirmDenyPendingId(null);
+    } catch {
+      setPendingError("Network error. Please try again.");
+    }
+  };
+
   const q = query.toLowerCase();
   const filtered = members.filter((u) =>
     [u.username, u.first_name, u.last_name, u.email, u.hgi_code, u.role]
@@ -100,7 +154,32 @@ export default function RmdPanel() {
   return (
     <div className="admin-page">
       <main className="admin-content">
-        <div className="admin-panel">
+
+        <div className="admin-tabs">
+          <button
+            className={`admin-tab ${activeTab === "members" ? "admin-tab-active" : ""}`}
+            onClick={() => setActiveTab("members")}
+          >
+            <span className="material-icons">group</span>
+            My Members
+          </button>
+          {hasDirectAccess && (
+            <button
+              className={`admin-tab ${activeTab === "pending" ? "admin-tab-active" : ""}`}
+              onClick={() => setActiveTab("pending")}
+            >
+              <span className="material-icons">pending</span>
+              Pending Approvals
+              {pendingRequests.filter((p) => !p.is_approved).length > 0 && (
+                <span className="admin-pending-badge">
+                  {pendingRequests.filter((p) => !p.is_approved).length}
+                </span>
+              )}
+            </button>
+          )}
+        </div>
+
+        {activeTab === "members" && <div className="admin-panel">
           <section className="admin-header">
             <p className="admin-eyebrow">RMD Dashboard</p>
             <h2 className="admin-title">My Members</h2>
@@ -271,7 +350,108 @@ export default function RmdPanel() {
               </div>
             )}
           </section>
-        </div>
+        </div>}
+
+        {activeTab === "pending" && hasDirectAccess && <div className="admin-panel">
+          <section className="admin-header">
+            <p className="admin-eyebrow">RMD Dashboard</p>
+            <h2 className="admin-title">Pending Approvals</h2>
+            <p className="admin-sub">
+              Signup requests from members who selected you as their upline RMD.
+            </p>
+          </section>
+
+          {pendingError && (
+            <div className="admin-action-error">
+              <span className="material-icons" style={{ fontSize: 18 }}>error_outline</span>
+              {pendingError}
+              <button className="admin-dismiss" onClick={() => setPendingError("")}>×</button>
+            </div>
+          )}
+
+          <section className="admin-results">
+            {pendingLoading && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">hourglass_empty</span>
+                <p>Loading pending approvals…</p>
+              </div>
+            )}
+            {!pendingLoading && pendingRequests.length === 0 && (
+              <div className="admin-state">
+                <span className="material-icons admin-state-icon">check_circle</span>
+                <p>No pending approvals.</p>
+              </div>
+            )}
+            {!pendingLoading && pendingRequests.length > 0 && (
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>HGI Code</th>
+                      <th>Status</th>
+                      <th>Submitted</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingRequests.map((p) => (
+                      <tr key={p.id}>
+                        <td className="admin-td-name">
+                          <span className="admin-full-name">{p.first_name} {p.last_name}</span>
+                        </td>
+                        <td className="admin-td-mono">{p.email}</td>
+                        <td className="admin-td-mono">{p.hgi_code || "—"}</td>
+                        <td>
+                          <span className={`admin-status-badge ${p.is_approved ? "admin-status-active" : "admin-status-inactive"}`}>
+                            {p.is_approved ? "Approved — Awaiting Setup" : "Awaiting Approval"}
+                          </span>
+                        </td>
+                        <td>{fmt(p.created_at)}</td>
+                        <td>
+                          {confirmApprovePendingId === p.id ? (
+                            <div className="admin-confirm-delete">
+                              <span className="admin-confirm-text">Approve?</span>
+                              <button className="admin-btn admin-btn-save" onClick={() => handleApprovePending(p.id)}>Yes</button>
+                              <button className="admin-btn admin-btn-cancel" onClick={() => setConfirmApprovePendingId(null)}>No</button>
+                            </div>
+                          ) : confirmDenyPendingId === p.id ? (
+                            <div className="admin-confirm-delete">
+                              <span className="admin-confirm-text">Deny?</span>
+                              <button className="admin-btn admin-btn-danger" onClick={() => handleDenyPending(p.id)}>Yes</button>
+                              <button className="admin-btn admin-btn-cancel" onClick={() => setConfirmDenyPendingId(null)}>No</button>
+                            </div>
+                          ) : (
+                            <div className="admin-actions">
+                              {!p.is_approved && (
+                                <button
+                                  className="admin-btn admin-btn-activate"
+                                  title="Approve request"
+                                  onClick={() => { setConfirmApprovePendingId(p.id); setConfirmDenyPendingId(null); }}
+                                >
+                                  <span className="material-icons">check_circle</span>
+                                </button>
+                              )}
+                              <button
+                                className="admin-btn admin-btn-delete"
+                                title="Deny request"
+                                onClick={() => { setConfirmDenyPendingId(p.id); setConfirmApprovePendingId(null); }}
+                              >
+                                <span className="material-icons">cancel</span>
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        </div>}
+
       </main>
     </div>
   );
