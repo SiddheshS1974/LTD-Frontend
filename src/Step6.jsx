@@ -1,24 +1,34 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Step6.css";
 
-const presentations = [
+const bopPresentations = [
   {
-    id: "1Wx3ZsSr8uLdt55ZWYkCeByGIzh-6rcdk",
-    title: "Effect of Economy",
-    desc: "Shows the effects of an economic downturn on various financial vehicles.",
-    icon: "show_chart",
-  },
-  {
-    id: "1hDQ1aWfTQEgyUxVpujTc8BrDkgVFpANZ",
-    title: "Comparisons",
-    desc: "Compares features of different financial vehicles to show the value of diversification.",
-    icon: "compare_arrows",
+    id: "1rfoaufbnE5_UhyxBcYdy3EGaprMGgk1t",
+    title: "BOP US",
+    desc: "Business Opportunity Presentation. Show this to clients who are interested in joining the business.",
+    icon: "business_center",
   },
 ];
 
+const otherPresentations = [
+  {
+    id: "1Wx3ZsSr8uLdt55ZWYkCeByGIzh-6rcdk",
+    title: "Financial Literacy & Estate Planning",
+    desc: "In-person group session presentation covering financial literacy and estate planning concepts.",
+    icon: "account_balance",
+  },
+  {
+    id: "17TJ1jJezCmUrxpaEemOCl4TYILCYeXtb",
+    title: "Retirement Calculations",
+    desc: "Spreadsheet for retirement calculations. Walk clients through the numbers to illustrate their retirement gap.",
+    icon: "savings",
+  },
+];
 
 export default function Step6() {
+  const [presTab, setPresTab] = useState("bop");
+
   useEffect(() => {
     const b = document.body;
     const prev = {
@@ -31,6 +41,8 @@ export default function Step6() {
     b.style.flexDirection = ""; b.style.overflow = "";
     return () => Object.assign(b.style, prev);
   }, []);
+
+  const activePresentations = presTab === "bop" ? bopPresentations : otherPresentations;
 
   return (
     <div className="step-page">
@@ -53,8 +65,25 @@ export default function Step6() {
             <span className="material-icons s6-section-icon">slideshow</span>
             <h2 className="s6-section-title">Presentations</h2>
           </div>
+
+          {/* Segmented tab switcher */}
+          <div className="s6-seg">
+            <button
+              className={`s6-seg-btn ${presTab === "bop" ? "s6-seg-btn--active" : ""}`}
+              onClick={() => setPresTab("bop")}
+            >
+              BOP
+            </button>
+            <button
+              className={`s6-seg-btn ${presTab === "other" ? "s6-seg-btn--active" : ""}`}
+              onClick={() => setPresTab("other")}
+            >
+              Presentations
+            </button>
+          </div>
+
           <div className="s6-cards-grid">
-            {presentations.map((p) => (
+            {activePresentations.map((p) => (
               <div key={p.id} className="s6-pres-card">
                 <div className="s6-iframe-clip">
                   <iframe

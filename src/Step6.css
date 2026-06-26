@@ -48,6 +48,40 @@
 }
 
 /* ══════════════════════════════════════
+   Segmented tab switcher (iOS/Android style)
+   ══════════════════════════════════════ */
+
+.s6-seg {
+  display: inline-flex;
+  align-self: flex-start;
+  background: #f0ece7;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.s6-seg-btn {
+  padding: 7px 22px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  white-space: nowrap;
+}
+
+.s6-seg-btn--active {
+  background: #fff;
+  color: #1f2937;
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+/* ══════════════════════════════════════
    Presentation cards — 2-column grid
    ══════════════════════════════════════ */
 
