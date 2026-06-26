@@ -335,10 +335,16 @@ export default function Applications() {
               ExamOne
               <span className="material-icons" style={{ fontSize: 14, marginLeft: 2 }}>arrow_forward</span>
             </button>
-            <div className="app-provider-chip">
+            <a
+              href="https://www.appsparamedical.com/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="app-provider-chip app-provider-chip--link"
+            >
               <span className="material-icons" style={{ fontSize: 16 }}>science</span>
               APPS
-            </div>
+              <span className="material-icons" style={{ fontSize: 14, marginLeft: 2 }}>arrow_forward</span>
+            </a>
           </div>
 
           <div className="app-note" style={{ marginBottom: "1rem" }}>

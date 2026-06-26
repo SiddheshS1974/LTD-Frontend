@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step3.css";
 
-const presentations = [
+const bopPresentations = [
   {
     id: "bop",
     icon: "business_center",
@@ -19,6 +19,9 @@ const presentations = [
       "https://drive.google.com/file/d/1rfoaufbnE5_UhyxBcYdy3EGaprMGgk1t/view?usp=drivesdk",
     fileType: "Presentation",
   },
+];
+
+const sopPresentations = [
   {
     id: "finlit",
     icon: "account_balance",
@@ -55,6 +58,9 @@ const presentations = [
 ];
 
 export default function Step3() {
+  const [activeTab, setActiveTab] = useState("bop");
+  const presentations = activeTab === "bop" ? bopPresentations : sopPresentations;
+
   useEffect(() => {
     const b = document.body;
     const prev = {
@@ -110,6 +116,22 @@ export default function Step3() {
               <div className="s3-stat-label">Defined Next Steps</div>
             </div>
           </div>
+        </div>
+
+        {/* Tab switcher */}
+        <div className="s3-seg">
+          <button
+            className={`s3-seg-btn ${activeTab === "bop" ? "s3-seg-btn--active" : ""}`}
+            onClick={() => setActiveTab("bop")}
+          >
+            BOP
+          </button>
+          <button
+            className={`s3-seg-btn ${activeTab === "sop" ? "s3-seg-btn--active" : ""}`}
+            onClick={() => setActiveTab("sop")}
+          >
+            SOP
+          </button>
         </div>
 
         {/* Presentation cards */}
