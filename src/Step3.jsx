@@ -208,7 +208,7 @@ export default function Step3() {
         </div>
 
         {/* Videos section */}
-        <section className="s3-videos-section">
+        {activeTab === "bop" && <section className="s3-videos-section">
           <div className="s3-videos-header">
             <span className="material-icons s3-videos-header-icon">ondemand_video</span>
             <div>
@@ -230,7 +230,7 @@ export default function Step3() {
               </div>
             ))}
           </div>
-        </section>
+        </section>}
 
       </main>
     </div>
