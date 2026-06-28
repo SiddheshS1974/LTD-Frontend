@@ -140,10 +140,10 @@ export default function Navbar() {
     setOpenSidebarDropdown(null);
   }, [location.pathname]);
 
-  // Prevent body scroll when sidebar is open
+  // Prevent body scroll when sidebar is open (use class to avoid stomping on page inline styles)
   useEffect(() => {
-    document.body.style.overflow = sidebarOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    document.body.classList.toggle("sidebar-open", sidebarOpen);
+    return () => document.body.classList.remove("sidebar-open");
   }, [sidebarOpen]);
 
   const handleNavClick = (index, item) => {
@@ -190,6 +190,11 @@ export default function Navbar() {
   return (
     <>
       <nav className="navbar-mainbg sticky-nav" onClick={(e) => e.stopPropagation()}>
+        {/* Hamburger — mobile only, appears far-left */}
+        <button className="hamburger-btn" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
+          <span className="material-icons">menu</span>
+        </button>
+
         <div className="navbar-brand" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
           <span className="brand-main">LTD</span>
           <span className="brand-sub">Learn · Teach · Duplicate</span>
@@ -246,11 +251,6 @@ export default function Navbar() {
         <button className="logout-btn" onClick={doLogout}>
           <span className="material-icons" style={{ fontSize: "11px" }}>logout</span>
           Logout
-        </button>
-
-        {/* Hamburger — mobile only */}
-        <button className="hamburger-btn" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
-          <span className="material-icons">menu</span>
         </button>
       </nav>
 

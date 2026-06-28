@@ -410,7 +410,10 @@
   .home-steps-grid  { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ── Hamburger button (hidden on desktop) ── */
+/* Prevent scroll when sidebar is open */
+body.sidebar-open { overflow: hidden; }
+
+/* ── Hamburger button (hidden on desktop, far-left on mobile) ── */
 .hamburger-btn {
   display: none;
   background: transparent;
@@ -418,7 +421,6 @@
   color: rgba(255,255,255,0.9);
   cursor: pointer;
   padding: 6px;
-  margin-left: auto;
   border-radius: 8px;
   align-items: center;
   justify-content: center;
@@ -572,12 +574,31 @@
 .sidebar-logout:hover { background: rgba(255,255,255,0.07); color: #fff; }
 .sidebar-logout .material-icons { font-size: 20px !important; }
 
+/* Fix sidebar icon + label vertical alignment */
+.sidebar-item-icon,
+.sidebar-dropdown-icon,
+.sidebar-chevron,
+.sidebar-close .material-icons,
+.sidebar-logout .material-icons {
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Indent dropdown items so text aligns under parent label (icon 20px + gap 0.85rem + pad 1.1rem) */
+.sidebar-dropdown-item {
+  padding-left: calc(1.1rem + 20px + 0.85rem);
+}
+
 /* ── Switch to hamburger nav on mobile / small tablets ── */
 @media (max-width: 960px) {
   .hamburger-btn { display: flex; }
   .navbar-nav    { display: none; }
   .logout-btn    { display: none; }
-  .navbar-mainbg { padding: 0 1rem; }
+  .navbar-mainbg { padding: 0 0.75rem; }
+  /* Keep navbar exactly 56px tall (matches pages' padding-top: 56px clearance) */
+  .navbar-brand  { padding: 15px 0; }
+  .brand-sub     { display: none; }
 }
 
 /* Mobile */
