@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "./AdminPanel.css";
 import API from "./api";
 
-const ROLE_CHOICES = ["New Member", "RMD", "Admin"];
+const ROLE_CHOICES = ["New Member", "Admin"];
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);
