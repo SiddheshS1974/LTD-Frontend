@@ -210,4 +210,6 @@
   .ab-card-header, .ab-body { padding-left: 1.1rem; padding-right: 1.1rem; }
   .ab-row { grid-template-columns: 1fr; gap: 0.1rem; }
   .ab-row-value, .ab-phone-link, .ab-email-link, .ab-fax { padding-top: 0; }
+  /* Prevent long phone/fax numbers from clipping when stacked */
+  .ab-row-value { white-space: normal; word-break: break-all; }
 }

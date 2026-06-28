@@ -731,6 +731,19 @@
   .admin-rmd-form-grid-3 {
     grid-template-columns: 1fr;
   }
+
+  /* Allow inline confirm/edit controls to wrap so they don't overflow table cells */
+  .admin-confirm-delete,
+  .admin-role-edit {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .admin-confirm-text {
+    white-space: normal;
+    font-size: 0.74rem;
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {

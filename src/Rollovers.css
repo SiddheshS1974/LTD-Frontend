@@ -274,6 +274,10 @@
 
 /* ── Responsive ── */
 
+@media (max-width: 860px) {
+  .ro-reasons-grid { grid-template-columns: 1fr 1fr; }
+}
+
 @media (max-width: 700px) {
   .ro-main { padding: 1.5rem 1rem 4rem; }
   .ro-section { padding: 1.25rem 1.25rem 1.5rem; }

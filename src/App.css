@@ -514,11 +514,11 @@ footer a {
 }
 
 /* ── Login page mobile layout ── */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   body {
     height: auto;
     min-height: 100vh;
-    padding: 2rem 1rem;
+    padding: 2rem 1rem 60px;
     justify-content: flex-start;
     align-items: center;
   }
@@ -569,6 +569,14 @@ footer a {
 
   .mobile-auth-toggle {
     display: block;
+  }
+
+  footer {
+    font-size: 11px;
+  }
+
+  footer p {
+    margin: 6px 0;
   }
 }
 

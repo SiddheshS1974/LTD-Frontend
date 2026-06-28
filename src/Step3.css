@@ -34,6 +34,18 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
+@media (max-width: 600px) {
+  .s3-seg {
+    width: 100%;
+    margin: 0 0 0.5rem;
+  }
+  .s3-seg-btn {
+    flex: 1;
+    padding: 7px 8px;
+    text-align: center;
+  }
+}
+
 /* ════════════════════════════════
    Shared page shell
    ════════════════════════════════ */

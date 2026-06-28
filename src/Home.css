@@ -410,15 +410,22 @@
   .home-steps-grid  { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Tablet — hide labels early to prevent cramping */
+@media (max-width: 768px) {
+  .navbar-brand     { display: none; }
+  .nav-label        { display: none; }
+  .nav-icon         { display: inline; font-size: 20px !important; }
+  .nav-item         { padding: 16px 8px; }
+  /* Keep dropdown from overflowing viewport right edge */
+  .dropdown-menu    { right: 0; left: auto; min-width: 180px; }
+}
+
 /* Mobile */
 @media (max-width: 600px) {
   /* Navbar: allow horizontal scroll so items don't wrap awkwardly */
-  .navbar-mainbg    { gap: 0; padding: 0 1rem; overflow-x: auto; }
-  .navbar-brand     { display: none; }
-  .nav-item         { padding: 12px 10px; font-size: 11px; }
-  .nav-label        { display: none; }
-  /* Restore icons on mobile since labels are hidden */
-  .nav-icon         { display: inline; font-size: 22px !important; }
+  .navbar-mainbg    { gap: 0; padding: 0 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .nav-item         { padding: 12px 8px; font-size: 11px; }
+  .nav-icon         { font-size: 22px !important; }
 
   /* Hero */
   .hero-cover-sub   { letter-spacing: 0.08em; }
