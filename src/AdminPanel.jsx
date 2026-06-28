@@ -1108,6 +1108,7 @@ export default function AdminPanel() {
                       <th>Name</th>
                       <th>Email</th>
                       <th>HGI Code</th>
+                      <th>Upline RMD</th>
                       <th>Status</th>
                       <th>Submitted</th>
                       <th>Actions</th>
@@ -1121,6 +1122,20 @@ export default function AdminPanel() {
                         </td>
                         <td className="admin-td-mono">{p.email}</td>
                         <td className="admin-td-mono">{p.hgi_code || "—"}</td>
+                        <td>
+                          {p.upline_rmd_name ? (
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+                              <span>{p.upline_rmd_name}</span>
+                              {p.upline_rmd_has_direct_access ? (
+                                <span className="admin-access-badge admin-access-badge--rmd" title="This RMD has direct access and will handle the request">RMD</span>
+                              ) : (
+                                <span className="admin-access-badge admin-access-badge--admin" title="This RMD has no direct access — admin action needed">ADMIN</span>
+                              )}
+                            </div>
+                          ) : (
+                            <span style={{ color: "#9ca3af" }}>—</span>
+                          )}
+                        </td>
                         <td>
                           <span className={`admin-status-badge ${p.is_approved ? "admin-status-active" : "admin-status-inactive"}`}>
                             {p.is_approved ? "Approved — Awaiting Setup" : "Awaiting Approval"}
