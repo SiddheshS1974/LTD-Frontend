@@ -459,25 +459,19 @@
   background: rgba(180, 120, 30, 0.18);
 }
 
-/* ── RMD direct-access badge on pending approvals ── */
-.admin-access-badge {
-  display: inline-block;
+/* ── "No access" warning chip on pending approvals upline RMD column ── */
+.admin-pending-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 2px 7px;
   border-radius: 20px;
   white-space: nowrap;
   flex-shrink: 0;
-}
-
-.admin-access-badge--rmd {
-  background: rgba(42, 96, 64, 0.12);
-  color: #2a6040;
-}
-
-.admin-access-badge--admin {
   background: rgba(196, 124, 58, 0.15);
   color: #7a5010;
 }

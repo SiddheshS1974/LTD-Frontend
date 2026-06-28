@@ -1123,18 +1123,17 @@ export default function AdminPanel() {
                         <td className="admin-td-mono">{p.email}</td>
                         <td className="admin-td-mono">{p.hgi_code || "—"}</td>
                         <td>
-                          {p.upline_rmd_name ? (
-                            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
-                              <span>{p.upline_rmd_name}</span>
-                              {p.upline_rmd_has_direct_access ? (
-                                <span className="admin-access-badge admin-access-badge--rmd" title="This RMD has direct access and will handle the request">RMD</span>
-                              ) : (
-                                <span className="admin-access-badge admin-access-badge--admin" title="This RMD has no direct access — admin action needed">ADMIN</span>
-                              )}
-                            </div>
-                          ) : (
-                            <span style={{ color: "#9ca3af" }}>—</span>
-                          )}
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+                            <span style={!p.upline_rmd_name ? { color: "#9ca3af" } : undefined}>
+                              {p.upline_rmd_name || "—"}
+                            </span>
+                            {!p.upline_rmd_has_direct_access && (
+                              <span className="admin-pending-chip" title={p.upline_rmd_name ? "This RMD has no direct access — you need to approve or deny this request" : "No upline RMD assigned — you need to approve or deny this request"}>
+                                <span className="material-icons" style={{ fontSize: "11px", verticalAlign: "middle" }}>warning</span>
+                                {" "}Action needed
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td>
                           <span className={`admin-status-badge ${p.is_approved ? "admin-status-active" : "admin-status-inactive"}`}>
