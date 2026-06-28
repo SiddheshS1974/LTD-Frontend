@@ -276,7 +276,7 @@ export default function RmdPanel() {
                         <td className="admin-td-mono">{u.email || "—"}</td>
                         <td className="admin-td-mono">{u.hgi_code || "—"}</td>
                         <td>
-                          {hasDirectAccess && editingRoleId === u.id ? (
+                          {hasDirectAccess && !u.is_rmd_member && editingRoleId === u.id ? (
                             <div className="admin-role-edit">
                               <select
                                 className="admin-role-select"
@@ -316,18 +316,20 @@ export default function RmdPanel() {
                               </div>
                             ) : (
                               <div className="admin-actions">
-                                <button
-                                  className="admin-btn admin-btn-role"
-                                  title="Change role"
-                                  onClick={() => {
-                                    setEditingRoleId(u.id);
-                                    setPendingRole(u.role || "New Member");
-                                    setConfirmToggleId(null);
-                                    setActionError("");
-                                  }}
-                                >
-                                  <span className="material-icons">manage_accounts</span>
-                                </button>
+                                {!u.is_rmd_member && (
+                                  <button
+                                    className="admin-btn admin-btn-role"
+                                    title="Change role"
+                                    onClick={() => {
+                                      setEditingRoleId(u.id);
+                                      setPendingRole(u.role || "New Member");
+                                      setConfirmToggleId(null);
+                                      setActionError("");
+                                    }}
+                                  >
+                                    <span className="material-icons">manage_accounts</span>
+                                  </button>
+                                )}
                                 <button
                                   className={`admin-btn ${u.is_active ? "admin-btn-deactivate" : "admin-btn-activate"}`}
                                   title={u.is_active ? "Deactivate account" : "Activate account"}
