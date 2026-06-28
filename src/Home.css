@@ -410,28 +410,179 @@
   .home-steps-grid  { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Hide labels on all phones (portrait + landscape) and small tablets.
-   960px catches every phone in landscape (max ~932px for iPhone Pro Max). */
+/* ── Hamburger button (hidden on desktop) ── */
+.hamburger-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  padding: 6px;
+  margin-left: auto;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.hamburger-btn:hover { background: rgba(255,255,255,0.12); }
+.hamburger-btn .material-icons { font-size: 26px !important; color: #fff; }
+
+/* ── Sidebar overlay ── */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 9998;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+/* ── Sidebar drawer (slides in from left) ── */
+.sidebar-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(300px, 85vw);
+  background: linear-gradient(160deg, #2a0e1a 0%, #3d1424 100%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  animation: sidebarSlideIn 0.22s ease;
+}
+
+@keyframes sidebarSlideIn {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.1rem 1.1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+
+.sidebar-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.sidebar-brand-sub {
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 3px;
+}
+
+.sidebar-close {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 7px;
+  line-height: 0;
+  transition: background 0.18s, color 0.18s;
+}
+.sidebar-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.sidebar-close .material-icons { font-size: 22px !important; }
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0.6rem 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.8rem 1.1rem;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  user-select: none;
+}
+.sidebar-item:active { background: rgba(255,255,255,0.06); }
+.sidebar-item:hover:not(.sidebar-item--disabled) { background: rgba(255,255,255,0.07); color: #fff; }
+.sidebar-item--active { background: rgba(255,255,255,0.1); color: #fff; font-weight: 600; }
+.sidebar-item--disabled { color: rgba(255,255,255,0.22); cursor: default; }
+
+.sidebar-item-icon { font-size: 20px !important; flex-shrink: 0; color: rgba(255,255,255,0.5); }
+.sidebar-item--active .sidebar-item-icon { color: #c47c3a; }
+.sidebar-item-label { flex: 1; }
+.sidebar-chevron { font-size: 18px !important; color: rgba(255,255,255,0.35); flex-shrink: 0; }
+
+.sidebar-dropdown {
+  list-style: none;
+  padding: 0.2rem 0;
+  margin: 0;
+  background: rgba(0,0,0,0.18);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.sidebar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem 1.1rem 0.65rem 2.8rem;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+}
+.sidebar-dropdown-item:hover:not(.sidebar-item--disabled) { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.85); }
+.sidebar-dropdown-icon { font-size: 16px !important; flex-shrink: 0; color: rgba(255,255,255,0.35); }
+
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.sidebar-logout:hover { background: rgba(255,255,255,0.07); color: #fff; }
+.sidebar-logout .material-icons { font-size: 20px !important; }
+
+/* ── Switch to hamburger nav on mobile / small tablets ── */
 @media (max-width: 960px) {
-  .navbar-brand     { display: none; }
-  .nav-label        { display: none; }
-  .nav-icon         { display: inline; font-size: 20px !important; }
-  .nav-item         { padding: 16px 8px; }
-  /* Keep dropdown from overflowing viewport right edge */
-  .dropdown-menu    { right: 0; left: auto; min-width: 180px; }
+  .hamburger-btn { display: flex; }
+  .navbar-nav    { display: none; }
+  .logout-btn    { display: none; }
+  .navbar-mainbg { padding: 0 1rem; }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
-  /* Navbar: allow horizontal scroll so items don't wrap awkwardly */
-  .navbar-mainbg    { gap: 0; padding: 0 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .nav-item         { padding: 12px 8px; font-size: 11px; }
-  .nav-icon         { font-size: 22px !important; }
-
-  /* Hero */
   .hero-cover-sub   { letter-spacing: 0.08em; }
-
-  /* Content */
   .home-overview    { padding: 2.5rem 5vw 2rem; }
   .home-steps       { padding: 2rem 4vw 3.5rem; }
   .home-steps-grid  { grid-template-columns: 1fr; gap: 1rem; }

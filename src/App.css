@@ -62,6 +62,7 @@ body {
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
   height: 100vh;
+  height: 100svh; /* iOS Safari: excludes URL bar from height */
   margin: 0;
 }
 

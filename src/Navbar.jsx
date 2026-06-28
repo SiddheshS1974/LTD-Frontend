@@ -66,7 +66,6 @@ const allNavItems = [
   { id: "rmd",            label: "RMD Panel",       icon: "supervisor_account", path: "/rmd",   rmdOnly: true   },
 ];
 
-// Map every route to the nav item that should be highlighted
 const pathToNavId = {
   "/home":                   "dashboard",
   "/step1":                  "members",
@@ -100,7 +99,7 @@ export default function Navbar() {
 
   const navItems = allNavItems.filter((item) => {
     if (item.adminOnly) return isAdmin();
-    if (item.rmdOnly) return isRmd();
+    if (item.rmdOnly)   return isRmd();
     return true;
   });
 
@@ -109,9 +108,11 @@ export default function Navbar() {
     return Math.max(0, navItems.findIndex((i) => i.id === id));
   };
 
-  const [selectorIndex, setSelectorIndex] = useState(indexFromPath);
-  const [openDropdown,  setOpenDropdown]  = useState(null);
-  const [selectorStyle, setSelectorStyle] = useState({});
+  const [selectorIndex,       setSelectorIndex]       = useState(indexFromPath);
+  const [openDropdown,        setOpenDropdown]        = useState(null);
+  const [selectorStyle,       setSelectorStyle]       = useState({});
+  const [sidebarOpen,         setSidebarOpen]         = useState(false);
+  const [openSidebarDropdown, setOpenSidebarDropdown] = useState(null);
 
   const updateSelector = (index) => {
     if (!navRef.current) return;
@@ -124,23 +125,26 @@ export default function Navbar() {
     }
   };
 
-  // Animate selector whenever selectorIndex changes (including on route change)
-  useEffect(() => {
-    setTimeout(() => updateSelector(selectorIndex), 0);
-  }, [selectorIndex]);
+  useEffect(() => { setTimeout(() => updateSelector(selectorIndex), 0); }, [selectorIndex]);
 
-  // Keep selector positioned correctly on resize
   useEffect(() => {
     const onResize = () => setTimeout(() => updateSelector(selectorIndex), 300);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [selectorIndex]);
 
-  // When the URL changes (page navigation), animate selector to the matching tab
   useEffect(() => {
     setSelectorIndex(indexFromPath());
     setOpenDropdown(null);
+    setSidebarOpen(false);
+    setOpenSidebarDropdown(null);
   }, [location.pathname]);
+
+  // Prevent body scroll when sidebar is open
+  useEffect(() => {
+    document.body.style.overflow = sidebarOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [sidebarOpen]);
 
   const handleNavClick = (index, item) => {
     if (item.dropdown) {
@@ -161,7 +165,6 @@ export default function Navbar() {
       const itemLeft = items[openDropdown].getBoundingClientRect().left;
       const dropdownWidth = 220;
       let left = itemLeft - navRect.left;
-      // Clamp so the dropdown doesn't overflow the right edge of the screen
       const rightEdge = itemLeft + dropdownWidth;
       if (rightEdge > window.innerWidth - 8) {
         left = Math.max(0, window.innerWidth - 8 - dropdownWidth - navRect.left);
@@ -171,92 +174,167 @@ export default function Navbar() {
     return "0px";
   };
 
-  return (
-    <nav
-      className="navbar-mainbg sticky-nav"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div
-        className="navbar-brand"
-        onClick={() => navigate("/home")}
-        style={{ cursor: "pointer" }}
-      >
-        <span className="brand-main">LTD</span>
-        <span className="brand-sub">Learn · Teach · Duplicate</span>
-      </div>
+  const doLogout = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      await fetch(`${API}/api/v1/logout/`, {
+        method: "POST",
+        headers: { Authorization: `Token ${token}` },
+      });
+    } catch (_) {}
+    ["token","is_staff","role","is_rmd_member","can_receive_requests","first_name","last_name","username"]
+      .forEach(k => localStorage.removeItem(k));
+    navigate("/login");
+  };
 
-      <ul className="navbar-nav" ref={navRef}>
-        <div className="hori-selector" style={selectorStyle}>
-          <div className="selector-left" />
-          <div className="selector-right" />
+  return (
+    <>
+      <nav className="navbar-mainbg sticky-nav" onClick={(e) => e.stopPropagation()}>
+        <div className="navbar-brand" onClick={() => navigate("/home")} style={{ cursor: "pointer" }}>
+          <span className="brand-main">LTD</span>
+          <span className="brand-sub">Learn · Teach · Duplicate</span>
         </div>
 
-        {navItems.map((item, index) => {
-          const disabled = item.restricted && isNewMember();
-          return (
-            <li
-              key={item.id}
-              className={`nav-item ${selectorIndex === index ? "active" : ""} ${disabled ? "disabled" : ""}`}
-              onClick={() => handleNavClick(index, item)}
-            >
-              <span className="material-icons nav-icon">{item.icon}</span>
-              <span className="nav-label">{item.label}</span>
-              {item.dropdown && (
-                <span className="material-icons" style={{ fontSize: "16px" }}>
-                  {openDropdown === index ? "expand_less" : "expand_more"}
-                </span>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+        <ul className="navbar-nav" ref={navRef}>
+          <div className="hori-selector" style={selectorStyle}>
+            <div className="selector-left" />
+            <div className="selector-right" />
+          </div>
 
-      {openDropdown !== null && navItems[openDropdown]?.dropdown && (
-        <div className="dropdown-menu" style={{ left: getDropdownLeft() }}>
-          {navItems[openDropdown].dropdown.map((d, i) => {
-            const disabled = d.restricted && isNewMember();
+          {navItems.map((item, index) => {
+            const disabled = item.restricted && isNewMember();
             return (
-              <div
-                key={i}
-                className={`dropdown-item ${disabled ? "disabled" : ""}`}
-                onClick={() => {
-                  if (disabled) return;
-                  setOpenDropdown(null);
-                  if (d.path) navigate(d.path);
-                }}
+              <li
+                key={item.id}
+                className={`nav-item ${selectorIndex === index ? "active" : ""} ${disabled ? "disabled" : ""}`}
+                onClick={() => handleNavClick(index, item)}
               >
-                <span className="material-icons dropdown-item-icon">{d.icon}</span>
-                <span>{d.label}</span>
-              </div>
+                <span className="material-icons nav-icon">{item.icon}</span>
+                <span className="nav-label">{item.label}</span>
+                {item.dropdown && (
+                  <span className="material-icons" style={{ fontSize: "16px" }}>
+                    {openDropdown === index ? "expand_less" : "expand_more"}
+                  </span>
+                )}
+              </li>
             );
           })}
+        </ul>
+
+        {openDropdown !== null && navItems[openDropdown]?.dropdown && (
+          <div className="dropdown-menu" style={{ left: getDropdownLeft() }}>
+            {navItems[openDropdown].dropdown.map((d, i) => {
+              const disabled = d.restricted && isNewMember();
+              return (
+                <div
+                  key={i}
+                  className={`dropdown-item ${disabled ? "disabled" : ""}`}
+                  onClick={() => {
+                    if (disabled) return;
+                    setOpenDropdown(null);
+                    if (d.path) navigate(d.path);
+                  }}
+                >
+                  <span className="material-icons dropdown-item-icon">{d.icon}</span>
+                  <span>{d.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <button className="logout-btn" onClick={doLogout}>
+          <span className="material-icons" style={{ fontSize: "11px" }}>logout</span>
+          Logout
+        </button>
+
+        {/* Hamburger — mobile only */}
+        <button className="hamburger-btn" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
+          <span className="material-icons">menu</span>
+        </button>
+      </nav>
+
+      {/* Sidebar overlay + drawer */}
+      {sidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)}>
+          <div className="sidebar-drawer" onClick={(e) => e.stopPropagation()}>
+
+            {/* Header */}
+            <div className="sidebar-header">
+              <div>
+                <div className="sidebar-brand">LTD</div>
+                <div className="sidebar-brand-sub">Learn · Teach · Duplicate</div>
+              </div>
+              <button className="sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Close menu">
+                <span className="material-icons">close</span>
+              </button>
+            </div>
+
+            {/* Nav items */}
+            <ul className="sidebar-nav">
+              {navItems.map((item, index) => {
+                const disabled = item.restricted && isNewMember();
+                const active   = selectorIndex === index;
+                return (
+                  <li key={item.id}>
+                    <div
+                      className={`sidebar-item ${active ? "sidebar-item--active" : ""} ${disabled ? "sidebar-item--disabled" : ""}`}
+                      onClick={() => {
+                        if (disabled) return;
+                        if (item.dropdown) {
+                          setOpenSidebarDropdown(openSidebarDropdown === index ? null : index);
+                        } else {
+                          setSelectorIndex(index);
+                          setSidebarOpen(false);
+                          if (item.path) navigate(item.path);
+                        }
+                      }}
+                    >
+                      <span className="material-icons sidebar-item-icon">{item.icon}</span>
+                      <span className="sidebar-item-label">{item.label}</span>
+                      {item.dropdown && (
+                        <span className="material-icons sidebar-chevron">
+                          {openSidebarDropdown === index ? "expand_less" : "expand_more"}
+                        </span>
+                      )}
+                    </div>
+
+                    {item.dropdown && openSidebarDropdown === index && (
+                      <ul className="sidebar-dropdown">
+                        {item.dropdown.map((d, i) => {
+                          const dDisabled = d.restricted && isNewMember();
+                          return (
+                            <li
+                              key={i}
+                              className={`sidebar-dropdown-item ${dDisabled ? "sidebar-item--disabled" : ""}`}
+                              onClick={() => {
+                                if (dDisabled) return;
+                                setSelectorIndex(index);
+                                setSidebarOpen(false);
+                                if (d.path) navigate(d.path);
+                              }}
+                            >
+                              <span className="material-icons sidebar-dropdown-icon">{d.icon}</span>
+                              <span>{d.label}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+
+            {/* Logout */}
+            <button className="sidebar-logout" onClick={doLogout}>
+              <span className="material-icons">logout</span>
+              Logout
+            </button>
+
+          </div>
         </div>
       )}
-
-      <button
-        className="logout-btn"
-        onClick={async () => {
-          const token = localStorage.getItem("token");
-          try {
-            await fetch(`${API}/api/v1/logout/`, {
-              method: "POST",
-              headers: { Authorization: `Token ${token}` },
-            });
-          } catch (_) {}
-          localStorage.removeItem("token");
-          localStorage.removeItem("is_staff");
-          localStorage.removeItem("role");
-          localStorage.removeItem("is_rmd_member");
-          localStorage.removeItem("can_receive_requests");
-          localStorage.removeItem("first_name");
-          localStorage.removeItem("last_name");
-          localStorage.removeItem("username");
-          navigate("/login");
-        }}
-      >
-        <span className="material-icons" style={{ fontSize: "11px" }}>logout</span>
-        Logout
-      </button>
-    </nav>
+    </>
   );
 }
