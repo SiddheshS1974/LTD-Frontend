@@ -544,11 +544,29 @@
    Responsive
    ════════════════════════════════ */
 
+@media (max-width: 960px) {
+  .navbar-brand   { display: none; }
+  .nav-label      { display: none; }
+  .nav-icon       { display: inline; font-size: 20px !important; }
+  .nav-item       { padding: 16px 8px; }
+}
+
 @media (max-width: 600px) {
-  .step-header  { padding: 4rem 5vw 2.5rem; }
+  .navbar-mainbg  { gap: 0; padding: 0 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .nav-item       { padding: 12px 8px; font-size: 11px; }
+  .nav-icon       { font-size: 22px !important; }
+
+  .step-header  { padding: 3.5rem 5vw 2rem; }
   .s3-content   { padding: 2rem 4vw 4rem; }
   .s3-stats     { flex-direction: column; }
   .s3-stat      { flex: none; }
   .s3-cards     { grid-template-columns: 1fr; }
   .s3-video-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .nav-item     { padding: 8px 8px; }
+  .step-header  { padding: 2.5rem 5vw 1.5rem; }
+  .step-header-inner { padding-top: 48px; }
+  .s3-content   { padding: 1.5rem 4vw 3rem; }
 }

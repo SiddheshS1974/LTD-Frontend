@@ -377,17 +377,29 @@
    Responsive
    ════════════════════════════════ */
 
-@media (max-width: 600px) {
-  .navbar-mainbg  { gap: 0; padding: 0 1rem; overflow-x: auto; }
+@media (max-width: 960px) {
   .navbar-brand   { display: none; }
-  .nav-item       { padding: 12px 10px; font-size: 11px; }
   .nav-label      { display: none; }
+  .nav-icon       { display: inline; font-size: 20px !important; }
+  .nav-item       { padding: 16px 8px; }
+}
+
+@media (max-width: 600px) {
+  .navbar-mainbg  { gap: 0; padding: 0 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .nav-item       { padding: 12px 8px; font-size: 11px; }
   .nav-icon       { font-size: 22px !important; }
 
-  .step-header    { padding: 4rem 5vw 2.5rem; }
+  .step-header    { padding: 3.5rem 5vw 2rem; }
   .s2-content     { padding: 2rem 4vw 4rem; }
   .s2-card-header { padding: 1rem 1rem; }
   .s2-card-body   { padding: 0.75rem 1rem 1.25rem; }
   .s2-stats       { flex-direction: column; }
   .s2-stat        { flex: none; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .nav-item       { padding: 8px 8px; }
+  .step-header    { padding: 2.5rem 5vw 1.5rem; }
+  .step-header-inner { padding-top: 48px; }
+  .s2-content     { padding: 1.5rem 4vw 3rem; }
 }

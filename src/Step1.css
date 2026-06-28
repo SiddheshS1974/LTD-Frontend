@@ -252,7 +252,7 @@
    Responsive
    ════════════════════════════════ */
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .navbar-brand   { display: none; }
   .nav-label      { display: none; }
   .nav-icon       { display: inline; font-size: 20px !important; }
