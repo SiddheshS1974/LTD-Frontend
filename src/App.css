@@ -518,13 +518,33 @@ footer a {
   body {
     height: auto;
     min-height: 100vh;
-    padding: 1rem;
+    padding: 0.75rem 1rem 50px;
     justify-content: flex-start;
+    align-items: center;
   }
+  /* Collapse to single-column same as portrait, but narrower container */
   .container {
-    width: 80%;
-    max-width: 500px;
+    width: 60%;
+    max-width: 400px;
+    height: auto;
+    min-height: auto;
+    overflow: visible;
   }
+  .overlay-container { display: none !important; }
+  .form-container {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    top: auto !important;
+    transform: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+  }
+  .sign-up-container { display: none; z-index: auto !important; animation: none !important; }
+  .container.right-panel-active .sign-in-container { display: none; transform: none !important; }
+  .container.right-panel-active .sign-up-container { display: block; transform: none !important; opacity: 1 !important; }
+  form { padding: 1.25rem; height: auto; overflow: visible; }
+  .mobile-auth-toggle { display: block; }
   footer { font-size: 11px; }
   footer p { margin: 4px 0; }
 }
