@@ -544,18 +544,7 @@
    Responsive
    ════════════════════════════════ */
 
-@media (max-width: 960px) {
-  .navbar-brand   { display: none; }
-  .nav-label      { display: none; }
-  .nav-icon       { display: inline; font-size: 20px !important; }
-  .nav-item       { padding: 16px 8px; }
-}
-
 @media (max-width: 600px) {
-  .navbar-mainbg  { gap: 0; padding: 0 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .nav-item       { padding: 12px 8px; font-size: 11px; }
-  .nav-icon       { font-size: 22px !important; }
-
   .step-header  { padding: 3.5rem 5vw 2rem; }
   .s3-content   { padding: 2rem 4vw 4rem; }
   .s3-stats     { flex-direction: column; }

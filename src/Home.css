@@ -574,20 +574,42 @@ body.sidebar-open { overflow: hidden; }
 .sidebar-logout:hover { background: rgba(255,255,255,0.07); color: #fff; }
 .sidebar-logout .material-icons { font-size: 20px !important; }
 
-/* Fix sidebar icon + label vertical alignment */
-.sidebar-item-icon,
-.sidebar-dropdown-icon,
-.sidebar-chevron,
-.sidebar-close .material-icons,
-.sidebar-logout .material-icons {
+/* Override App.css's global `span { font-size: 12px }` inside the sidebar */
+.sidebar-drawer span { font-size: inherit; }
+
+/* Icon fixed width so ALL labels start at the same X position */
+.sidebar-item-icon {
+  font-size: 20px !important;
+  width: 22px;
+  text-align: center;
   line-height: 1;
-  display: flex;
-  align-items: center;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.5);
+}
+.sidebar-item--active .sidebar-item-icon { color: #c47c3a; }
+
+.sidebar-dropdown-icon {
+  font-size: 16px !important;
+  width: 18px;
+  text-align: center;
+  line-height: 1;
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.35);
 }
 
-/* Indent dropdown items so text aligns under parent label (icon 20px + gap 0.85rem + pad 1.1rem) */
+.sidebar-chevron {
+  font-size: 18px !important;
+  line-height: 1;
+  color: rgba(255,255,255,0.35);
+  flex-shrink: 0;
+}
+
+/* Explicit font-size on label (overrides inherited from parent) */
+.sidebar-item-label { flex: 1; font-size: 0.95rem; }
+
+/* Dropdown sub-items: indent = parent left-pad + icon-width + gap */
 .sidebar-dropdown-item {
-  padding-left: calc(1.1rem + 20px + 0.85rem);
+  padding-left: calc(1.1rem + 22px + 0.85rem);
 }
 
 /* ── Switch to hamburger nav on mobile / small tablets ── */
