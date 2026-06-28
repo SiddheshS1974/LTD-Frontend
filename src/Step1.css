@@ -264,13 +264,24 @@
   .nav-item       { padding: 12px 8px; font-size: 11px; }
   .nav-icon       { font-size: 22px !important; }
 
-  .step-header    { padding: 4rem 5vw 2.5rem; }
-  .step-content   { padding: 2rem 5vw 4rem; }
+  .step-header    { padding: 3.5rem 5vw 2rem; }
+  .step-content   { padding: 1.75rem 5vw 3.5rem; }
   .step-row       { padding: 1.25rem 1.25rem; }
   .step-img       { max-width: 100%; }
 
   .step-tabs      { overflow-x: auto; -webkit-overflow-scrolling: touch; justify-content: flex-start; flex-wrap: nowrap; }
   .step-tab       { flex-shrink: 0; padding: 0.6rem 1rem; font-size: 0.82rem; }
+}
+
+/* Landscape phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  .nav-item       { padding: 8px 8px; }
+  .logout-btn     { padding: 5px 12px; }
+
+  .step-header    { padding: 2.5rem 5vw 1.5rem; }
+  .step-header-inner { padding-top: 48px; }
+  .step-content   { padding: 1.5rem 5vw 3rem; }
+  .step-row       { padding: 1rem 1.25rem; }
 }
 
 .step-coming-soon {

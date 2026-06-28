@@ -436,7 +436,26 @@
   .home-steps-grid  { grid-template-columns: 1fr; gap: 1rem; }
 }
 
-/* Very small (portrait phones) */
+/* Very small portrait phones */
 @media (max-width: 380px) {
   .home-steps-grid  { grid-template-columns: 1fr; }
+  .home-overview    { padding: 2rem 4vw 1.5rem; }
+  .home-steps       { padding: 1.5rem 4vw 3rem; }
+}
+
+/* Landscape phones — viewport height is only ~380px */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Hero: don't lock to 100vh, just fit content */
+  .hero-cover         { height: auto; min-height: 260px; padding: 80px 6vw 2rem; }
+  .hero-cover-scroll-hint { display: none; }
+
+  /* Navbar: shrink vertical padding to reclaim vertical space */
+  .nav-item           { padding: 8px 8px; }
+  .navbar-brand       { padding: 10px 0; }
+  .logout-btn         { padding: 5px 12px; }
+
+  /* Content sections */
+  .home-overview      { padding: 1.75rem 6vw 1.5rem; }
+  .home-steps         { padding: 1.5rem 6vw 3rem; }
+  .home-steps-grid    { grid-template-columns: repeat(2, 1fr); }
 }

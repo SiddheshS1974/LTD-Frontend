@@ -513,6 +513,22 @@ footer a {
   text-decoration: underline;
 }
 
+/* ── Login page landscape phone ── */
+@media (max-height: 500px) and (orientation: landscape) {
+  body {
+    height: auto;
+    min-height: 100vh;
+    padding: 1rem;
+    justify-content: flex-start;
+  }
+  .container {
+    width: 80%;
+    max-width: 500px;
+  }
+  footer { font-size: 11px; }
+  footer p { margin: 4px 0; }
+}
+
 /* ── Login page mobile layout ── */
 @media (max-width: 600px) {
   body {
