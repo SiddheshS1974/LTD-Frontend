@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./AdminPanel.css";
 import API from "./api";
 
@@ -307,7 +307,8 @@ export default function RmdPanel() {
                   </thead>
                   <tbody>
                     {filtered.map((u) => (
-                      <tr key={u.id} className={confirmToggleId === u.id ? "admin-row-confirming" : ""}>
+                      <React.Fragment key={u.id}>
+                      <tr className={confirmToggleId === u.id ? "admin-row-confirming" : ""}>
                         <td className="admin-td-name">
                           <span className="admin-full-name">
                             {[u.first_name, u.last_name].filter(Boolean).join(" ") || u.username}
@@ -439,6 +440,7 @@ export default function RmdPanel() {
                           </td>
                         </tr>
                       )}
+                      </React.Fragment>
                     ))}
                   </tbody>
                 </table>
