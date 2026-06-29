@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import Login from "./Login";
 import SetUpAccount from "./SetUpAccount";
 import "./App.css";
@@ -37,11 +37,13 @@ function RmdRoute() {
   return isRmd ? <Outlet /> : <Navigate to="/home" replace />;
 }
 
-// New Members only have access to: Home, Wills & Trust, Brochures,
-// Address Book, Success Stories, and Helpful Links (Step 6).
 function NewMemberRoute() {
   const role = localStorage.getItem("role");
-  return role === "New Member" ? <Navigate to="/home" replace /> : <Outlet />;
+  const location = useLocation();
+  if (role !== "New Member") return <Outlet />;
+  const grantedPages = JSON.parse(localStorage.getItem("granted_pages") || "[]");
+  if (grantedPages.includes(location.pathname)) return <Outlet />;
+  return <Navigate to="/home" replace />;
 }
 
 function App() {

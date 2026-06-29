@@ -4,6 +4,24 @@ import API from "./api";
 
 const ROLE_CHOICES = ["New Member", "Admin"];
 
+const GRANTABLE_PAGES = [
+  { path: "/step1", label: "Step 1" },
+  { path: "/step2", label: "Step 2" },
+  { path: "/step3", label: "Step 3" },
+  { path: "/step4", label: "Step 4" },
+  { path: "/step5", label: "Step 5" },
+  { path: "/videos/illustrations", label: "Videos – Illustrations" },
+  { path: "/videos/application", label: "Videos – Application" },
+  { path: "/videos/stories", label: "Videos – Stories" },
+  { path: "/rollovers", label: "Rollovers" },
+  { path: "/license", label: "License" },
+  { path: "/more/information", label: "Information" },
+  { path: "/more/applications", label: "Applications" },
+  { path: "/more/examone", label: "ExamOne" },
+  { path: "/more/setups", label: "Setups" },
+  { path: "/more/register-accounts", label: "Register Accounts" },
+];
+
 export default function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [query, setQuery] = useState("");
@@ -14,6 +32,8 @@ export default function AdminPanel() {
   const [confirmToggleId, setConfirmToggleId] = useState(null);
   const [confirmDeleteUserId, setConfirmDeleteUserId] = useState(null);
   const [actionError, setActionError] = useState("");
+  const [managingPagesId, setManagingPagesId] = useState(null);
+  const [pageEdits, setPageEdits] = useState([]);
 
   const [activeTab, setActiveTab] = useState("accounts");
 
@@ -138,6 +158,27 @@ export default function AdminPanel() {
       setConfirmDeletePendingId(null);
     } catch {
       setPendingError("Network error. Please try again.");
+    }
+  };
+
+  const handleGrantPages = async (userId) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/users/${userId}/grant-pages/`, {
+        method: "PATCH",
+        headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ granted_pages: pageEdits }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setActionError(data.error || "Failed to update page access.");
+        return;
+      }
+      const data = await res.json();
+      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, granted_pages: data.granted_pages } : u));
+      setManagingPagesId(null);
+    } catch {
+      setActionError("Network error. Please try again.");
     }
   };
 
@@ -581,10 +622,30 @@ export default function AdminPanel() {
                                     setPendingRole(u.role || "New Member");
                                     setConfirmToggleId(null);
                                     setConfirmDeleteUserId(null);
+                                    setManagingPagesId(null);
                                     setActionError("");
                                   }}
                                 >
                                   <span className="material-icons">manage_accounts</span>
+                                </button>
+                              )}
+                              {u.role === "New Member" && !u.is_rmd_member && (
+                                <button
+                                  className={`admin-btn admin-btn-pages ${managingPagesId === u.id ? "admin-btn-pages--active" : ""}`}
+                                  title="Manage page access"
+                                  onClick={() => {
+                                    if (managingPagesId === u.id) {
+                                      setManagingPagesId(null);
+                                    } else {
+                                      setManagingPagesId(u.id);
+                                      setPageEdits(u.granted_pages || []);
+                                      setEditingRoleId(null);
+                                      setConfirmToggleId(null);
+                                      setConfirmDeleteUserId(null);
+                                    }
+                                  }}
+                                >
+                                  <span className="material-icons">key</span>
                                 </button>
                               )}
                               <button
@@ -594,6 +655,7 @@ export default function AdminPanel() {
                                   setConfirmToggleId(u.id);
                                   setConfirmDeleteUserId(null);
                                   setEditingRoleId(null);
+                                  setManagingPagesId(null);
                                   setActionError("");
                                 }}
                               >
@@ -606,6 +668,7 @@ export default function AdminPanel() {
                                   setConfirmDeleteUserId(u.id);
                                   setConfirmToggleId(null);
                                   setEditingRoleId(null);
+                                  setManagingPagesId(null);
                                   setActionError("");
                                 }}
                               >
@@ -615,6 +678,38 @@ export default function AdminPanel() {
                           )}
                         </td>
                       </tr>
+                      {managingPagesId === u.id && (
+                        <tr className="admin-pages-row">
+                          <td colSpan={9}>
+                            <div className="admin-pages-panel">
+                              <p className="admin-pages-title">
+                                <span className="material-icons" style={{ fontSize: 16, verticalAlign: "middle", marginRight: 6 }}>key</span>
+                                Additional page access for <strong>{u.first_name || u.username}</strong>
+                              </p>
+                              <div className="admin-pages-grid">
+                                {GRANTABLE_PAGES.map((page) => (
+                                  <label key={page.path} className="admin-pages-checkbox">
+                                    <input
+                                      type="checkbox"
+                                      checked={pageEdits.includes(page.path)}
+                                      onChange={() => setPageEdits((prev) =>
+                                        prev.includes(page.path)
+                                          ? prev.filter((p) => p !== page.path)
+                                          : [...prev, page.path]
+                                      )}
+                                    />
+                                    {page.label}
+                                  </label>
+                                ))}
+                              </div>
+                              <div className="admin-pages-footer">
+                                <button className="admin-btn admin-btn-save" onClick={() => handleGrantPages(u.id)}>Save</button>
+                                <button className="admin-btn admin-btn-cancel" onClick={() => setManagingPagesId(null)}>Cancel</button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                     ))}
                   </tbody>
                 </table>

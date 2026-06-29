@@ -49,6 +49,7 @@ export default function Login() {
       localStorage.setItem("role", data.role ?? "");
       localStorage.setItem("is_rmd_member", data.is_rmd_member ? "true" : "false");
       localStorage.setItem("can_receive_requests", data.can_receive_requests ? "true" : "false");
+      localStorage.setItem("granted_pages", JSON.stringify(data.granted_pages ?? []));
       localStorage.setItem("first_name", data.first_name ?? "");
       localStorage.setItem("last_name", data.last_name ?? "");
       localStorage.setItem("username", data.username ?? "");
