@@ -161,13 +161,14 @@ export default function AdminPanel() {
     }
   };
 
-  const handleGrantPages = async (userId) => {
+  const handleGrantPages = async (userId, existing = []) => {
+    const merged = [...new Set([...existing, ...pageEdits])];
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(`${API}/api/v1/users/${userId}/grant-pages/`, {
         method: "PATCH",
         headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ granted_pages: pageEdits }),
+        body: JSON.stringify({ granted_pages: merged }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -177,6 +178,7 @@ export default function AdminPanel() {
       const data = await res.json();
       setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, granted_pages: data.granted_pages } : u));
       setManagingPagesId(null);
+      setPageEdits([]);
     } catch {
       setActionError("Network error. Please try again.");
     }
@@ -685,26 +687,41 @@ export default function AdminPanel() {
                             <div className="admin-pages-panel">
                               <p className="admin-pages-title">
                                 <span className="material-icons" style={{ fontSize: 16, verticalAlign: "middle", marginRight: 6 }}>key</span>
-                                Additional page access for <strong>{u.first_name || u.username}</strong>
+                                Grant additional pages to <strong>{u.first_name || u.username}</strong>
                               </p>
-                              <div className="admin-pages-grid">
-                                {GRANTABLE_PAGES.map((page) => (
-                                  <label key={page.path} className="admin-pages-checkbox">
-                                    <input
-                                      type="checkbox"
-                                      checked={pageEdits.includes(page.path)}
-                                      onChange={() => setPageEdits((prev) =>
-                                        prev.includes(page.path)
-                                          ? prev.filter((p) => p !== page.path)
-                                          : [...prev, page.path]
-                                      )}
-                                    />
-                                    {page.label}
-                                  </label>
-                                ))}
-                              </div>
+                              {(() => {
+                                const alreadyGranted = u.granted_pages || [];
+                                const available = GRANTABLE_PAGES.filter(p => !alreadyGranted.includes(p.path));
+                                return available.length === 0 ? (
+                                  <p style={{ fontSize: "0.82rem", color: "#6b7280", margin: "0 0 0.75rem" }}>
+                                    This user already has access to all available pages.
+                                  </p>
+                                ) : (
+                                  <div className="admin-pages-grid">
+                                    {available.map((page) => (
+                                      <label key={page.path} className="admin-pages-checkbox">
+                                        <input
+                                          type="checkbox"
+                                          checked={pageEdits.includes(page.path)}
+                                          onChange={() => setPageEdits((prev) =>
+                                            prev.includes(page.path)
+                                              ? prev.filter((p) => p !== page.path)
+                                              : [...prev, page.path]
+                                          )}
+                                        />
+                                        {page.label}
+                                      </label>
+                                    ))}
+                                  </div>
+                                );
+                              })()}
+                              {(u.granted_pages || []).length > 0 && (
+                                <p style={{ fontSize: "0.78rem", color: "#6b7280", margin: "0.5rem 0 0.75rem" }}>
+                                  Already granted: {(u.granted_pages || []).map(p => GRANTABLE_PAGES.find(g => g.path === p)?.label || p).join(", ")}
+                                </p>
+                              )}
                               <div className="admin-pages-footer">
-                                <button className="admin-btn admin-btn-save" onClick={() => handleGrantPages(u.id)}>Save</button>
+                                <button className="admin-btn admin-btn-save" onClick={() => handleGrantPages(u.id, u.granted_pages || [])}>Save</button>
                                 <button className="admin-btn admin-btn-cancel" onClick={() => setManagingPagesId(null)}>Cancel</button>
                               </div>
                             </div>
