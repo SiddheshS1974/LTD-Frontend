@@ -61,13 +61,16 @@ function NewMemberRoute() {
     // Path not in cache — fetch server in case access was granted since login
     const token = localStorage.getItem("token");
     fetch(`${API}/api/v1/me/`, { headers: { Authorization: `Token ${token}` } })
-      .then(res => res.ok ? res.json() : null)
+      .then(res => { console.log('[access] /me/ status', res.status); return res.ok ? res.json() : null; })
       .then(data => {
+        console.log('[access] /me/ data', data);
         const fresh = data?.granted_pages ?? cached;
         localStorage.setItem("granted_pages", JSON.stringify(fresh));
-        setCheck({ done: true, allowed: fresh.includes(location.pathname) });
+        const allowed = fresh.includes(location.pathname);
+        console.log('[access] pathname', location.pathname, 'fresh', fresh, 'allowed', allowed);
+        setCheck({ done: true, allowed });
       })
-      .catch(() => setCheck({ done: true, allowed: false }));
+      .catch((e) => { console.error('[access] fetch error', e); setCheck({ done: true, allowed: false }); });
   }, [location.pathname, role]);
 
   if (!check.done) return null;
