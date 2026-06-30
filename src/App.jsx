@@ -45,32 +45,36 @@ function NewMemberRoute() {
   const [check, setCheck] = useState({ done: false, allowed: false });
 
   useEffect(() => {
+    console.log('[NMR] effect running, pathname:', location.pathname, 'role:', role);
     setCheck({ done: false, allowed: false });
 
     if (role !== "New Member") {
+      console.log('[NMR] not New Member, allowing');
       setCheck({ done: true, allowed: true });
       return;
     }
 
     const cached = JSON.parse(localStorage.getItem("granted_pages") || "[]");
+    console.log('[NMR] cached granted_pages:', cached);
     if (cached.includes(location.pathname)) {
+      console.log('[NMR] path in cache, allowing');
       setCheck({ done: true, allowed: true });
       return;
     }
 
-    // Path not in cache — fetch server in case access was granted since login
+    console.log('[NMR] fetching /me/');
     const token = localStorage.getItem("token");
     fetch(`${API}/api/v1/me/`, { headers: { Authorization: `Token ${token}` } })
-      .then(res => { console.log('[access] /me/ status', res.status); return res.ok ? res.json() : null; })
+      .then(res => { console.log('[NMR] /me/ status', res.status); return res.ok ? res.json() : null; })
       .then(data => {
-        console.log('[access] /me/ data', data);
+        console.log('[NMR] /me/ data', data);
         const fresh = data?.granted_pages ?? cached;
         localStorage.setItem("granted_pages", JSON.stringify(fresh));
         const allowed = fresh.includes(location.pathname);
-        console.log('[access] pathname', location.pathname, 'fresh', fresh, 'allowed', allowed);
+        console.log('[NMR] allowed:', allowed);
         setCheck({ done: true, allowed });
       })
-      .catch((e) => { console.error('[access] fetch error', e); setCheck({ done: true, allowed: false }); });
+      .catch((e) => { console.error('[NMR] fetch error', e); setCheck({ done: true, allowed: false }); });
   }, [location.pathname, role]);
 
   if (!check.done) return null;
