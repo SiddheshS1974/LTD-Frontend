@@ -162,7 +162,6 @@ export default function AdminPanel() {
   };
 
   const handleGrantPages = async (userId) => {
-    console.log('[grant] sending granted_pages', pageEdits);
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(`${API}/api/v1/users/${userId}/grant-pages/`, {
@@ -172,12 +171,10 @@ export default function AdminPanel() {
       });
       if (!res.ok) {
         const data = await res.json();
-        console.error('[grant] error response', data);
         setActionError(data.error || "Failed to update page access.");
         return;
       }
       const data = await res.json();
-      console.log('[grant] saved response', data);
       setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, granted_pages: data.granted_pages } : u));
       setManagingPagesId(null);
       setPageEdits([]);

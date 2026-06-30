@@ -97,6 +97,24 @@ export default function Navbar() {
   const location  = useLocation();
   const navRef    = useRef(null);
 
+  const [grantedPages, setGrantedPages] = useState(() =>
+    JSON.parse(localStorage.getItem("granted_pages") || "[]")
+  );
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token || !isNewMember()) return;
+    fetch(`${API}/api/v1/me/`, { headers: { Authorization: `Token ${token}` } })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data?.granted_pages !== undefined) {
+          localStorage.setItem("granted_pages", JSON.stringify(data.granted_pages));
+          setGrantedPages(data.granted_pages);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const navItems = allNavItems.filter((item) => {
     if (item.adminOnly) return isAdmin();
     if (item.rmdOnly)   return isRmd();
@@ -146,11 +164,14 @@ export default function Navbar() {
     return () => document.body.classList.remove("sidebar-open");
   }, [sidebarOpen]);
 
+  const isDisabled = (item) =>
+    item.restricted && isNewMember() && !grantedPages.includes(item.path);
+
   const handleNavClick = (index, item) => {
     if (item.dropdown) {
       setSelectorIndex(index);
       setOpenDropdown(openDropdown === index ? null : index);
-    } else if (!(item.restricted && isNewMember())) {
+    } else if (!isDisabled(item)) {
       setSelectorIndex(index);
       setOpenDropdown(null);
       if (item.path) navigate(item.path);
@@ -207,7 +228,7 @@ export default function Navbar() {
           </div>
 
           {navItems.map((item, index) => {
-            const disabled = item.restricted && isNewMember();
+            const disabled = isDisabled(item);
             return (
               <li
                 key={item.id}
@@ -229,7 +250,7 @@ export default function Navbar() {
         {openDropdown !== null && navItems[openDropdown]?.dropdown && (
           <div className="dropdown-menu" style={{ left: getDropdownLeft() }}>
             {navItems[openDropdown].dropdown.map((d, i) => {
-              const disabled = d.restricted && isNewMember();
+              const disabled = isDisabled(d);
               return (
                 <div
                   key={i}
@@ -273,7 +294,7 @@ export default function Navbar() {
             {/* Nav items */}
             <ul className="sidebar-nav">
               {navItems.map((item, index) => {
-                const disabled = item.restricted && isNewMember();
+                const disabled = isDisabled(item);
                 const active   = selectorIndex === index;
                 return (
                   <li key={item.id}>
@@ -302,7 +323,7 @@ export default function Navbar() {
                     {item.dropdown && openSidebarDropdown === index && (
                       <ul className="sidebar-dropdown">
                         {item.dropdown.map((d, i) => {
-                          const dDisabled = d.restricted && isNewMember();
+                          const dDisabled = isDisabled(d);
                           return (
                             <li
                               key={i}
