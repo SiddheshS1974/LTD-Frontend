@@ -519,9 +519,53 @@
   cursor: pointer;
 }
 
+.admin-pages-section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+  margin: 0 0 0.45rem;
+}
+
+.admin-pages-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.admin-pages-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(74, 46, 100, 0.12);
+  color: #3d1f5c;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.admin-pages-tag-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #7a4faa;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.admin-pages-tag-remove:hover {
+  color: #963232;
+}
+
 .admin-pages-footer {
   display: flex;
   gap: 0.5rem;
+  margin-top: 0.85rem;
 }
 
 /* ── "No access" warning chip on pending approvals upline RMD column ── */
