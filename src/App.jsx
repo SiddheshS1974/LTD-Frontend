@@ -41,6 +41,7 @@ function NewMemberRoute() {
   const role = localStorage.getItem("role");
   const location = useLocation();
   if (role !== "New Member") return <Outlet />;
+  // Re-read on every render so Layout's /me/ refresh is picked up
   const grantedPages = JSON.parse(localStorage.getItem("granted_pages") || "[]");
   if (grantedPages.includes(location.pathname)) return <Outlet />;
   return <Navigate to="/home" replace />;
