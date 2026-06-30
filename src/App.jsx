@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import API from "./api";
 import Login from "./Login";
 import SetUpAccount from "./SetUpAccount";
 import "./App.css";
@@ -40,11 +42,37 @@ function RmdRoute() {
 function NewMemberRoute() {
   const role = localStorage.getItem("role");
   const location = useLocation();
-  if (role !== "New Member") return <Outlet />;
-  // Re-read on every render so Layout's /me/ refresh is picked up
-  const grantedPages = JSON.parse(localStorage.getItem("granted_pages") || "[]");
-  if (grantedPages.includes(location.pathname)) return <Outlet />;
-  return <Navigate to="/home" replace />;
+  const [check, setCheck] = useState({ done: false, allowed: false });
+
+  useEffect(() => {
+    setCheck({ done: false, allowed: false });
+
+    if (role !== "New Member") {
+      setCheck({ done: true, allowed: true });
+      return;
+    }
+
+    const cached = JSON.parse(localStorage.getItem("granted_pages") || "[]");
+    if (cached.includes(location.pathname)) {
+      setCheck({ done: true, allowed: true });
+      return;
+    }
+
+    // Path not in cache — fetch server in case access was granted since login
+    const token = localStorage.getItem("token");
+    fetch(`${API}/api/v1/me/`, { headers: { Authorization: `Token ${token}` } })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        const fresh = data?.granted_pages ?? cached;
+        localStorage.setItem("granted_pages", JSON.stringify(fresh));
+        setCheck({ done: true, allowed: fresh.includes(location.pathname) });
+      })
+      .catch(() => setCheck({ done: true, allowed: false }));
+  }, [location.pathname, role]);
+
+  if (!check.done) return null;
+  if (!check.allowed) return <Navigate to="/home" replace />;
+  return <Outlet />;
 }
 
 function App() {
