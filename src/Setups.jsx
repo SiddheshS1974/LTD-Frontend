@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Information.css";
-
-const DRIVE_VIEW = (id) => `https://drive.google.com/file/d/${id}/view`;
+import { openProtectedFile } from "./protectedFile";
 
 const sections = [
   {
@@ -14,17 +13,17 @@ const sections = [
       {
         title: "License Registration Process",
         subtitle: "Steps to apply for license after passing the state exam",
-        id: "1ft1bISGL3u3TcmMT13aBNCrbZZt4B_p0",
+        slug: "license-registration-process",
       },
       {
         title: "Setting up SureLC",
         subtitle: "Steps to add your license in the back office",
-        id: "15RkXZUp7YSEboBWv8Io59j0-Q47X1fcB",
+        slug: "setup-surelc",
       },
       {
         title: "How to Apply for Non-Resident License",
         subtitle: "Steps to apply for a non-resident license from Sircon",
-        id: "1H6Pl53OcIPCb4_HIODZL4wYaZ7M9a5LZ",
+        slug: "non-resident-license",
       },
     ],
   },
@@ -37,28 +36,54 @@ const sections = [
       {
         title: "Athene Product Trainings",
         subtitle: "Follow the steps to complete Athene product trainings",
-        id: "1LN_fkF4Z_0fkJl0kqQarZk7t03iVBoRZ",
+        slug: "athene-product-training",
       },
       {
         title: "Best Interest Annuity Suitability",
         subtitle: "Required before submitting annuity applications",
-        id: "1LQO6rIvOxiPgBkaw5ftt4LLS8ZL0I5FG",
+        slug: "annuity-suitability",
         badge: "Required",
         badgeColor: "amber",
       },
       {
         title: "North American IUL Product Training",
         subtitle: "Follow the steps to complete North American IUL product trainings",
-        id: "1LRT7kUOVGNP7fE0rkME8l-v_x48Z9AU4",
+        slug: "na-iul-training",
       },
       {
         title: "Nationwide-Annexus Annuity Product Training",
         subtitle: "Follow the steps to complete Nationwide/Annexus product training",
-        id: "1LXcKjUkLB2yk-NVxAFN_nVU0jGvSP_rK",
+        slug: "nationwide-annexus-training",
       },
     ],
   },
 ];
+
+function SetupDocCard({ doc }) {
+  const [opening, setOpening] = useState(false);
+  return (
+    <div
+      className="setup-doc-card"
+      role="button"
+      tabIndex={0}
+      style={{ cursor: opening ? "wait" : "pointer" }}
+      onClick={() => openProtectedFile(doc.slug, setOpening)}
+      onKeyDown={(e) => e.key === "Enter" && openProtectedFile(doc.slug, setOpening)}
+    >
+      <span className="material-icons info-doc-icon">description</span>
+      <div className="setup-doc-text">
+        <span className="setup-doc-title">{doc.title}</span>
+        <span className="setup-doc-subtitle">{doc.subtitle}</span>
+      </div>
+      {doc.badge && (
+        <span className={`setup-doc-badge setup-doc-badge--${doc.badgeColor}`}>{doc.badge}</span>
+      )}
+      <span className="material-icons info-doc-open">
+        {opening ? "hourglass_empty" : "open_in_new"}
+      </span>
+    </div>
+  );
+}
 
 export default function Setups() {
   useEffect(() => {
@@ -101,23 +126,7 @@ export default function Setups() {
 
             <div className="info-docs">
               {section.docs.map((doc) => (
-                <a
-                  key={doc.id}
-                  href={DRIVE_VIEW(doc.id)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="setup-doc-card"
-                >
-                  <span className="material-icons info-doc-icon">description</span>
-                  <div className="setup-doc-text">
-                    <span className="setup-doc-title">{doc.title}</span>
-                    <span className="setup-doc-subtitle">{doc.subtitle}</span>
-                  </div>
-                  {doc.badge && (
-                    <span className={`setup-doc-badge setup-doc-badge--${doc.badgeColor}`}>{doc.badge}</span>
-                  )}
-                  <span className="material-icons info-doc-open">open_in_new</span>
-                </a>
+                <SetupDocCard key={doc.slug} doc={doc} />
               ))}
             </div>
           </section>

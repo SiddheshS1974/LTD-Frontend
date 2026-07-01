@@ -1,9 +1,8 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Rollovers.css";
 import "./Information.css";
-
-const DRIVE_VIEW = (id) => `https://drive.google.com/file/d/${id}/view`;
+import { openProtectedFile } from "./protectedFile";
 
 const sections = [
   {
@@ -28,8 +27,8 @@ const sections = [
       },
     ],
     docs: [
-      { title: "License Registration Process", id: "1ft1bISGL3u3TcmMT13aBNCrbZZt4B_p0" },
-      { title: "Applying for Non-Resident License", id: "1H6Pl53OcIPCb4_HIODZL4wYaZ7M9a5LZ" },
+      { title: "License Registration Process", slug: "license-registration-process" },
+      { title: "Applying for Non-Resident License", slug: "non-resident-license" },
     ],
   },
   {
@@ -68,7 +67,7 @@ const sections = [
     docs: [
       {
         title: "Form for Netlaw Doc Preparation Video Access (Valued Customer)",
-        id: "1R01mYpYYb0aCjMt8YqCTxrZLLoMx6Oli",
+        slug: "netlaw-form",
         badge: "RMD Must Read",
       },
     ],
@@ -91,7 +90,7 @@ const sections = [
     docs: [
       {
         title: "Getting Access to LTD Videos",
-        id: "1Pdk9pKLHO7jekxLUHtJSAxBdNDzDKP0z",
+        slug: "ltd-videos-access",
         badge: "RMD Must Read",
       },
     ],
@@ -107,7 +106,7 @@ const sections = [
       },
     ],
     docs: [
-      { title: "Getting Forms for Applications — North American", id: "1NsPHHL9fLUfA2KEBu_Xq-hxNl83FJTuE" },
+      { title: "Getting Forms for Applications — North American", slug: "na-application-forms" },
     ],
   },
   {
@@ -122,7 +121,7 @@ const sections = [
       },
     ],
     docs: [
-      { title: "Commission Calculations", id: "1Pk1b-SuBXeEg2qqmdzD5rhBlqgIBJlys" },
+      { title: "Commission Calculations", slug: "commission-calculations" },
     ],
   },
   {
@@ -138,6 +137,27 @@ const sections = [
     docs: [],
   },
 ];
+
+function InfoDocCard({ doc }) {
+  const [opening, setOpening] = useState(false);
+  return (
+    <div
+      className="info-doc-card"
+      role="button"
+      tabIndex={0}
+      style={{ cursor: opening ? "wait" : "pointer" }}
+      onClick={() => openProtectedFile(doc.slug, setOpening)}
+      onKeyDown={(e) => e.key === "Enter" && openProtectedFile(doc.slug, setOpening)}
+    >
+      <span className="material-icons info-doc-icon">description</span>
+      <span className="info-doc-title">{doc.title}</span>
+      {doc.badge && <span className="info-doc-badge">{doc.badge}</span>}
+      <span className="material-icons info-doc-open">
+        {opening ? "hourglass_empty" : "open_in_new"}
+      </span>
+    </div>
+  );
+}
 
 export default function Information() {
   useEffect(() => {
@@ -223,20 +243,7 @@ export default function Information() {
               {section.docs.length > 0 && (
                 <div className="info-docs">
                   {section.docs.map((doc) => (
-                    <a
-                      key={doc.id}
-                      href={DRIVE_VIEW(doc.id)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="info-doc-card"
-                    >
-                      <span className="material-icons info-doc-icon">description</span>
-                      <span className="info-doc-title">{doc.title}</span>
-                      {doc.badge && (
-                        <span className="info-doc-badge">{doc.badge}</span>
-                      )}
-                      <span className="material-icons info-doc-open">open_in_new</span>
-                    </a>
+                    <InfoDocCard key={doc.slug} doc={doc} />
                   ))}
                 </div>
               )}

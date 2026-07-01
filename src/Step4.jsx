@@ -1,42 +1,58 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Brochures.css";
+import { useProtectedBlobUrl, openProtectedFile } from "./protectedFile";
 
 const flsResources = [
   {
     title: "Financial Needs Analysis Excel Sheet Template",
     description: "Put data from Financial Needs Analysis pdf in this spreadsheet",
-    driveId: "1enc58SIxXWacwrp5N4pVg7xoD0GgFMOC",
+    slug: "fna-excel-sheet",
   },
   {
     title: "Financial Lifestyle Strategy Client Presentation",
     description: "Use for presenting the Financial Lifestyle Strategy to client",
-    driveId: "1M4FXBYugvdutO-9yqUSYpKuPJUvGp0CX",
+    slug: "fls-presentation",
   },
   {
     title: "Saving vs Investing",
     description: "Use to compare saving and investing in IUL",
-    driveId: "1P4ORFiviz6WdJZb8qP7F7iCx5VZGD--w",
+    slug: "saving-vs-investing",
   },
   {
     title: "Tax Calculation for 401K Overfunding",
     description: "Use if client is investing more than company match in 401K to show how and why to diversify in IUL",
-    driveId: "1P4d56XfCpxhVMtFX9iWExYUvADseK0Qg",
+    slug: "tax-401k-overfunding",
   },
 ];
 
 function FlsCard({ item }) {
-  const previewUrl = `https://drive.google.com/file/d/${item.driveId}/preview`;
-  const viewUrl    = `https://drive.google.com/file/d/${item.driveId}/view`;
+  const { blobUrl, loading, error } = useProtectedBlobUrl(item.slug);
+  const [opening, setOpening] = useState(false);
+
   return (
     <div className="brochure-card">
       <div className="brochure-preview-wrap">
-        <iframe
-          src={previewUrl}
-          title={item.title}
-          className="brochure-iframe"
-          allow="autoplay"
-        />
+        {loading && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
+            <span className="material-icons" style={{ fontSize: 36 }}>hourglass_empty</span>
+            <span style={{ fontSize: "0.8rem" }}>Loading preview…</span>
+          </div>
+        )}
+        {error && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
+            <span className="material-icons" style={{ fontSize: 36 }}>error_outline</span>
+            <span style={{ fontSize: "0.8rem" }}>Preview unavailable</span>
+          </div>
+        )}
+        {blobUrl && (
+          <iframe
+            src={blobUrl}
+            title={item.title}
+            className="brochure-iframe"
+            allow="autoplay"
+          />
+        )}
         <div className="brochure-preview-overlay" />
       </div>
       <div className="brochure-card-body fls-card-body">
@@ -44,10 +60,14 @@ function FlsCard({ item }) {
           <p className="brochure-card-title">{item.title}</p>
           <p className="brochure-card-desc">{item.description}</p>
         </div>
-        <a className="brochure-open-btn" href={viewUrl} target="_blank" rel="noreferrer">
+        <button
+          className="brochure-open-btn"
+          disabled={opening}
+          onClick={() => openProtectedFile(item.slug, setOpening)}
+        >
           <span className="material-icons">open_in_new</span>
-          Open
-        </a>
+          {opening ? "Opening…" : "Open"}
+        </button>
       </div>
     </div>
   );
@@ -96,7 +116,7 @@ export default function Step4() {
 
         <div className="brochure-grid" style={{ maxWidth: "960px", width: "100%" }}>
           {flsResources.map((item) => (
-            <FlsCard key={item.driveId} item={item} />
+            <FlsCard key={item.slug} item={item} />
           ))}
         </div>
 

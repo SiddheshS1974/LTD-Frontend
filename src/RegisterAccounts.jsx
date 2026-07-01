@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Information.css";
-
-const DRIVE_VIEW = (id) => `https://drive.google.com/file/d/${id}/view`;
+import { openProtectedFile } from "./protectedFile";
 
 const carriers = [
   {
@@ -11,7 +10,7 @@ const carriers = [
     tag: "Life & Annuity",
     tagColor: "blue",
     subtitle: "Steps to register the client's online account with North American Company",
-    id: "1Jz6rm6YcGg2n8QjutiicpyyVIQZi2OK0",
+    slug: "register-north-american",
   },
   {
     name: "Athene",
@@ -19,7 +18,7 @@ const carriers = [
     tag: "Annuity",
     tagColor: "amber",
     subtitle: "Steps to register the client's online account with Athene",
-    id: "1P1lh80cUEKNmzm4KkuMrSjMPQcdpbha5",
+    slug: "register-athene",
   },
   {
     name: "Fidelity & Guaranty",
@@ -27,9 +26,37 @@ const carriers = [
     tag: "F&G",
     tagColor: "green",
     subtitle: "Steps to register the client's online account with Fidelity and Guaranty",
-    id: "18bNGIXP_6h2ttRMRJVJ213P70N1mzH22",
+    slug: "register-fg",
   },
 ];
+
+function CarrierCard({ carrier }) {
+  const [opening, setOpening] = useState(false);
+  return (
+    <div
+      className="reg-carrier-card"
+      role="button"
+      tabIndex={0}
+      style={{ cursor: opening ? "wait" : "pointer" }}
+      onClick={() => openProtectedFile(carrier.slug, setOpening)}
+      onKeyDown={(e) => e.key === "Enter" && openProtectedFile(carrier.slug, setOpening)}
+    >
+      <div className="reg-carrier-icon-wrap">
+        <span className="material-icons">{carrier.icon}</span>
+      </div>
+      <div className="setup-doc-text">
+        <div className="reg-carrier-top">
+          <span className="setup-doc-title">{carrier.name}</span>
+          <span className={`setup-doc-badge setup-doc-badge--${carrier.tagColor}`}>{carrier.tag}</span>
+        </div>
+        <span className="setup-doc-subtitle">{carrier.subtitle}</span>
+      </div>
+      <span className="material-icons info-doc-open">
+        {opening ? "hourglass_empty" : "open_in_new"}
+      </span>
+    </div>
+  );
+}
 
 export default function RegisterAccounts() {
   useEffect(() => {
@@ -76,25 +103,7 @@ export default function RegisterAccounts() {
 
           <div className="info-docs">
             {carriers.map((carrier) => (
-              <a
-                key={carrier.id}
-                href={DRIVE_VIEW(carrier.id)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="reg-carrier-card"
-              >
-                <div className="reg-carrier-icon-wrap">
-                  <span className="material-icons">{carrier.icon}</span>
-                </div>
-                <div className="setup-doc-text">
-                  <div className="reg-carrier-top">
-                    <span className="setup-doc-title">{carrier.name}</span>
-                    <span className={`setup-doc-badge setup-doc-badge--${carrier.tagColor}`}>{carrier.tag}</span>
-                  </div>
-                  <span className="setup-doc-subtitle">{carrier.subtitle}</span>
-                </div>
-                <span className="material-icons info-doc-open">open_in_new</span>
-              </a>
+              <CarrierCard key={carrier.slug} carrier={carrier} />
             ))}
           </div>
         </div>

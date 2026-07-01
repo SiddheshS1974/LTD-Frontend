@@ -1,21 +1,69 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Step6.css";
+import { useProtectedBlobUrl, openProtectedFile } from "./protectedFile";
 
 const presentations = [
   {
-    id: "1Wx3ZsSr8uLdt55ZWYkCeByGIzh-6rcdk",
+    slug: "financial-literacy-presentation",
     title: "Effect of Economy",
     desc: "Shows the effects of an economic downturn on various financial vehicles.",
     icon: "show_chart",
   },
   {
-    id: "1hDQ1aWfTQEgyUxVpujTc8BrDkgVFpANZ",
+    slug: "comparisons",
     title: "Comparisons",
     desc: "Compares features of different financial vehicles to show the value of diversification.",
     icon: "compare_arrows",
   },
 ];
+
+function PresCard({ p }) {
+  const { blobUrl, loading, error } = useProtectedBlobUrl(p.slug);
+  const [opening, setOpening] = useState(false);
+
+  return (
+    <div className="s6-pres-card">
+      <div className="s6-iframe-clip">
+        {loading && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
+            <span className="material-icons" style={{ fontSize: 36 }}>hourglass_empty</span>
+            <span style={{ fontSize: "0.8rem" }}>Loading preview…</span>
+          </div>
+        )}
+        {error && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
+            <span className="material-icons" style={{ fontSize: 36 }}>error_outline</span>
+            <span style={{ fontSize: "0.8rem" }}>Preview unavailable</span>
+          </div>
+        )}
+        {blobUrl && (
+          <iframe
+            src={blobUrl}
+            title={p.title}
+            className="s6-drive-iframe"
+            allow="autoplay"
+          />
+        )}
+      </div>
+      <div className="s6-pres-body">
+        <div className="s6-pres-tag">
+          <span className="material-icons">{p.icon}</span>
+          {p.title}
+        </div>
+        <p className="s6-pres-desc">{p.desc}</p>
+        <button
+          className="s6-open-btn"
+          disabled={opening}
+          onClick={() => openProtectedFile(p.slug, setOpening)}
+        >
+          <span className="material-icons">open_in_new</span>
+          {opening ? "Opening…" : "Open Full Screen"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Step6() {
   useEffect(() => {
@@ -45,8 +93,6 @@ export default function Step6() {
       </header>
 
       <main className="s6-main">
-
-        {/* ── Presentations ── */}
         <section className="s6-section">
           <div className="s6-section-header">
             <span className="material-icons s6-section-icon">slideshow</span>
@@ -54,36 +100,10 @@ export default function Step6() {
           </div>
           <div className="s6-cards-grid">
             {presentations.map((p) => (
-              <div key={p.id} className="s6-pres-card">
-                <div className="s6-iframe-clip">
-                  <iframe
-                    src={`https://drive.google.com/file/d/${p.id}/preview`}
-                    title={p.title}
-                    className="s6-drive-iframe"
-                    allow="autoplay"
-                  />
-                </div>
-                <div className="s6-pres-body">
-                  <div className="s6-pres-tag">
-                    <span className="material-icons">{p.icon}</span>
-                    {p.title}
-                  </div>
-                  <p className="s6-pres-desc">{p.desc}</p>
-                  <a
-                    href={`https://drive.google.com/file/d/${p.id}/view`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="s6-open-btn"
-                  >
-                    <span className="material-icons">open_in_new</span>
-                    Open Full Screen
-                  </a>
-                </div>
-              </div>
+              <PresCard key={p.slug} p={p} />
             ))}
           </div>
         </section>
-
       </main>
     </div>
   );

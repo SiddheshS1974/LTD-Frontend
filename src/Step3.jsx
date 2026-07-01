@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Step3.css";
+import { openProtectedFile } from "./protectedFile";
 
 const bopPresentations = [
   {
@@ -15,8 +16,7 @@ const bopPresentations = [
       "Show this presentation to clients who are interested in the business opportunity.",
     nextStep:
       "Book a follow-up to answer their questions and help them start their venture. If they ultimately do not want to start their venture, lead them to their Financial Needs Analysis so they have clarity about their finances.",
-    driveUrl:
-      "https://drive.google.com/file/d/1rfoaufbnE5_UhyxBcYdy3EGaprMGgk1t/view?usp=drivesdk",
+    slug: "bop-presentation",
     fileType: "Presentation",
   },
 ];
@@ -35,8 +35,7 @@ const sopPresentations = [
       "Show this in an in-person group session to educate attendees on financial literacy and estate planning concepts.",
     nextStep:
       "After the presentation, take the FNA and book individual appointments to show them the FLS. After FLS and submitting the applications (if any), ask them about the business.",
-    driveUrl:
-      "https://drive.google.com/file/d/1Wx3ZsSr8uLdt55ZWYkCeByGIzh-6rcdk/view?usp=drivesdk",
+    slug: "financial-literacy-presentation",
     fileType: "Presentation",
   },
   {
@@ -51,14 +50,14 @@ const sopPresentations = [
     description:
       "Spreadsheet for retirement calculations used on the Retirement Planning slide. Walk clients through the numbers to illustrate their retirement gap.",
     nextStep: null,
-    driveUrl:
-      "https://drive.google.com/file/d/17TJ1jJezCmUrxpaEemOCl4TYILCYeXtb/view?usp=drivesdk",
+    slug: "retirement-calculations",
     fileType: "Spreadsheet",
   },
 ];
 
 export default function Step3() {
   const [activeTab, setActiveTab] = useState("bop");
+  const [openingSlug, setOpeningSlug] = useState(null);
   const presentations = activeTab === "bop" ? bopPresentations : sopPresentations;
 
   useEffect(() => {
@@ -183,15 +182,14 @@ export default function Step3() {
               <div className="s3-divider" />
 
               {/* Open button */}
-              <a
-                href={p.driveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
                 className={`s3-open-btn s3-open-btn--${p.color}`}
+                disabled={openingSlug === p.slug}
+                onClick={() => openProtectedFile(p.slug, setOpeningSlug)}
               >
                 <span className="material-icons s3-btn-icon">open_in_new</span>
-                Open in Google Drive
-              </a>
+                {openingSlug === p.slug ? "Opening…" : "Open Presentation"}
+              </button>
 
             </div>
           ))}

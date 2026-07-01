@@ -66,6 +66,8 @@
 }
 
 .brochure-open-btn {
+  border: none;
+  font-family: inherit;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;

@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./WillsTrust.css";
+import { useProtectedBlobUrl, openProtectedFile } from "./protectedFile";
 
 const steps = [
   {
@@ -96,20 +97,61 @@ const steps = [
 
 const resources = [
   {
-    id: "1Q4N5PsyNG6mx_w6Tnx3k6hhrE9au1siY",
+    slug: "estate-planning-intro",
     title: "Introduction to Estate Planning",
     desc: "First presentation to show the client. Explains the need and facets of Estate Planning. After showing this: book an FNA session and send the Nominees Template.",
     icon: "slideshow",
     type: "presentation",
   },
   {
-    id: "1beBOGXJSltAtuQlRnIQpI5TX7HKZqC4J",
+    slug: "estate-planning-roles",
     title: "Estate Planning — Roles",
     desc: "Explains the responsibilities of different nominee roles (Executor, Trustee, Guardian) to use in group meetings with nominees.",
     icon: "manage_accounts",
     type: "presentation",
   },
 ];
+
+function WtPresCard({ p }) {
+  const { blobUrl, loading, error } = useProtectedBlobUrl(p.slug);
+  const [opening, setOpening] = useState(false);
+  return (
+    <div className="wt-pres-card">
+      <div className="wt-iframe-clip">
+        {loading && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
+            <span className="material-icons" style={{ fontSize: 36 }}>hourglass_empty</span>
+            <span style={{ fontSize: "0.8rem" }}>Loading preview…</span>
+          </div>
+        )}
+        {error && (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
+            <span className="material-icons" style={{ fontSize: 36 }}>error_outline</span>
+            <span style={{ fontSize: "0.8rem" }}>Preview unavailable</span>
+          </div>
+        )}
+        {blobUrl && (
+          <iframe src={blobUrl} title={p.title} className="wt-drive-iframe" allow="autoplay" />
+        )}
+      </div>
+      <div className="wt-pres-body">
+        <div className="wt-pres-tag">
+          <span className="material-icons">{p.icon}</span>
+          {p.title}
+        </div>
+        <p className="wt-pres-desc">{p.desc}</p>
+        <button
+          className="wt-open-btn"
+          disabled={opening}
+          onClick={() => openProtectedFile(p.slug, setOpening)}
+        >
+          <span className="material-icons">open_in_new</span>
+          {opening ? "Opening…" : "Open Full Screen"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function WillsTrust() {
   useEffect(() => {
@@ -198,32 +240,7 @@ export default function WillsTrust() {
           </div>
           <div className="wt-cards-grid">
             {resources.map((p) => (
-              <div key={p.id} className="wt-pres-card">
-                <div className="wt-iframe-clip">
-                  <iframe
-                    src={`https://drive.google.com/file/d/${p.id}/preview`}
-                    title={p.title}
-                    className="wt-drive-iframe"
-                    allow="autoplay"
-                  />
-                </div>
-                <div className="wt-pres-body">
-                  <div className="wt-pres-tag">
-                    <span className="material-icons">{p.icon}</span>
-                    {p.title}
-                  </div>
-                  <p className="wt-pres-desc">{p.desc}</p>
-                  <a
-                    href={`https://drive.google.com/file/d/${p.id}/view`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="wt-open-btn"
-                  >
-                    <span className="material-icons">open_in_new</span>
-                    Open Full Screen
-                  </a>
-                </div>
-              </div>
+              <WtPresCard key={p.slug} p={p} />
             ))}
           </div>
         </section>

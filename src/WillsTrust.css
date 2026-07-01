@@ -262,6 +262,8 @@
 }
 
 .wt-open-btn {
+  border: none;
+  font-family: inherit;
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
