@@ -10,31 +10,12 @@ const scripts = [
     note: "Use this script if you are new — before starting to call by yourself.",
     color: "rose",
     dialogue: [
-      {
-        speaker: "TEAM MEMBER",
-        lines: [
-          "Hi [Name], (have a very small talk — how are you? How was the day?). I called you for an important reason. I have a close friend of mine, [Field Builder's name], at my home / on call right now. He/She is professionally very successful — has his/her own venture with offices in Atlanta, NJ, TX, and CA. He/She is expanding and looking for more hands. I immediately thought about you.",
-        ],
-      },
+      { speaker: "TEAM MEMBER", lines: ["Hi [Name], (have a very small talk — how are you? How was the day?). I called you for an important reason. I have a close friend of mine, [Field Builder's name], at my home / on call right now. He/She is professionally very successful — has his/her own venture with offices in Atlanta, NJ, TX, and CA. He/She is expanding and looking for more hands. I immediately thought about you."] },
       { speaker: "PROSPECT", lines: ["What is it?"] },
-      {
-        speaker: "TEAM MEMBER",
-        lines: ["[Field Builder], can you tell him/her what you are looking for?"],
-      },
-      {
-        speaker: "YOU (FB)",
-        lines: [
-          "Hi [Prospect], I am [Your Name]. I know we have never met but [Team Member] talked highly about you so I thought to connect with you. As [Team Member] said, I have my own venture with offices in Atlanta, NJ, TX, and CA and I am expanding.",
-          "I was checking with [Team Member] if he/she knew anyone and he/she immediately thought about you. But [Prospect], I hope you understand — it will be difficult to go over everything over the phone. We can match our calendars and get on a Zoom call / meet in person (if local) and go over the details. And of course, this is just information exchange. If our frequency matches we can do something together — else you might know someone who fits the profile I am looking for. Are weekdays better or weekends?",
-        ],
-      },
+      { speaker: "TEAM MEMBER", lines: ["[Field Builder], can you tell him/her what you are looking for?"] },
+      { speaker: "YOU (FB)", lines: ["Hi [Prospect], I am [Your Name]. I know we have never met but [Team Member] talked highly about you so I thought to connect with you. As [Team Member] said, I have my own venture with offices in Atlanta, NJ, TX, and CA and I am expanding.", "I was checking with [Team Member] if he/she knew anyone and he/she immediately thought about you. But [Prospect], I hope you understand — it will be difficult to go over everything over the phone. We can match our calendars and get on a Zoom call / meet in person (if local) and go over the details. And of course, this is just information exchange. If our frequency matches we can do something together — else you might know someone who fits the profile I am looking for. Are weekdays better or weekends?"] },
       { speaker: "PROSPECT", lines: ["Sure. But can you give me more details?"] },
-      {
-        speaker: "YOU (FB)",
-        lines: [
-          "My company is in the finance sector — but as you know it's a vast area. I will need pen and paper to go over the details. Show and Tell. Again, if there is a fit somewhere we can do something together. In worst case, our friendship will grow and we may cross paths sometime in the future. Are weekdays better or weekends?",
-        ],
-      },
+      { speaker: "YOU (FB)", lines: ["My company is in the finance sector — but as you know it's a vast area. I will need pen and paper to go over the details. Show and Tell. Again, if there is a fit somewhere we can do something together. In worst case, our friendship will grow and we may cross paths sometime in the future. Are weekdays better or weekends?"] },
     ],
   },
   {
@@ -45,19 +26,9 @@ const scripts = [
     note: "Use only after you are CERTIFIED by your Field Builder to call by yourself.",
     color: "maroon",
     dialogue: [
-      {
-        speaker: "YOU",
-        lines: [
-          "Hi [Prospect], as you know [My wife — her name] and I have been working in the IT industry (your profession) for a while. Professionally doing good but we were looking for something more. I have my own venture with offices in Atlanta, NJ, TX, and CA and I am expanding. I am looking for more hands and I thought about you. Let's get together on a Zoom call / in person and discuss. And of course, this is just information exchange. If our frequency matches we can do something together — else you might know someone who fits the profile I am looking for. Are weekdays better or weekends?",
-        ],
-      },
+      { speaker: "YOU", lines: ["Hi [Prospect], as you know [My wife — her name] and I have been working in the IT industry (your profession) for a while. Professionally doing good but we were looking for something more. I have my own venture with offices in Atlanta, NJ, TX, and CA and I am expanding. I am looking for more hands and I thought about you. Let's get together on a Zoom call / in person and discuss. And of course, this is just information exchange. If our frequency matches we can do something together — else you might know someone who fits the profile I am looking for. Are weekdays better or weekends?"] },
       { speaker: "PROSPECT", lines: ["What is it?"] },
-      {
-        speaker: "YOU",
-        lines: [
-          "My company is in the finance sector — but as you know it's a vast area. I will need pen and paper to go over the details. Show and Tell. Again, if there is a fit somewhere we can do something together — else no worries. Are weekdays better or weekends?",
-        ],
-      },
+      { speaker: "YOU", lines: ["My company is in the finance sector — but as you know it's a vast area. I will need pen and paper to go over the details. Show and Tell. Again, if there is a fit somewhere we can do something together — else no worries. Are weekdays better or weekends?"] },
     ],
   },
   {
@@ -68,27 +39,11 @@ const scripts = [
     note: null,
     color: "rose",
     dialogue: [
-      {
-        speaker: "YOU",
-        lines: [
-          "Hi [Prospect], I have a close friend from Atlanta who is in the finance domain. He/She is licensed in multiple states and has offices in Atlanta, NJ, Dallas, and CA. He/She is conducting a financial literacy session. I am inviting you to meet and listen to him/her. He/She will share knowledge around Will, Estate Planning, Kids' Education, Tax Saving, Retirement Planning, and many related subjects.",
-          "After listening to the info, I wish I had this information 10–15 years back. It would be valuable for all of us, especially in this country. The session is on Saturday 3rd August at 4:30 PM. I have a few passes (if in a hotel/conference room) or limited seating (if at home). Can you confirm so I can book a seat for you?",
-        ],
-      },
+      { speaker: "YOU", lines: ["Hi [Prospect], I have a close friend from Atlanta who is in the finance domain. He/She is licensed in multiple states and has offices in Atlanta, NJ, Dallas, and CA. He/She is conducting a financial literacy session. I am inviting you to meet and listen to him/her. He/She will share knowledge around Will, Estate Planning, Kids' Education, Tax Saving, Retirement Planning, and many related subjects.", "After listening to the info, I wish I had this information 10–15 years back. It would be valuable for all of us, especially in this country. The session is on Saturday 3rd August at 4:30 PM. I have a few passes (if in a hotel/conference room) or limited seating (if at home). Can you confirm so I can book a seat for you?"] },
       { speaker: "PROSPECT", lines: ["Can you give me more details?"] },
-      {
-        speaker: "YOU",
-        lines: [
-          "He/She is the right person to get all the details — he/she is the expert. I will send you a flier after our call. Do I take you as confirmed?",
-        ],
-      },
+      { speaker: "YOU", lines: ["He/She is the right person to get all the details — he/she is the expert. I will send you a flier after our call. Do I take you as confirmed?"] },
       { speaker: "PROSPECT", lines: ["I will let you know if I can attend."] },
-      {
-        speaker: "YOU",
-        lines: [
-          "I have limited seating / limited passes. I will book one/two for you. Confirm with me by tomorrow evening else I will free up the pass for someone else. I will set a reminder — if I don't hear back I'll send you a nudge.",
-        ],
-      },
+      { speaker: "YOU", lines: ["I have limited seating / limited passes. I will book one/two for you. Confirm with me by tomorrow evening else I will free up the pass for someone else. I will set a reminder — if I don't hear back I'll send you a nudge."] },
     ],
   },
   {
@@ -99,25 +54,11 @@ const scripts = [
     note: null,
     color: "maroon",
     dialogue: [
-      {
-        speaker: "YOU",
-        lines: [
-          "Hi [Prospect], I have a close friend from Atlanta who is in the finance domain. He/She is licensed in multiple states and has offices in Atlanta, NJ, Dallas, and CA. He/She is conducting a Women's Financial Literacy Campaign. I am inviting you to attend.",
-          "He/She will share knowledge around Will, Estate Planning, Kids' Education, Tax Saving, Retirement Planning, and many related subjects. After listening to the info, I wish I had this information 10–15 years back. The session is on Feb 8th in Alpharetta. I will send you the RSVP link — you'll get the address and details once you RSVP. Seats are limited and it's first come first serve.",
-        ],
-      },
+      { speaker: "YOU", lines: ["Hi [Prospect], I have a close friend from Atlanta who is in the finance domain. He/She is licensed in multiple states and has offices in Atlanta, NJ, Dallas, and CA. He/She is conducting a Women's Financial Literacy Campaign. I am inviting you to attend.", "He/She will share knowledge around Will, Estate Planning, Kids' Education, Tax Saving, Retirement Planning, and many related subjects. After listening to the info, I wish I had this information 10–15 years back. The session is on Feb 8th in Alpharetta. I will send you the RSVP link — you'll get the address and details once you RSVP. Seats are limited and it's first come first serve."] },
       { speaker: "PROSPECT", lines: ["Can you give me more details?"] },
-      {
-        speaker: "YOU",
-        lines: [
-          "He/She is the right person to get all the details — he/she is the expert. I will send you the RSVP link after our call. RSVP as early as possible to confirm your seat.",
-        ],
-      },
+      { speaker: "YOU", lines: ["He/She is the right person to get all the details — he/she is the expert. I will send you the RSVP link after our call. RSVP as early as possible to confirm your seat."] },
       { speaker: "PROSPECT", lines: ["I will let you know if I can attend."] },
-      {
-        speaker: "YOU",
-        lines: ["It is limited seating — once the space is full the link will be disabled."],
-      },
+      { speaker: "YOU", lines: ["It is limited seating — once the space is full the link will be disabled."] },
     ],
     objection: {
       q: "My husband takes care of all the finances.",
@@ -132,12 +73,7 @@ const scripts = [
     note: "Send to an existing LinkedIn connection to start the conversation. Do NOT approach for business in the message — get their phone number first, then call to book the BOP.",
     color: "rose",
     dialogue: [
-      {
-        speaker: "MESSAGE",
-        lines: [
-          "Hello [Name],\n\nHow are you? It has been a while!\n\nWas coming to [City] next month as I am setting up an office for my business there. Remembered that you were in [State/City]. Thought of pinging you.\n\n[Your Name]",
-        ],
-      },
+      { speaker: "MESSAGE", lines: ["Hello [Name],\n\nHow are you? It has been a while!\n\nWas coming to [City] next month as I am setting up an office for my business there. Remembered that you were in [State/City]. Thought of pinging you.\n\n[Your Name]"] },
     ],
   },
 ];
@@ -151,6 +87,7 @@ const speakerColors = {
 };
 
 export default function Step2() {
+  const [section, setSection] = useState("scripts");
   const [open, setOpen] = useState("3party");
 
   useEffect(() => {
@@ -168,137 +105,127 @@ export default function Step2() {
 
   return (
     <div className="step-page">
-
-      {/* Header */}
       <header className="step-header">
         <div className="step-header-inner">
           <span className="step-number-badge">Step 2 of 6</span>
           <h1 className="step-title">Approach &amp; Contact</h1>
           <p className="step-subtitle">
             Your approach sets the tone for every relationship you build.
-            Use these proven scripts to confidently reach out, invite prospects,
-            and book the meeting — without sounding pushy.
+            Use these proven scripts to confidently reach out and book the meeting.
           </p>
         </div>
       </header>
 
-      {/* Script cards */}
       <main className="s2-content">
 
-        {/* Stat pills */}
-        <div className="s2-stats">
-          <div className="s2-stat">
-            <span className="material-icons s2-stat-icon">article</span>
-            <div>
-              <div className="s2-stat-num">5</div>
-              <div className="s2-stat-label">Proven Scripts</div>
-            </div>
-          </div>
-          <div className="s2-stat">
-            <span className="material-icons s2-stat-icon">groups</span>
-            <div>
-              <div className="s2-stat-num">3</div>
-              <div className="s2-stat-label">Invite Types</div>
-            </div>
-          </div>
-          <div className="s2-stat">
-            <span className="material-icons s2-stat-icon">tips_and_updates</span>
-            <div>
-              <div className="s2-stat-num">1</div>
-              <div className="s2-stat-label">Objection Handler</div>
-            </div>
-          </div>
+        {/* Section tabs */}
+        <div className="step-tabs">
+          <button
+            className={`step-tab ${section === "scripts" ? "active" : ""}`}
+            onClick={() => setSection("scripts")}
+          >
+            <span className="material-icons" style={{ fontSize: 18 }}>article</span>
+            Scripts
+          </button>
+          <button
+            className={`step-tab ${section === "social-media" ? "active" : ""}`}
+            onClick={() => setSection("social-media")}
+          >
+            <span className="material-icons" style={{ fontSize: 18 }}>share</span>
+            Social Media
+          </button>
         </div>
 
-        {/* Accordion */}
-        <div className="s2-accordion">
-          {scripts.map((s) => (
-            <div
-              key={s.id}
-              className={`s2-card ${open === s.id ? "s2-card--open" : ""}`}
-            >
-              {/* Card header */}
-              <button
-                className="s2-card-header"
-                onClick={() => setOpen(open === s.id ? null : s.id)}
-              >
-                <div className="s2-card-header-left">
-                  <div className={`s2-card-icon-wrap s2-card-icon-wrap--${s.color}`}>
-                    <span className="material-icons">{s.icon}</span>
-                  </div>
-                  <div>
-                    <span className="s2-card-tag">{s.tag}</span>
-                    <div className="s2-card-title">{s.title}</div>
-                  </div>
-                </div>
-                <span className="material-icons s2-chevron">
-                  {open === s.id ? "expand_less" : "expand_more"}
-                </span>
-              </button>
+        {section === "scripts" && (
+          <>
+            <div className="s2-stats">
+              <div className="s2-stat">
+                <span className="material-icons s2-stat-icon">article</span>
+                <div><div className="s2-stat-num">5</div><div className="s2-stat-label">Proven Scripts</div></div>
+              </div>
+              <div className="s2-stat">
+                <span className="material-icons s2-stat-icon">groups</span>
+                <div><div className="s2-stat-num">3</div><div className="s2-stat-label">Invite Types</div></div>
+              </div>
+              <div className="s2-stat">
+                <span className="material-icons s2-stat-icon">tips_and_updates</span>
+                <div><div className="s2-stat-num">1</div><div className="s2-stat-label">Objection Handler</div></div>
+              </div>
+            </div>
 
-              {/* Card body */}
-              {open === s.id && (
-                <div className="s2-card-body">
-                  {s.note && (
-                    <div className="s2-note">
-                      <span className="material-icons" style={{ fontSize: 16 }}>info</span>
-                      {s.note}
-                    </div>
-                  )}
-
-                  <div className="s2-dialogue">
-                    {s.dialogue.map((line, i) => {
-                      const colors = speakerColors[line.speaker] ?? speakerColors["PROSPECT"];
-                      return (
-                        <div
-                          key={i}
-                          className="s2-line"
-                          style={{ background: colors.bg, borderLeft: `4px solid ${colors.border}` }}
-                        >
-                          <span className="s2-speaker" style={{ color: colors.label }}>
-                            {line.speaker}
-                          </span>
-                          {line.lines.map((text, j) => (
-                            <p key={j} className="s2-text">
-                              {text.split("\n").map((row, k) => (
-                                <span key={k}>{row}<br /></span>
-                              ))}
-                            </p>
-                          ))}
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Objection handler */}
-                  {s.objection && (
-                    <div className="s2-objection">
-                      <div className="s2-objection-header">
-                        <span className="material-icons" style={{ fontSize: 18, color: "#6B2737" }}>
-                          help_outline
-                        </span>
-                        <strong>Common Objection</strong>
+            <div className="s2-accordion">
+              {scripts.map((s) => (
+                <div key={s.id} className={`s2-card ${open === s.id ? "s2-card--open" : ""}`}>
+                  <button className="s2-card-header" onClick={() => setOpen(open === s.id ? null : s.id)}>
+                    <div className="s2-card-header-left">
+                      <div className={`s2-card-icon-wrap s2-card-icon-wrap--${s.color}`}>
+                        <span className="material-icons">{s.icon}</span>
                       </div>
-                      <div className="s2-objection-q">"{s.objection.q}"</div>
-                      <div className="s2-objection-a">{s.objection.a}</div>
+                      <div>
+                        <span className="s2-card-tag">{s.tag}</span>
+                        <div className="s2-card-title">{s.title}</div>
+                      </div>
+                    </div>
+                    <span className="material-icons s2-chevron">{open === s.id ? "expand_less" : "expand_more"}</span>
+                  </button>
+
+                  {open === s.id && (
+                    <div className="s2-card-body">
+                      {s.note && (
+                        <div className="s2-note">
+                          <span className="material-icons" style={{ fontSize: 16 }}>info</span>
+                          {s.note}
+                        </div>
+                      )}
+                      <div className="s2-dialogue">
+                        {s.dialogue.map((line, i) => {
+                          const colors = speakerColors[line.speaker] ?? speakerColors["PROSPECT"];
+                          return (
+                            <div key={i} className="s2-line" style={{ background: colors.bg, borderLeft: `4px solid ${colors.border}` }}>
+                              <span className="s2-speaker" style={{ color: colors.label }}>{line.speaker}</span>
+                              {line.lines.map((text, j) => (
+                                <p key={j} className="s2-text">
+                                  {text.split("\n").map((row, k) => <span key={k}>{row}<br /></span>)}
+                                </p>
+                              ))}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {s.objection && (
+                        <div className="s2-objection">
+                          <div className="s2-objection-header">
+                            <span className="material-icons" style={{ fontSize: 18, color: "#6B2737" }}>help_outline</span>
+                            <strong>Common Objection</strong>
+                          </div>
+                          <div className="s2-objection-q">"{s.objection.q}"</div>
+                          <div className="s2-objection-a">{s.objection.a}</div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Tip */}
-        <div className="step-tip">
-          <span className="material-icons step-tip-icon">lightbulb</span>
-          <div>
-            <strong>Pro Tip:</strong> The goal of every script is to book the
-            meeting — not to explain everything over the phone. Keep it short,
-            stay confident, and always end with a question that moves toward
-            a specific time and date.
+            <div className="step-tip">
+              <span className="material-icons step-tip-icon">lightbulb</span>
+              <div>
+                <strong>Pro Tip:</strong> The goal of every script is to book the
+                meeting — not to explain everything over the phone. Keep it short,
+                stay confident, and always end with a question that moves toward
+                a specific time and date.
+              </div>
+            </div>
+          </>
+        )}
+
+        {section === "social-media" && (
+          <div className="step-coming-soon">
+            <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>share</span>
+            <p>Social Media content coming soon.</p>
           </div>
-        </div>
+        )}
 
       </main>
     </div>

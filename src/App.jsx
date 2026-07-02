@@ -12,7 +12,7 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
-import Step5 from "./Step5";
+import FastStart from "./FastStart";
 import Step6 from "./Step6";
 import Videos from "./Videos";
 import WillsTrust from "./WillsTrust";
@@ -122,8 +122,8 @@ function App() {
             <Route path="/step6" element={<Step6 />} />
             <Route path="/step2" element={<Step2 />} />
             <Route path="/step3" element={<Step3 />} />
-            <Route path="/step4" element={<Step4 />} />
-            <Route path="/step5" element={<Step5 />} />
+            <Route path="/step4"      element={<Step4 />} />
+            <Route path="/fast-start" element={<FastStart />} />
             <Route path="/videos/illustrations" element={<Videos />} />
             <Route path="/videos/application"   element={<Videos />} />
             <Route path="/rollovers" element={<Rollovers />} />

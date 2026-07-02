@@ -9,7 +9,7 @@ const GRANTABLE_PAGES = [
   { path: "/step2", label: "Step 2" },
   { path: "/step3", label: "Step 3" },
   { path: "/step4", label: "Step 4" },
-  { path: "/step5", label: "Step 5" },
+  { path: "/fast-start", label: "Fast Start" },
   { path: "/step6", label: "Step 6" },
   { path: "/videos/illustrations", label: "Videos – Illustrations" },
   { path: "/videos/application", label: "Videos – Application" },
