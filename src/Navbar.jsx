@@ -11,7 +11,8 @@ const isRmd = () => {
 };
 
 const isNewMember = () => {
-  return localStorage.getItem("role") === "New Member";
+  const role = localStorage.getItem("role");
+  return role === "New Member" || role === "Licensed";
 };
 
 const allNavItems = [

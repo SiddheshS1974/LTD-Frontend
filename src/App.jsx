@@ -53,7 +53,7 @@ function NewMemberRoute() {
   useEffect(() => {
     setCheck({ done: false, allowed: false });
 
-    if (role !== "New Member") {
+    if (role !== "New Member" && role !== "Licensed") {
       setCheck({ done: true, allowed: true });
       return;
     }
