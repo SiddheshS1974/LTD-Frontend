@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./AdminPanel.css";
 import API from "./api";
 
-const ROLE_CHOICES = ["New Member", "Admin"];
+const ROLE_CHOICES = ["New Member", "Licensed", "Admin"];
 
 const GRANTABLE_PAGES = [
   { path: "/step1", label: "Step 1" },

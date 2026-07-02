@@ -34,6 +34,12 @@ import SuccessStories from "./SuccessStories";
 import HelpfulLinks from "./HelpfulLinks";
 import Layout from "./Layout";
 
+function AdminRoute() {
+  const role = localStorage.getItem("role");
+  const isStaff = localStorage.getItem("is_staff") === "true";
+  return (isStaff || role === "Admin") ? <Outlet /> : <Navigate to="/home" replace />;
+}
+
 function RmdRoute() {
   const isRmd = localStorage.getItem("is_rmd_member") === "true";
   return isRmd ? <Outlet /> : <Navigate to="/home" replace />;
@@ -110,7 +116,9 @@ function App() {
             <Route path="/videos/stories"       element={<Videos />} />
             <Route path="/rollovers" element={<Rollovers />} />
             <Route path="/license"   element={<License />} />
-            <Route path="/admin"     element={<AdminPanel />} />
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<AdminPanel />} />
+            </Route>
             <Route element={<RmdRoute />}>
               <Route path="/rmd" element={<RmdPanel />} />
             </Route>

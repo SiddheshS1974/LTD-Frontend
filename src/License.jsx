@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Step1.css";
 
 export default function License() {
+  const [activeTab, setActiveTab] = useState("before");
+
   useEffect(() => {
     const b = document.body;
     const prev = {
@@ -21,10 +23,46 @@ export default function License() {
         <div className="step-header-inner">
           <span className="step-number-badge">Compliance</span>
           <h1 className="step-title">License</h1>
+          <p className="step-subtitle">
+            Everything you need before and after getting licensed.
+          </p>
         </div>
       </header>
 
-      <main className="step-content" />
+      <main className="step-content">
+
+        <div className="step-tabs">
+          <button
+            className={`step-tab ${activeTab === "before" ? "active" : ""}`}
+            onClick={() => setActiveTab("before")}
+          >
+            <span className="material-icons" style={{ fontSize: 18 }}>school</span>
+            Before License
+          </button>
+          <button
+            className={`step-tab ${activeTab === "after" ? "active" : ""}`}
+            onClick={() => setActiveTab("after")}
+          >
+            <span className="material-icons" style={{ fontSize: 18 }}>verified</span>
+            After License
+          </button>
+        </div>
+
+        {activeTab === "before" && (
+          <div className="step-coming-soon">
+            <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>school</span>
+            <p>Before License content coming soon.</p>
+          </div>
+        )}
+
+        {activeTab === "after" && (
+          <div className="step-coming-soon">
+            <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>verified</span>
+            <p>After License content coming soon.</p>
+          </div>
+        )}
+
+      </main>
     </div>
   );
 }
