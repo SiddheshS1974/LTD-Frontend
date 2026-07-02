@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Brochures.css";
-import { useProtectedBlobUrl, openProtectedFile } from "./protectedFile";
+import { openProtectedFile } from "./protectedFile";
 
 const flsResources = [
   {
@@ -27,33 +27,13 @@ const flsResources = [
 ];
 
 function FlsCard({ item }) {
-  const { blobUrl, loading, error } = useProtectedBlobUrl(item.slug);
   const [opening, setOpening] = useState(false);
 
   return (
     <div className="brochure-card">
-      <div className="brochure-preview-wrap">
-        {loading && (
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
-            <span className="material-icons" style={{ fontSize: 36 }}>hourglass_empty</span>
-            <span style={{ fontSize: "0.8rem" }}>Loading preview…</span>
-          </div>
-        )}
-        {error && (
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
-            <span className="material-icons" style={{ fontSize: 36 }}>error_outline</span>
-            <span style={{ fontSize: "0.8rem" }}>Preview unavailable</span>
-          </div>
-        )}
-        {blobUrl && (
-          <iframe
-            src={blobUrl}
-            title={item.title}
-            className="brochure-iframe"
-            allow="autoplay"
-          />
-        )}
-        <div className="brochure-preview-overlay" />
+      <div className="brochure-preview-wrap" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "#9ca3af", background: "#f9f6f3" }}>
+        <span className="material-icons" style={{ fontSize: 48 }}>description</span>
+        <span style={{ fontSize: "0.8rem", textAlign: "center", padding: "0 1rem" }}>{item.title}</span>
       </div>
       <div className="brochure-card-body fls-card-body">
         <div className="fls-card-text">

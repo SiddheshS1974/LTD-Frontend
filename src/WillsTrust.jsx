@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./WillsTrust.css";
-import { useProtectedBlobUrl, openProtectedFile } from "./protectedFile";
+import { openProtectedFile } from "./protectedFile";
 
 const steps = [
   {
@@ -113,26 +113,12 @@ const resources = [
 ];
 
 function WtPresCard({ p }) {
-  const { blobUrl, loading, error } = useProtectedBlobUrl(p.slug);
   const [opening, setOpening] = useState(false);
   return (
     <div className="wt-pres-card">
-      <div className="wt-iframe-clip">
-        {loading && (
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
-            <span className="material-icons" style={{ fontSize: 36 }}>hourglass_empty</span>
-            <span style={{ fontSize: "0.8rem" }}>Loading preview…</span>
-          </div>
-        )}
-        {error && (
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 8, color: "#9ca3af" }}>
-            <span className="material-icons" style={{ fontSize: 36 }}>error_outline</span>
-            <span style={{ fontSize: "0.8rem" }}>Preview unavailable</span>
-          </div>
-        )}
-        {blobUrl && (
-          <iframe src={blobUrl} title={p.title} className="wt-drive-iframe" allow="autoplay" />
-        )}
+      <div className="wt-iframe-clip" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "#9ca3af", background: "#f9f6f3" }}>
+        <span className="material-icons" style={{ fontSize: 48 }}>slideshow</span>
+        <span style={{ fontSize: "0.8rem", textAlign: "center", padding: "0 1rem" }}>{p.title}</span>
       </div>
       <div className="wt-pres-body">
         <div className="wt-pres-tag">
