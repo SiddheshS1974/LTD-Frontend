@@ -6,6 +6,14 @@ export default function Step1() {
   const [device, setDevice] = useState("iphone");
 
   useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://player.vimeo.com/api/player.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
+
+  useEffect(() => {
     const b = document.body;
     const prev = {
       height: b.style.height, display: b.style.display,
@@ -124,6 +132,23 @@ export default function Step1() {
                 <strong>Pro Tip:</strong> Once you have your CSV file, open it in
                 Excel or Google Sheets and clean it up — remove duplicates, add notes,
                 and organize by relationship (family, friends, colleagues, etc.).
+              </div>
+            </div>
+
+            <div className="step-section-label" style={{ marginTop: "2rem" }}>
+              <span className="material-icons step-section-icon">ondemand_video</span>
+              Training Video
+            </div>
+            <div style={{ width: "100%", maxWidth: "720px" }}>
+              <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+                <iframe
+                  src="https://player.vimeo.com/video/1206616799?badge=0&autopause=0&player_id=0&app_id=58479"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                  title="LFS Step 1 - How To Build Fortune List and Prioritize"
+                />
               </div>
             </div>
           </>
