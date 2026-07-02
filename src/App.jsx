@@ -45,6 +45,14 @@ function RmdRoute() {
   return isRmd ? <Outlet /> : <Navigate to="/home" replace />;
 }
 
+const LICENSED_AUTO_PAGES = [
+  "/more/register-accounts",
+  "/rollovers",
+  "/license",
+  "/videos/illustrations",
+  "/videos/application",
+];
+
 function NewMemberRoute() {
   const role = localStorage.getItem("role");
   const location = useLocation();
@@ -54,6 +62,11 @@ function NewMemberRoute() {
     setCheck({ done: false, allowed: false });
 
     if (role !== "New Member" && role !== "Licensed") {
+      setCheck({ done: true, allowed: true });
+      return;
+    }
+
+    if (role === "Licensed" && LICENSED_AUTO_PAGES.includes(location.pathname)) {
       setCheck({ done: true, allowed: true });
       return;
     }

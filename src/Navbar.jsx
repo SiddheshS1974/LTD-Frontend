@@ -15,6 +15,14 @@ const isNewMember = () => {
   return role === "New Member" || role === "Licensed";
 };
 
+const LICENSED_AUTO_PAGES = [
+  "/more/register-accounts",
+  "/rollovers",
+  "/license",
+  "/videos/illustrations",
+  "/videos/application",
+];
+
 const allNavItems = [
   // ── Accessible to all roles ──────────────────────────────────────────────
   { id: "dashboard",      label: "Home",            icon: "home",             path: "/home"              },
@@ -165,8 +173,15 @@ export default function Navbar() {
     return () => document.body.classList.remove("sidebar-open");
   }, [sidebarOpen]);
 
-  const isDisabled = (item) =>
-    item.restricted && isNewMember() && !grantedPages.includes(item.path);
+  const isDisabled = (item) => {
+    if (!item.restricted) return false;
+    const role = localStorage.getItem("role");
+    if (role === "Licensed") {
+      if (item.path && LICENSED_AUTO_PAGES.includes(item.path)) return false;
+      if (item.dropdown && item.dropdown.some(d => LICENSED_AUTO_PAGES.includes(d.path))) return false;
+    }
+    return isNewMember() && !grantedPages.includes(item.path);
+  };
 
   const handleNavClick = (index, item) => {
     if (item.dropdown) {
