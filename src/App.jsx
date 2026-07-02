@@ -126,7 +126,6 @@ function App() {
             <Route path="/step5" element={<Step5 />} />
             <Route path="/videos/illustrations" element={<Videos />} />
             <Route path="/videos/application"   element={<Videos />} />
-            <Route path="/videos/stories"       element={<Videos />} />
             <Route path="/rollovers" element={<Rollovers />} />
             <Route path="/license"   element={<License />} />
             <Route element={<AdminRoute />}>

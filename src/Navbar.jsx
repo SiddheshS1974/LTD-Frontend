@@ -54,7 +54,6 @@ const allNavItems = [
     dropdown: [
       { label: "Illustrations", icon: "auto_stories",    path: "/videos/illustrations", restricted: true },
       { label: "Application",   icon: "app_registration", path: "/videos/application",  restricted: true },
-      { label: "Stories",       icon: "menu_book",        path: "/videos/stories",       restricted: true },
     ],
   },
   { id: "license",        label: "License",         icon: "card_membership",  path: "/license",   restricted: true },
