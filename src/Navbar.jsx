@@ -27,7 +27,7 @@ const allNavItems = [
       { label: "Step 3 — Presentation",                icon: "present_to_all",     path: "/step3", restricted: true },
       { label: "Step 4 — Follow Up (FLS)",             icon: "follow_the_signs",   path: "/step4", restricted: true },
       { label: "Step 5 — Follow Up (Business)",        icon: "handshake",          path: "/step5", restricted: true },
-      { label: "Step 6 — Miscellaneous",               icon: "fact_check",         path: "/step6"                  },
+      { label: "Step 6 — Miscellaneous",               icon: "fact_check",         path: "/step6", restricted: true },
     ],
   },
   { id: "wills",          label: "Wills & Trust",   icon: "balance",          path: "/wills-trust"       },

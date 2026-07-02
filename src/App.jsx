@@ -96,11 +96,11 @@ function App() {
           <Route path="/more/address-book" element={<AddressBook />} />
           <Route path="/success-stories"   element={<SuccessStories />} />
           <Route path="/helpful-links"     element={<HelpfulLinks />} />
-          <Route path="/step6"             element={<Step6 />} />
 
           {/* Restricted from New Members */}
           <Route element={<NewMemberRoute />}>
             <Route path="/step1" element={<Step1 />} />
+            <Route path="/step6" element={<Step6 />} />
             <Route path="/step2" element={<Step2 />} />
             <Route path="/step3" element={<Step3 />} />
             <Route path="/step4" element={<Step4 />} />
