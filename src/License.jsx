@@ -37,7 +37,7 @@ export default function License() {
             onClick={() => setActiveTab("before")}
           >
             <span className="material-icons" style={{ fontSize: 18 }}>school</span>
-            Before License
+            Preparation
           </button>
           <button
             className={`step-tab ${activeTab === "after" ? "active" : ""}`}
