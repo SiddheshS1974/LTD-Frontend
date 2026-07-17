@@ -82,10 +82,10 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 22px 5px;
+  padding: 22px 10px;
   cursor: pointer;
   color: rgba(255,255,255,0.7);
-  font-size: 11px;
+  font-size: 9.5px;
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
   transition: color 0.3s;
@@ -400,13 +400,13 @@
 
 /* Large-tablet / small-laptop */
 @media (max-width: 1400px) {
-  .nav-item { padding: 22px 3px; font-size: 10.5px; }
+  .nav-item { padding: 22px 7px; font-size: 9px; }
 }
 
 /* Tablet */
 @media (max-width: 900px) {
   .navbar-mainbg    { gap: 0; }
-  .nav-item         { padding: 22px 4px; font-size: 10px; }
+  .nav-item         { padding: 22px 5px; font-size: 8.5px; }
   .home-steps-grid  { grid-template-columns: repeat(2, 1fr); }
 }
 
