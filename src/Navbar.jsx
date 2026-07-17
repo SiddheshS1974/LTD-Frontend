@@ -19,6 +19,7 @@ const LICENSED_AUTO_PAGES = [
   "/more/register-accounts",
   "/rollovers",
   "/license",
+  "/after-license-setups",
   "/videos/illustrations",
   "/videos/application",
 ];
@@ -57,6 +58,7 @@ const allNavItems = [
     ],
   },
   { id: "license",        label: "License",         icon: "card_membership",  path: "/license",   restricted: true },
+  { id: "after-license-setups", label: "After License Setups", icon: "assignment_turned_in", path: "/after-license-setups", restricted: true },
   {
     id: "more",
     label: "More",
@@ -92,6 +94,7 @@ const pathToNavId = {
   "/videos/application":     "videos",
   "/videos/stories":         "videos",
   "/license":                "license",
+  "/after-license-setups":   "after-license-setups",
   "/more/information":       "more",
   "/more/applications":      "more",
   "/more/setups":            "more",

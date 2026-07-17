@@ -30,6 +30,7 @@ import Setups from "./Setups";
 import RegisterAccounts from "./RegisterAccounts";
 import AddressBook from "./AddressBook";
 import License from "./License";
+import AfterLicenseSetups from "./AfterLicenseSetups";
 import SuccessStories from "./SuccessStories";
 import HelpfulLinks from "./HelpfulLinks";
 import Layout from "./Layout";
@@ -49,6 +50,7 @@ const LICENSED_AUTO_PAGES = [
   "/more/register-accounts",
   "/rollovers",
   "/license",
+  "/after-license-setups",
   "/videos/illustrations",
   "/videos/application",
 ];
@@ -128,6 +130,7 @@ function App() {
             <Route path="/videos/application"   element={<Videos />} />
             <Route path="/rollovers" element={<Rollovers />} />
             <Route path="/license"   element={<License />} />
+            <Route path="/after-license-setups" element={<AfterLicenseSetups />} />
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminPanel />} />
             </Route>
