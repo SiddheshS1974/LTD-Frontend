@@ -28,7 +28,25 @@ export default function SuccessStories() {
         </div>
       </header>
 
-      <main className="step-content" />
+      <main className="step-content">
+        <div className="step-section-label">
+          <span className="material-icons step-section-icon">ondemand_video</span>
+          Pretik's Early Retirement
+        </div>
+        <div style={{ width: "100%", maxWidth: "720px" }}>
+          <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+            <iframe
+              src="https://www.youtube.com/embed/EvmpIpbNjQU"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+              title="Pretik's Early Retirement"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
