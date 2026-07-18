@@ -82,7 +82,7 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 22px 10px;
+  padding: 22px 6px;
   cursor: pointer;
   color: rgba(255,255,255,0.7);
   font-size: 9.5px;
@@ -102,6 +102,8 @@
 .nav-icon { display: none; }
 
 .nav-label {
+  /* Override App.css's global `span { font-size: 12px }` so nav-item's font-size actually applies */
+  font-size: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -407,20 +409,23 @@
    Responsive
    ════════════════════════════════ */
 
-/* Large-tablet / small-laptop */
-@media (max-width: 1400px) {
-  .nav-item { padding: 22px 7px; font-size: 9px; }
+/* Large-tablet / small-laptop — shrink tabs so all labels keep fitting in full
+   (no truncation) as the window narrows, right up to the hamburger cutoff below */
+@media (max-width: 1300px) {
+  .nav-item { padding: 22px 5px; font-size: 7.5px; }
 }
 
-/* Small-laptop / large-tablet — before switching to hamburger at 960px */
-@media (max-width: 1150px) {
-  .nav-item { padding: 22px 4px; font-size: 8px; }
+@media (max-width: 1100px) {
+  .nav-item { padding: 22px 4px; font-size: 6px; }
+}
+
+@media (max-width: 1000px) {
+  .nav-item { padding: 22px 4px; font-size: 5.5px; }
 }
 
 /* Tablet */
 @media (max-width: 900px) {
   .navbar-mainbg    { gap: 0; }
-  .nav-item         { padding: 22px 5px; font-size: 8.5px; }
   .home-steps-grid  { grid-template-columns: repeat(2, 1fr); }
 }
 
