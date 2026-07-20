@@ -45,8 +45,6 @@ const trainingSections = [
         title: "Best Interest Annuity Suitability",
         subtitle: "Required before submitting annuity applications",
         slug: "annuity-suitability",
-        badge: "Required",
-        badgeColor: "amber",
       },
       {
         title: "North American IUL Product Training",
