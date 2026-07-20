@@ -82,10 +82,10 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 22px 7px;
+  padding: 22px 8px;
   cursor: pointer;
   color: rgba(255,255,255,0.7);
-  font-size: 11px;
+  font-size: 12px;
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
   transition: color 0.3s;
@@ -412,15 +412,15 @@
 /* Large-tablet / small-laptop — shrink tabs so all labels keep fitting in full
    (no truncation) as the window narrows, right up to the hamburger cutoff below */
 @media (max-width: 1300px) {
-  .nav-item { padding: 22px 6px; font-size: 8.5px; }
+  .nav-item { padding: 22px 7px; font-size: 9px; }
 }
 
 @media (max-width: 1100px) {
-  .nav-item { padding: 22px 4px; font-size: 7px; }
+  .nav-item { padding: 22px 5px; font-size: 7.5px; }
 }
 
 @media (max-width: 1000px) {
-  .nav-item { padding: 22px 4px; font-size: 6.5px; }
+  .nav-item { padding: 22px 5px; font-size: 7px; }
 }
 
 /* Tablet */
