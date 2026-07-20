@@ -151,6 +151,7 @@ export default function Navbar() {
         left:  items[index].offsetLeft + "px",
         width: items[index].offsetWidth + "px",
       });
+      items[index].scrollIntoView({ block: "nearest", inline: "nearest" });
     }
   };
 
