@@ -68,6 +68,11 @@ function NewMemberRoute() {
       return;
     }
 
+    if (location.pathname === "/after-license-setups") {
+      setCheck({ done: true, allowed: role === "Licensed" });
+      return;
+    }
+
     if (role === "Licensed" && LICENSED_AUTO_PAGES.includes(location.pathname)) {
       setCheck({ done: true, allowed: true });
       return;

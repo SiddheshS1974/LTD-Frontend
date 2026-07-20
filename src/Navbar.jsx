@@ -178,6 +178,7 @@ export default function Navbar() {
   const isDisabled = (item) => {
     if (!item.restricted) return false;
     const role = localStorage.getItem("role");
+    if (item.path === "/after-license-setups") return role !== "Licensed";
     if (role === "Licensed") {
       if (item.path && LICENSED_AUTO_PAGES.includes(item.path)) return false;
       if (item.dropdown && item.dropdown.some(d => LICENSED_AUTO_PAGES.includes(d.path))) return false;
