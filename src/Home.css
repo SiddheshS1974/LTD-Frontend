@@ -72,11 +72,15 @@
   padding: 0 1rem 0 0;
   margin: 0;
   gap: 0;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
   flex: 1;
   min-width: 0;
   justify-content: space-evenly;
 }
+
+.navbar-nav::-webkit-scrollbar { display: none; }
 
 .nav-item {
   display: flex;
@@ -92,8 +96,7 @@
   position: relative;
   z-index: 1;
   white-space: nowrap;
-  min-width: 0;
-  flex-shrink: 1;
+  flex-shrink: 0;
 }
 
 .nav-item.active { color: #fff; font-weight: 600; }
@@ -104,10 +107,7 @@
 .nav-label {
   /* Override App.css's global `span { font-size: 12px }` so nav-item's font-size actually applies */
   font-size: inherit;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
-  min-width: 0;
 }
 
 .logout-btn {
