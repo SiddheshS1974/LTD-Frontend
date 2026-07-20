@@ -58,7 +58,7 @@ const allNavItems = [
     ],
   },
   { id: "license",        label: "License",         icon: "card_membership",  path: "/license",   restricted: true },
-  { id: "after-license-setups", label: "After License Setups", icon: "assignment_turned_in", path: "/after-license-setups", restricted: true },
+  { id: "after-license-setups", label: "ALS", icon: "assignment_turned_in", path: "/after-license-setups", restricted: true },
   {
     id: "more",
     label: "More",
