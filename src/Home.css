@@ -69,34 +69,31 @@
   flex-direction: row;
   list-style: none;
   position: relative;
-  padding: 0 1.25rem 0 0;
+  padding: 0 1rem 0 0;
   margin: 0;
   gap: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
+  overflow: hidden;
   flex: 1;
   min-width: 0;
   justify-content: space-evenly;
 }
 
-.navbar-nav::-webkit-scrollbar { display: none; }
-
 .nav-item {
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 22px 10px;
+  padding: 22px 7px;
   cursor: pointer;
   color: rgba(255,255,255,0.7);
-  font-size: 13px;
+  font-size: 11px;
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
   transition: color 0.3s;
   position: relative;
   z-index: 1;
   white-space: nowrap;
-  flex-shrink: 0;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .nav-item.active { color: #fff; font-weight: 600; }
@@ -107,7 +104,10 @@
 .nav-label {
   /* Override App.css's global `span { font-size: 12px }` so nav-item's font-size actually applies */
   font-size: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
 }
 
 .logout-btn {
@@ -412,15 +412,15 @@
 /* Large-tablet / small-laptop — shrink tabs so all labels keep fitting in full
    (no truncation) as the window narrows, right up to the hamburger cutoff below */
 @media (max-width: 1300px) {
-  .nav-item { padding: 22px 8px; font-size: 11px; }
+  .nav-item { padding: 22px 6px; font-size: 8.5px; }
 }
 
 @media (max-width: 1100px) {
-  .nav-item { padding: 22px 6px; font-size: 9px; }
+  .nav-item { padding: 22px 4px; font-size: 7px; }
 }
 
 @media (max-width: 1000px) {
-  .nav-item { padding: 22px 6px; font-size: 8px; }
+  .nav-item { padding: 22px 4px; font-size: 6.5px; }
 }
 
 /* Tablet */
