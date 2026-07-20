@@ -67,7 +67,6 @@ const allNavItems = [
     dropdown: [
       { label: "Information",                  icon: "info",        path: "/more/information",       restricted: true },
       { label: "Applications & Medical Exams", icon: "assignment",  path: "/more/applications",      restricted: true },
-      { label: "Setups",                       icon: "settings",    path: "/more/setups",            restricted: true },
       { label: "Register Accounts",            icon: "how_to_reg",  path: "/more/register-accounts", restricted: true },
     ],
   },
@@ -97,7 +96,6 @@ const pathToNavId = {
   "/after-license-setups":   "after-license-setups",
   "/more/information":       "more",
   "/more/applications":      "more",
-  "/more/setups":            "more",
   "/more/register-accounts": "more",
   "/admin":                  "admin",
   "/rmd":                    "rmd",

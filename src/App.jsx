@@ -26,7 +26,6 @@ import More from "./More";
 import Information from "./Information";
 import Applications from "./Applications";
 import ExamOne from "./ExamOne";
-import Setups from "./Setups";
 import RegisterAccounts from "./RegisterAccounts";
 import AddressBook from "./AddressBook";
 import License from "./License";
@@ -140,7 +139,6 @@ function App() {
             <Route path="/more/information"       element={<Information />} />
             <Route path="/more/applications"      element={<Applications />} />
             <Route path="/more/examone"           element={<ExamOne />} />
-            <Route path="/more/setups"            element={<Setups />} />
             <Route path="/more/register-accounts" element={<RegisterAccounts />} />
           </Route>
         </Route>

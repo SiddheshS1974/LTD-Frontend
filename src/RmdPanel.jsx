@@ -18,7 +18,6 @@ const GRANTABLE_PAGES = [
   { path: "/more/information", label: "Information" },
   { path: "/more/applications", label: "Applications" },
   { path: "/more/examone", label: "ExamOne" },
-  { path: "/more/setups", label: "Setups" },
   { path: "/more/register-accounts", label: "Register Accounts" },
 ];
 
