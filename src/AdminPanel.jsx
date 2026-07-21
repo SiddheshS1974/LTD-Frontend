@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./AdminPanel.css";
 import API from "./api";
+import { LICENSED_AUTO_PAGES } from "./pageAccess";
 
 const ROLE_CHOICES = ["New Member", "Licensed", "Admin"];
 
@@ -628,7 +629,7 @@ export default function AdminPanel() {
                                   <span className="material-icons">manage_accounts</span>
                                 </button>
                               )}
-                              {u.role === "New Member" && !u.is_rmd_member && (
+                              {(u.role === "New Member" || u.role === "Licensed") && !u.is_rmd_member && (
                                 <button
                                   className={`admin-btn admin-btn-pages ${managingPagesId === u.id ? "admin-btn-pages--active" : ""}`}
                                   title="Manage page access"
@@ -705,11 +706,16 @@ export default function AdminPanel() {
                                   </div>
                                 </div>
                               )}
-                              {GRANTABLE_PAGES.filter(p => !pageEdits.includes(p.path)).length > 0 && (
+                              {(() => {
+                                const grantOptions = GRANTABLE_PAGES.filter(
+                                  (p) => !pageEdits.includes(p.path) &&
+                                    !(u.role === "Licensed" && LICENSED_AUTO_PAGES.includes(p.path))
+                                );
+                                return grantOptions.length > 0 && (
                                 <div>
                                   <p className="admin-pages-section-label">Grant access to</p>
                                   <div className="admin-pages-grid">
-                                    {GRANTABLE_PAGES.filter(p => !pageEdits.includes(p.path)).map((page) => (
+                                    {grantOptions.map((page) => (
                                       <label key={page.path} className="admin-pages-checkbox">
                                         <input
                                           type="checkbox"
@@ -721,7 +727,8 @@ export default function AdminPanel() {
                                     ))}
                                   </div>
                                 </div>
-                              )}
+                                );
+                              })()}
                               <div className="admin-pages-footer">
                                 <button className="admin-btn admin-btn-save" onClick={() => handleGrantPages(u.id)}>Save</button>
                                 <button className="admin-btn admin-btn-cancel" onClick={() => setManagingPagesId(null)}>Cancel</button>

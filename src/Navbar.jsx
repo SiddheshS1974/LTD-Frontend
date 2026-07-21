@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import API from "./api";
-import { canAccessPage } from "./pageAccess";
+import { canAccessPage, LICENSED_AUTO_PAGES } from "./pageAccess";
 
 const isAdmin = () => {
   return localStorage.getItem("is_staff") === "true" || localStorage.getItem("role") === "Admin";
@@ -15,15 +15,6 @@ const isNewMember = () => {
   const role = localStorage.getItem("role");
   return role === "New Member" || role === "Licensed";
 };
-
-const LICENSED_AUTO_PAGES = [
-  "/more/register-accounts",
-  "/rollovers",
-  "/license",
-  "/after-license-setups",
-  "/videos/illustrations",
-  "/videos/application",
-];
 
 const allNavItems = [
   // ── Accessible to all roles ──────────────────────────────────────────────

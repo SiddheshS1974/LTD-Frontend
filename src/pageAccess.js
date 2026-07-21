@@ -1,3 +1,13 @@
+// Pages Licensed users can already reach without any admin grant.
+export const LICENSED_AUTO_PAGES = [
+  "/more/register-accounts",
+  "/rollovers",
+  "/license",
+  "/after-license-setups",
+  "/videos/illustrations",
+  "/videos/application",
+];
+
 // Step 3 (Presentation) and Step 4 (Follow Up) have no page-level grant of
 // their own — access to the page is implied by holding a grant for any one
 // of its tabs, and only the granted tab(s) are shown once inside.

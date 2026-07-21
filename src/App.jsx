@@ -33,7 +33,7 @@ import AfterLicenseSetups from "./AfterLicenseSetups";
 import SuccessStories from "./SuccessStories";
 import HelpfulLinks from "./HelpfulLinks";
 import Layout from "./Layout";
-import { canAccessPage } from "./pageAccess";
+import { canAccessPage, LICENSED_AUTO_PAGES } from "./pageAccess";
 
 function AdminRoute() {
   const role = localStorage.getItem("role");
@@ -45,15 +45,6 @@ function RmdRoute() {
   const isRmd = localStorage.getItem("is_rmd_member") === "true";
   return isRmd ? <Outlet /> : <Navigate to="/home" replace />;
 }
-
-const LICENSED_AUTO_PAGES = [
-  "/more/register-accounts",
-  "/rollovers",
-  "/license",
-  "/after-license-setups",
-  "/videos/illustrations",
-  "/videos/application",
-];
 
 function NewMemberRoute() {
   const role = localStorage.getItem("role");
