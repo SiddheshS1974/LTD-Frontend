@@ -492,13 +492,13 @@ export default function RmdPanel() {
                                   <p className="admin-pages-section-label">Grant access to</p>
                                   <div className="admin-pages-grid">
                                     {grantOptions.map((page) => (
-                                      <label key={page.path} className="admin-pages-checkbox">
+                                      <label key={page.path} className="admin-pages-checkbox" title={page.label}>
                                         <input
                                           type="checkbox"
                                           checked={false}
                                           onChange={() => setPageEdits((prev) => [...prev, page.path])}
                                         />
-                                        {page.label}
+                                        <span className="admin-pages-checkbox-label">{page.label}</span>
                                       </label>
                                     ))}
                                   </div>
@@ -546,13 +546,13 @@ export default function RmdPanel() {
                                   <p className="admin-pages-section-label">Grant certification</p>
                                   <div className="admin-pages-grid">
                                     {CERTIFICATIONS.filter(c => !certEdits.includes(c.key)).map((cert) => (
-                                      <label key={cert.key} className="admin-pages-checkbox">
+                                      <label key={cert.key} className="admin-pages-checkbox" title={cert.label}>
                                         <input
                                           type="checkbox"
                                           checked={false}
                                           onChange={() => setCertEdits((prev) => [...prev, cert.key])}
                                         />
-                                        {cert.label}
+                                        <span className="admin-pages-checkbox-label">{cert.label}</span>
                                       </label>
                                     ))}
                                   </div>

@@ -496,7 +496,7 @@
 
 .admin-pages-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 0.45rem 1rem;
   margin-bottom: 1rem;
 }
@@ -517,6 +517,12 @@
   height: 14px;
   flex-shrink: 0;
   cursor: pointer;
+}
+
+.admin-pages-checkbox-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .admin-pages-section-label {
