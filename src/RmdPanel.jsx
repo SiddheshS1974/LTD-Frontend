@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./AdminPanel.css";
 import API from "./api";
 import { LICENSED_AUTO_PAGES } from "./pageAccess";
+import { CERTIFICATIONS } from "./certifications";
 
 const ROLE_CHOICES = ["New Member", "Licensed", "Admin"];
 
@@ -32,6 +33,8 @@ export default function RmdPanel() {
   const [confirmToggleId, setConfirmToggleId] = useState(null);
   const [managingPagesId, setManagingPagesId] = useState(null);
   const [pageEdits, setPageEdits] = useState([]);
+  const [managingCertsId, setManagingCertsId] = useState(null);
+  const [certEdits, setCertEdits] = useState([]);
 
   const [activeTab, setActiveTab] = useState("members");
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -115,6 +118,28 @@ export default function RmdPanel() {
       setMembers((prev) => prev.map((u) => u.id === userId ? { ...u, granted_pages: data.granted_pages } : u));
       setManagingPagesId(null);
       setPageEdits([]);
+    } catch {
+      setActionError("Network error. Please try again.");
+    }
+  };
+
+  const handleGrantCertifications = async (userId) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API}/api/v1/users/${userId}/grant-certifications/`, {
+        method: "PATCH",
+        headers: { Authorization: `Token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ certifications: certEdits }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setActionError(data.error || "Failed to update certifications.");
+        return;
+      }
+      const data = await res.json();
+      setMembers((prev) => prev.map((u) => u.id === userId ? { ...u, certifications: data.certifications } : u));
+      setManagingCertsId(null);
+      setCertEdits([]);
     } catch {
       setActionError("Network error. Please try again.");
     }
@@ -366,6 +391,7 @@ export default function RmdPanel() {
                                       setPendingRole(u.role || "New Member");
                                       setConfirmToggleId(null);
                                       setManagingPagesId(null);
+                                      setManagingCertsId(null);
                                       setActionError("");
                                     }}
                                   >
@@ -384,10 +410,30 @@ export default function RmdPanel() {
                                         setPageEdits(u.granted_pages || []);
                                         setEditingRoleId(null);
                                         setConfirmToggleId(null);
+                                        setManagingCertsId(null);
                                       }
                                     }}
                                   >
                                     <span className="material-icons">key</span>
+                                  </button>
+                                )}
+                                {(u.role === "New Member" || u.role === "Licensed") && !u.is_rmd_member && (
+                                  <button
+                                    className={`admin-btn admin-btn-pages ${managingCertsId === u.id ? "admin-btn-pages--active" : ""}`}
+                                    title="Manage certifications"
+                                    onClick={() => {
+                                      if (managingCertsId === u.id) {
+                                        setManagingCertsId(null);
+                                      } else {
+                                        setManagingCertsId(u.id);
+                                        setCertEdits(u.certifications || []);
+                                        setEditingRoleId(null);
+                                        setConfirmToggleId(null);
+                                        setManagingPagesId(null);
+                                      }
+                                    }}
+                                  >
+                                    <span className="material-icons">workspace_premium</span>
                                   </button>
                                 )}
                                 <button
@@ -397,6 +443,7 @@ export default function RmdPanel() {
                                     setConfirmToggleId(u.id);
                                     setEditingRoleId(null);
                                     setManagingPagesId(null);
+                                    setManagingCertsId(null);
                                     setActionError("");
                                   }}
                                 >
@@ -461,6 +508,59 @@ export default function RmdPanel() {
                               <div className="admin-pages-footer">
                                 <button className="admin-btn admin-btn-save" onClick={() => handleGrantPages(u.id)}>Save</button>
                                 <button className="admin-btn admin-btn-cancel" onClick={() => setManagingPagesId(null)}>Cancel</button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                      {managingCertsId === u.id && (
+                        <tr className="admin-pages-row">
+                          <td colSpan={8}>
+                            <div className="admin-pages-panel">
+                              <p className="admin-pages-title">
+                                <span className="material-icons" style={{ fontSize: 16, verticalAlign: "middle", marginRight: 6 }}>workspace_premium</span>
+                                Certifications for <strong>{u.first_name || u.username}</strong>
+                              </p>
+                              {certEdits.length > 0 && (
+                                <div style={{ marginBottom: "0.85rem" }}>
+                                  <p className="admin-pages-section-label">Currently certified</p>
+                                  <div className="admin-pages-tags">
+                                    {certEdits.map((key) => {
+                                      const label = CERTIFICATIONS.find(c => c.key === key)?.label || key;
+                                      return (
+                                        <span key={key} className="admin-pages-tag">
+                                          {label}
+                                          <button
+                                            className="admin-pages-tag-remove"
+                                            title={`Revoke ${label}`}
+                                            onClick={() => setCertEdits((prev) => prev.filter((k) => k !== key))}
+                                          >×</button>
+                                        </span>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                              {CERTIFICATIONS.filter(c => !certEdits.includes(c.key)).length > 0 && (
+                                <div>
+                                  <p className="admin-pages-section-label">Grant certification</p>
+                                  <div className="admin-pages-grid">
+                                    {CERTIFICATIONS.filter(c => !certEdits.includes(c.key)).map((cert) => (
+                                      <label key={cert.key} className="admin-pages-checkbox">
+                                        <input
+                                          type="checkbox"
+                                          checked={false}
+                                          onChange={() => setCertEdits((prev) => [...prev, cert.key])}
+                                        />
+                                        {cert.label}
+                                      </label>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              <div className="admin-pages-footer">
+                                <button className="admin-btn admin-btn-save" onClick={() => handleGrantCertifications(u.id)}>Save</button>
+                                <button className="admin-btn admin-btn-cancel" onClick={() => setManagingCertsId(null)}>Cancel</button>
                               </div>
                             </div>
                           </td>

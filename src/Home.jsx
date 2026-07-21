@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Home.css";
+import API from "./api";
+import { CERTIFICATIONS } from "./certifications";
 
 const steps = [
   {
@@ -36,6 +38,26 @@ const steps = [
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const role = localStorage.getItem("role");
+  const showCertifications = role === "New Member" || role === "Licensed";
+  const [certifications, setCertifications] = useState(() =>
+    JSON.parse(localStorage.getItem("certifications") || "[]")
+  );
+
+  useEffect(() => {
+    if (!showCertifications) return;
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    fetch(`${API}/api/v1/me/`, { headers: { Authorization: `Token ${token}` } })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data?.certifications !== undefined) {
+          localStorage.setItem("certifications", JSON.stringify(data.certifications));
+          setCertifications(data.certifications);
+        }
+      })
+      .catch(() => {});
+  }, [showCertifications]);
 
   useEffect(() => {
     const b = document.body;
@@ -89,6 +111,36 @@ export default function Home() {
           </p>
           <p className="home-overview-tagline">Learn, Teach, Duplicate — success starts here!</p>
         </section>
+
+        {/* ── Certifications Progress ── */}
+        {showCertifications && (
+          <section className="home-certs">
+            <p className="home-eyebrow" style={{ textAlign: "center", marginBottom: "0.5rem" }}>Field Building</p>
+            <h3 className="home-steps-label">Your Certifications</h3>
+            <p className="home-certs-count">
+              {certifications.length} / {CERTIFICATIONS.length} earned
+            </p>
+            <div className="home-certs-bar-track">
+              <div
+                className="home-certs-bar-fill"
+                style={{ width: `${(certifications.length / CERTIFICATIONS.length) * 100}%` }}
+              />
+            </div>
+            <div className="home-certs-grid">
+              {CERTIFICATIONS.map((cert) => {
+                const earned = certifications.includes(cert.key);
+                return (
+                  <div key={cert.key} className={`home-cert-chip ${earned ? "home-cert-chip--earned" : ""}`}>
+                    <span className="material-icons home-cert-chip-icon">
+                      {earned ? "workspace_premium" : "lock_outline"}
+                    </span>
+                    {cert.label}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {/* ── Steps Grid ── */}
         <section className="home-steps">
