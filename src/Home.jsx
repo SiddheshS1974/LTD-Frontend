@@ -99,19 +99,6 @@ export default function Home() {
 
       <main className="home-content">
 
-        {/* ── Overview ── */}
-        <section className="home-overview">
-          <p className="home-eyebrow">Welcome</p>
-          <h2 className="home-overview-title">Your Business Intranet</h2>
-          <p className="home-overview-sub">
-            This intranet is designed to accelerate learning, helping you master the fundamentals
-            quickly and put your business on the fast track to success. With a focus on duplication,
-            you can seamlessly replicate proven systems, empowering your team to grow efficiently
-            and achieve massive results.
-          </p>
-          <p className="home-overview-tagline">Learn, Teach, Duplicate — success starts here!</p>
-        </section>
-
         {/* ── Certifications Progress ── */}
         {showCertifications && (
           <section className="home-certs">
@@ -141,6 +128,19 @@ export default function Home() {
             </div>
           </section>
         )}
+
+        {/* ── Overview ── */}
+        <section className="home-overview">
+          <p className="home-eyebrow">Welcome</p>
+          <h2 className="home-overview-title">Your Business Intranet</h2>
+          <p className="home-overview-sub">
+            This intranet is designed to accelerate learning, helping you master the fundamentals
+            quickly and put your business on the fast track to success. With a focus on duplication,
+            you can seamlessly replicate proven systems, empowering your team to grow efficiently
+            and achieve massive results.
+          </p>
+          <p className="home-overview-tagline">Learn, Teach, Duplicate — success starts here!</p>
+        </section>
 
         {/* ── Steps Grid ── */}
         <section className="home-steps">
