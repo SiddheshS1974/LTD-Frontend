@@ -5,20 +5,18 @@ import API from "./api";
 const ROLE_CHOICES = ["New Member", "Licensed", "Admin"];
 
 const GRANTABLE_PAGES = [
-  { path: "/step1", label: "Step 1" },
-  { path: "/step2", label: "Step 2" },
-  { path: "/step3", label: "Step 3" },
-  { path: "/step4", label: "Step 4" },
-  { path: "/fast-start", label: "Fast Start" },
-  { path: "/step6", label: "Step 6" },
-  { path: "/videos/illustrations", label: "Videos – Illustrations" },
-  { path: "/videos/application", label: "Videos – Application" },
-  { path: "/rollovers", label: "Rollovers" },
-  { path: "/license", label: "License" },
-  { path: "/more/information", label: "Information" },
-  { path: "/more/applications", label: "Applications" },
-  { path: "/more/examone", label: "ExamOne" },
-  { path: "/more/register-accounts", label: "Register Accounts" },
+  { path: "/step1", label: "Prospecting/List Building Page" },
+  { path: "/step1#social-media", label: "Social Media Tab (Prospecting/List Building)" },
+  { path: "/step2", label: "Approach/Contact Page" },
+  { path: "/step2#social-media", label: "Social Media Approach Tab (Approach/Contact)" },
+  { path: "/step3#bop", label: "BOP Tab (Presentation)" },
+  { path: "/step3#sop", label: "SOP Tab (Presentation)" },
+  { path: "/step4#fna", label: "FNA Tab (Follow Up)" },
+  { path: "/step4#fls", label: "FLS Tab (Follow Up)" },
+  { path: "/step4#business", label: "Business Tab (Follow Up)" },
+  { path: "/videos/illustrations", label: "Illustrations Page" },
+  { path: "/more/applications", label: "Applications Page" },
+  { path: "/fast-start", label: "Fast Start Page" },
 ];
 
 export default function RmdPanel() {

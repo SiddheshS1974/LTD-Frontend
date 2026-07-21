@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import API from "./api";
+import { canAccessPage } from "./pageAccess";
 
 const isAdmin = () => {
   return localStorage.getItem("is_staff") === "true" || localStorage.getItem("role") === "Admin";
@@ -180,7 +181,7 @@ export default function Navbar() {
       if (item.path && LICENSED_AUTO_PAGES.includes(item.path)) return false;
       if (item.dropdown && item.dropdown.some(d => LICENSED_AUTO_PAGES.includes(d.path))) return false;
     }
-    return isNewMember() && !grantedPages.includes(item.path);
+    return isNewMember() && !canAccessPage(grantedPages, item.path);
   };
 
   const handleNavClick = (index, item) => {

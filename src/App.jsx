@@ -33,6 +33,7 @@ import AfterLicenseSetups from "./AfterLicenseSetups";
 import SuccessStories from "./SuccessStories";
 import HelpfulLinks from "./HelpfulLinks";
 import Layout from "./Layout";
+import { canAccessPage } from "./pageAccess";
 
 function AdminRoute() {
   const role = localStorage.getItem("role");
@@ -73,7 +74,7 @@ function NewMemberRoute() {
     }
 
     const cached = JSON.parse(localStorage.getItem("granted_pages") || "[]");
-    if (cached.includes(location.pathname)) {
+    if (canAccessPage(cached, location.pathname)) {
       setCheck({ done: true, allowed: true });
       return;
     }
@@ -84,7 +85,7 @@ function NewMemberRoute() {
       .then(data => {
         const fresh = data?.granted_pages ?? cached;
         localStorage.setItem("granted_pages", JSON.stringify(fresh));
-        setCheck({ done: true, allowed: fresh.includes(location.pathname) });
+        setCheck({ done: true, allowed: canAccessPage(fresh, location.pathname) });
       })
       .catch(() => setCheck({ done: true, allowed: false }));
   }, [location.pathname, role]);

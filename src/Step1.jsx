@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import "./Step1.css";
+import { hasTabAccess } from "./pageAccess";
 
 export default function Step1() {
+  const canSocialMedia = hasTabAccess("/step1#social-media");
   const [section, setSection] = useState("list-building");
   const [device, setDevice] = useState("iphone");
 
@@ -71,13 +73,15 @@ export default function Step1() {
             <span className="material-icons" style={{ fontSize: 18 }}>format_list_bulleted</span>
             List Building
           </button>
-          <button
-            className={`step-tab ${section === "social-media" ? "active" : ""}`}
-            onClick={() => setSection("social-media")}
-          >
-            <span className="material-icons" style={{ fontSize: 18 }}>share</span>
-            Social Media
-          </button>
+          {canSocialMedia && (
+            <button
+              className={`step-tab ${section === "social-media" ? "active" : ""}`}
+              onClick={() => setSection("social-media")}
+            >
+              <span className="material-icons" style={{ fontSize: 18 }}>share</span>
+              Social Media
+            </button>
+          )}
         </div>
 
         {section === "list-building" && (
@@ -154,7 +158,7 @@ export default function Step1() {
           </>
         )}
 
-        {section === "social-media" && (
+        {canSocialMedia && section === "social-media" && (
           <div className="step-coming-soon">
             <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>share</span>
             <p>Social Media content coming soon.</p>

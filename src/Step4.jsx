@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Brochures.css";
 import { openProtectedFile } from "./protectedFile";
+import { hasTabAccess } from "./pageAccess";
 
 const flsResources = [
   { title: "Financial Needs Analysis Excel Sheet Template", description: "Put data from Financial Needs Analysis pdf in this spreadsheet", slug: "fna-excel-sheet" },
@@ -33,7 +34,12 @@ function FlsCard({ item }) {
 }
 
 export default function Step4() {
-  const [activeTab, setActiveTab] = useState("fls");
+  const canFna = hasTabAccess("/step4#fna");
+  const canFls = hasTabAccess("/step4#fls");
+  const canBusiness = hasTabAccess("/step4#business");
+  const [activeTab, setActiveTab] = useState(
+    canFna ? "fna" : canFls ? "fls" : "business"
+  );
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -71,27 +77,33 @@ export default function Step4() {
       <main className="step-content">
 
         <div className="step-tabs">
-          <button
-            className={`step-tab ${activeTab === "fna" ? "active" : ""}`}
-            onClick={() => setActiveTab("fna")}
-          >
-            <span className="material-icons" style={{ fontSize: 18 }}>assignment</span>
-            FNA
-          </button>
-          <button
-            className={`step-tab ${activeTab === "fls" ? "active" : ""}`}
-            onClick={() => setActiveTab("fls")}
-          >
-            <span className="material-icons" style={{ fontSize: 18 }}>trending_up</span>
-            FLS
-          </button>
-          <button
-            className={`step-tab ${activeTab === "business" ? "active" : ""}`}
-            onClick={() => setActiveTab("business")}
-          >
-            <span className="material-icons" style={{ fontSize: 18 }}>handshake</span>
-            Business
-          </button>
+          {canFna && (
+            <button
+              className={`step-tab ${activeTab === "fna" ? "active" : ""}`}
+              onClick={() => setActiveTab("fna")}
+            >
+              <span className="material-icons" style={{ fontSize: 18 }}>assignment</span>
+              FNA
+            </button>
+          )}
+          {canFls && (
+            <button
+              className={`step-tab ${activeTab === "fls" ? "active" : ""}`}
+              onClick={() => setActiveTab("fls")}
+            >
+              <span className="material-icons" style={{ fontSize: 18 }}>trending_up</span>
+              FLS
+            </button>
+          )}
+          {canBusiness && (
+            <button
+              className={`step-tab ${activeTab === "business" ? "active" : ""}`}
+              onClick={() => setActiveTab("business")}
+            >
+              <span className="material-icons" style={{ fontSize: 18 }}>handshake</span>
+              Business
+            </button>
+          )}
         </div>
 
         {activeTab === "fna" && (

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Step3.css";
 import { openProtectedFile } from "./protectedFile";
+import { hasTabAccess } from "./pageAccess";
 
 const bopPresentations = [
   {
@@ -56,7 +57,9 @@ const sopPresentations = [
 ];
 
 export default function Step3() {
-  const [activeTab, setActiveTab] = useState("bop");
+  const canBop = hasTabAccess("/step3#bop");
+  const canSop = hasTabAccess("/step3#sop");
+  const [activeTab, setActiveTab] = useState(canBop ? "bop" : "sop");
   const [openingSlug, setOpeningSlug] = useState(null);
   const presentations = activeTab === "bop" ? bopPresentations : sopPresentations;
 
@@ -119,18 +122,22 @@ export default function Step3() {
 
         {/* Tab switcher */}
         <div className="s3-seg">
-          <button
-            className={`s3-seg-btn ${activeTab === "bop" ? "s3-seg-btn--active" : ""}`}
-            onClick={() => setActiveTab("bop")}
-          >
-            BOP
-          </button>
-          <button
-            className={`s3-seg-btn ${activeTab === "sop" ? "s3-seg-btn--active" : ""}`}
-            onClick={() => setActiveTab("sop")}
-          >
-            SOP
-          </button>
+          {canBop && (
+            <button
+              className={`s3-seg-btn ${activeTab === "bop" ? "s3-seg-btn--active" : ""}`}
+              onClick={() => setActiveTab("bop")}
+            >
+              BOP
+            </button>
+          )}
+          {canSop && (
+            <button
+              className={`s3-seg-btn ${activeTab === "sop" ? "s3-seg-btn--active" : ""}`}
+              onClick={() => setActiveTab("sop")}
+            >
+              SOP
+            </button>
+          )}
         </div>
 
         {/* Presentation cards */}

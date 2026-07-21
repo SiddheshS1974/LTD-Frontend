@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Step2.css";
+import { hasTabAccess } from "./pageAccess";
 
 const scripts = [
   {
@@ -87,6 +88,7 @@ const speakerColors = {
 };
 
 export default function Step2() {
+  const canSocialMedia = hasTabAccess("/step2#social-media");
   const [section, setSection] = useState("scripts");
   const [open, setOpen] = useState("3party");
 
@@ -127,13 +129,15 @@ export default function Step2() {
             <span className="material-icons" style={{ fontSize: 18 }}>article</span>
             Scripts
           </button>
-          <button
-            className={`step-tab ${section === "social-media" ? "active" : ""}`}
-            onClick={() => setSection("social-media")}
-          >
-            <span className="material-icons" style={{ fontSize: 18 }}>share</span>
-            Social Media
-          </button>
+          {canSocialMedia && (
+            <button
+              className={`step-tab ${section === "social-media" ? "active" : ""}`}
+              onClick={() => setSection("social-media")}
+            >
+              <span className="material-icons" style={{ fontSize: 18 }}>share</span>
+              Social Media
+            </button>
+          )}
         </div>
 
         {section === "scripts" && (
@@ -220,7 +224,7 @@ export default function Step2() {
           </>
         )}
 
-        {section === "social-media" && (
+        {canSocialMedia && section === "social-media" && (
           <div className="step-coming-soon">
             <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>share</span>
             <p>Social Media content coming soon.</p>
