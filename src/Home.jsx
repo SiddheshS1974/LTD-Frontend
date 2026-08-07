@@ -39,7 +39,7 @@ const steps = [
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const role = localStorage.getItem("role");
-  const showCertifications = role === "New Member" || role === "Licensed";
+  const showCertifications = role === "New Member" || role === "Licensed" || role === "RMD";
   const [certifications, setCertifications] = useState(() =>
     JSON.parse(localStorage.getItem("certifications") || "[]")
   );
