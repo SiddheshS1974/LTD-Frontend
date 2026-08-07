@@ -655,7 +655,7 @@ export default function AdminPanel() {
                                   <span className="material-icons">manage_accounts</span>
                                 </button>
                               )}
-                              {(u.role === "New Member" || u.role === "Licensed") && !u.is_rmd_member && (
+                              {(u.role === "New Member" || u.role === "Licensed" || u.role === "RMD") && (
                                 <button
                                   className={`admin-btn admin-btn-pages ${managingPagesId === u.id ? "admin-btn-pages--active" : ""}`}
                                   title="Manage page access"
@@ -675,7 +675,7 @@ export default function AdminPanel() {
                                   <span className="material-icons">key</span>
                                 </button>
                               )}
-                              {(u.role === "New Member" || u.role === "Licensed") && !u.is_rmd_member && (
+                              {(u.role === "New Member" || u.role === "Licensed" || u.role === "RMD") && (
                                 <button
                                   className={`admin-btn admin-btn-pages ${managingCertsId === u.id ? "admin-btn-pages--active" : ""}`}
                                   title="Manage certifications"
