@@ -4,6 +4,7 @@ import { hasTabAccess } from "./pageAccess";
 
 export default function License() {
   const canPrep = hasTabAccess("/license#before");
+  const canAfter = hasTabAccess("/license#after");
   const [activeTab, setActiveTab] = useState(canPrep ? "before" : "after");
 
   useEffect(() => {
@@ -43,23 +44,25 @@ export default function License() {
               Preparation
             </button>
           )}
-          <button
-            className={`step-tab ${activeTab === "after" ? "active" : ""}`}
-            onClick={() => setActiveTab("after")}
-          >
-            <span className="material-icons" style={{ fontSize: 18 }}>verified</span>
-            After License
-          </button>
+          {canAfter && (
+            <button
+              className={`step-tab ${activeTab === "after" ? "active" : ""}`}
+              onClick={() => setActiveTab("after")}
+            >
+              <span className="material-icons" style={{ fontSize: 18 }}>verified</span>
+              After License
+            </button>
+          )}
         </div>
 
-        {activeTab === "before" && (
+        {activeTab === "before" && canPrep && (
           <div className="step-coming-soon">
             <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>school</span>
             <p>Before License content coming soon.</p>
           </div>
         )}
 
-        {activeTab === "after" && (
+        {activeTab === "after" && canAfter && (
           <div className="step-coming-soon">
             <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>verified</span>
             <p>After License content coming soon.</p>
