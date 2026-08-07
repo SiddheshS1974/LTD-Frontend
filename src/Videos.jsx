@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./Step1.css";
+import "./Videos.css";
 
 const pages = {
   "/videos/illustrations": {
@@ -8,20 +9,45 @@ const pages = {
     title: "Illustrations",
     subtitle: "Step-by-step illustration videos to support your presentations.",
     icon: "auto_stories",
+    videos: [
+      {
+        title: "AIG Term Illustration Steps 2.0",
+        vimeoId: "1207054527",
+      },
+    ],
   },
   "/videos/application": {
     badge: "Solutions Videos",
     title: "Application",
     subtitle: "Walkthroughs for completing and submitting applications correctly.",
     icon: "app_registration",
+    videos: [],
   },
   "/videos/stories": {
     badge: "Solutions Videos",
     title: "Stories",
     subtitle: "Client success stories and testimonials to use in your business.",
     icon: "menu_book",
+    videos: [],
   },
 };
+
+function VideoCard({ v }) {
+  return (
+    <div className="vid-card">
+      <div className="vid-embed">
+        <iframe
+          src={`https://player.vimeo.com/video/${v.vimeoId}?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479`}
+          frameBorder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          title={v.title}
+        />
+      </div>
+      <div className="vid-title">{v.title}</div>
+    </div>
+  );
+}
 
 export default function Videos() {
   const { pathname } = useLocation();
@@ -50,10 +76,18 @@ export default function Videos() {
         </div>
       </header>
       <main className="step-content">
-        <div className="step-coming-soon">
-          <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>{page.icon}</span>
-          <p>Content coming soon.</p>
-        </div>
+        {page.videos.length > 0 ? (
+          <div className="vid-grid">
+            {page.videos.map((v) => (
+              <VideoCard key={v.vimeoId} v={v} />
+            ))}
+          </div>
+        ) : (
+          <div className="step-coming-soon">
+            <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>{page.icon}</span>
+            <p>Content coming soon.</p>
+          </div>
+        )}
       </main>
     </div>
   );
