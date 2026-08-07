@@ -19,6 +19,7 @@ const GRANTABLE_PAGES = [
   { path: "/videos/illustrations", label: "Illustrations Page" },
   { path: "/more/applications", label: "Applications Page" },
   { path: "/fast-start", label: "Fast Start Page" },
+  { path: "/license#before", label: "Preparation Tab (License)" },
 ];
 
 export default function AdminPanel() {

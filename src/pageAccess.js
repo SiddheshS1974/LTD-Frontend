@@ -14,6 +14,7 @@ export const LICENSED_AUTO_PAGES = [
 export const TAB_SCOPED_PAGES = {
   "/step3": ["/step3#bop", "/step3#sop"],
   "/step4": ["/step4#fna", "/step4#fls", "/step4#business"],
+  "/license": ["/license#before"],
 };
 
 export function canAccessPage(granted, pathname) {

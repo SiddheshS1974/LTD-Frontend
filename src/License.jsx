@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import "./Step1.css";
+import { hasTabAccess } from "./pageAccess";
 
 export default function License() {
-  const [activeTab, setActiveTab] = useState("before");
+  const canPrep = hasTabAccess("/license#before");
+  const [activeTab, setActiveTab] = useState(canPrep ? "before" : "after");
 
   useEffect(() => {
     const b = document.body;
@@ -32,13 +34,15 @@ export default function License() {
       <main className="step-content">
 
         <div className="step-tabs">
-          <button
-            className={`step-tab ${activeTab === "before" ? "active" : ""}`}
-            onClick={() => setActiveTab("before")}
-          >
-            <span className="material-icons" style={{ fontSize: 18 }}>school</span>
-            Preparation
-          </button>
+          {canPrep && (
+            <button
+              className={`step-tab ${activeTab === "before" ? "active" : ""}`}
+              onClick={() => setActiveTab("before")}
+            >
+              <span className="material-icons" style={{ fontSize: 18 }}>school</span>
+              Preparation
+            </button>
+          )}
           <button
             className={`step-tab ${activeTab === "after" ? "active" : ""}`}
             onClick={() => setActiveTab("after")}
