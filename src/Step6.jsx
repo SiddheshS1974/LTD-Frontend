@@ -5,7 +5,7 @@ import { openProtectedFile } from "./protectedFile";
 
 const presentations = [
   {
-    slug: "financial-literacy-presentation",
+    slug: "effect-of-economy",
     title: "Effect of Economy",
     desc: "Shows the effects of an economic downturn on various financial vehicles.",
     icon: "show_chart",
