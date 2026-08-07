@@ -3,8 +3,9 @@ import "./Step1.css";
 import { hasTabAccess } from "./pageAccess";
 
 export default function License() {
-  const canPrep = hasTabAccess("/license#before");
-  const canAfter = hasTabAccess("/license#after");
+  const role = localStorage.getItem("role");
+  const canPrep = role === "Licensed" || hasTabAccess("/license#before");
+  const canAfter = role === "Licensed" || hasTabAccess("/license#after");
   const [activeTab, setActiveTab] = useState(canPrep ? "before" : "after");
 
   useEffect(() => {
