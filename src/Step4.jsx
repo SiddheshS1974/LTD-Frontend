@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Brochures.css";
 import { useFileViewer } from "./FileViewerContext";
+import { useProtectedBlobUrl } from "./protectedFile";
 import { hasTabAccess } from "./pageAccess";
 
 const flsResources = [
@@ -13,11 +14,22 @@ const flsResources = [
 
 function FlsCard({ item }) {
   const openFile = useFileViewer();
+  const { blobUrl, loading, error } = useProtectedBlobUrl(item.slug);
+
   return (
     <div className="brochure-card">
-      <div className="brochure-preview-wrap" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "#9ca3af", background: "#f9f6f3" }}>
-        <span className="material-icons" style={{ fontSize: 48 }}>description</span>
-        <span style={{ fontSize: "0.8rem", textAlign: "center", padding: "0 1rem" }}>{item.title}</span>
+      <div className="brochure-preview-wrap">
+        {blobUrl && <iframe src={blobUrl} title={item.title} className="brochure-iframe" />}
+        {(loading || error) && (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "#9ca3af", background: "#f9f6f3" }}>
+            <span className="material-icons" style={{ fontSize: 48 }}>
+              {error ? "error_outline" : "description"}
+            </span>
+            <span style={{ fontSize: "0.8rem", textAlign: "center", padding: "0 1rem" }}>
+              {error ? "Preview unavailable" : item.title}
+            </span>
+          </div>
+        )}
       </div>
       <div className="brochure-card-body fls-card-body">
         <div className="fls-card-text">
@@ -25,8 +37,8 @@ function FlsCard({ item }) {
           <p className="brochure-card-desc">{item.description}</p>
         </div>
         <button className="brochure-open-btn" onClick={() => openFile(item.slug, item.title)}>
-          <span className="material-icons">open_in_new</span>
-          Open
+          <span className="material-icons">fullscreen</span>
+          View Full Screen
         </button>
       </div>
     </div>
