@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Information.css";
-import { openProtectedFile } from "./protectedFile";
+import { useFileViewer } from "./FileViewerContext";
 
 const sections = [
   {
@@ -61,15 +61,14 @@ const trainingSections = [
 ];
 
 function SetupDocCard({ doc }) {
-  const [opening, setOpening] = useState(false);
+  const openFile = useFileViewer();
   return (
     <div
       className="setup-doc-card"
       role="button"
       tabIndex={0}
-      style={{ cursor: opening ? "wait" : "pointer" }}
-      onClick={() => openProtectedFile(doc.slug, setOpening)}
-      onKeyDown={(e) => e.key === "Enter" && openProtectedFile(doc.slug, setOpening)}
+      onClick={() => openFile(doc.slug, doc.title)}
+      onKeyDown={(e) => e.key === "Enter" && openFile(doc.slug, doc.title)}
     >
       <span className="material-icons info-doc-icon">description</span>
       <div className="setup-doc-text">
@@ -79,9 +78,7 @@ function SetupDocCard({ doc }) {
       {doc.badge && (
         <span className={`setup-doc-badge setup-doc-badge--${doc.badgeColor}`}>{doc.badge}</span>
       )}
-      <span className="material-icons info-doc-open">
-        {opening ? "hourglass_empty" : "open_in_new"}
-      </span>
+      <span className="material-icons info-doc-open">open_in_new</span>
     </div>
   );
 }

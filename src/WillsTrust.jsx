@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./Step1.css";
 import "./WillsTrust.css";
-import { openProtectedFile } from "./protectedFile";
+import { useFileViewer } from "./FileViewerContext";
 
 const steps = [
   {
@@ -113,7 +113,7 @@ const resources = [
 ];
 
 function WtPresCard({ p }) {
-  const [opening, setOpening] = useState(false);
+  const openFile = useFileViewer();
   return (
     <div className="wt-pres-card">
       <div className="wt-iframe-clip" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "#9ca3af", background: "#f9f6f3" }}>
@@ -128,11 +128,10 @@ function WtPresCard({ p }) {
         <p className="wt-pres-desc">{p.desc}</p>
         <button
           className="wt-open-btn"
-          disabled={opening}
-          onClick={() => openProtectedFile(p.slug, setOpening)}
+          onClick={() => openFile(p.slug, p.title)}
         >
           <span className="material-icons">open_in_new</span>
-          {opening ? "Opening…" : "Open Full Screen"}
+          Open Full Screen
         </button>
       </div>
     </div>

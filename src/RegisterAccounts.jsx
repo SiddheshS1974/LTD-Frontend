@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./Step1.css";
 import "./Information.css";
-import { openProtectedFile } from "./protectedFile";
+import { useFileViewer } from "./FileViewerContext";
 
 const carriers = [
   {
@@ -31,15 +31,14 @@ const carriers = [
 ];
 
 function CarrierCard({ carrier }) {
-  const [opening, setOpening] = useState(false);
+  const openFile = useFileViewer();
   return (
     <div
       className="reg-carrier-card"
       role="button"
       tabIndex={0}
-      style={{ cursor: opening ? "wait" : "pointer" }}
-      onClick={() => openProtectedFile(carrier.slug, setOpening)}
-      onKeyDown={(e) => e.key === "Enter" && openProtectedFile(carrier.slug, setOpening)}
+      onClick={() => openFile(carrier.slug, carrier.name)}
+      onKeyDown={(e) => e.key === "Enter" && openFile(carrier.slug, carrier.name)}
     >
       <div className="reg-carrier-icon-wrap">
         <span className="material-icons">{carrier.icon}</span>
@@ -51,9 +50,7 @@ function CarrierCard({ carrier }) {
         </div>
         <span className="setup-doc-subtitle">{carrier.subtitle}</span>
       </div>
-      <span className="material-icons info-doc-open">
-        {opening ? "hourglass_empty" : "open_in_new"}
-      </span>
+      <span className="material-icons info-doc-open">open_in_new</span>
     </div>
   );
 }

@@ -36,28 +36,3 @@ export function useProtectedBlobUrl(slug) {
   return { blobUrl, loading, error };
 }
 
-export async function openProtectedFile(slug, setOpening) {
-  if (setOpening) setOpening(true);
-  // Open the tab synchronously, inside the click gesture, so browsers don't
-  // treat it as a popup — then point it at the file once it's fetched.
-  const popup = window.open("", "_blank");
-  try {
-    const token = localStorage.getItem("token");
-    const res = await fetch(`${API}/api/v1/files/${slug}/stream/`, {
-      headers: { Authorization: `Token ${token}` },
-    });
-    if (!res.ok) throw new Error();
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    if (popup) {
-      popup.location.href = url;
-    } else {
-      window.open(url, "_blank");
-    }
-  } catch {
-    if (popup) popup.close();
-    alert("Could not open file. Please try again.");
-  } finally {
-    if (setOpening) setOpening(false);
-  }
-}

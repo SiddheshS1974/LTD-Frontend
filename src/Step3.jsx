@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./Step3.css";
-import { openProtectedFile } from "./protectedFile";
+import { useFileViewer } from "./FileViewerContext";
 import { hasTabAccess } from "./pageAccess";
 
 const bopPresentations = [
@@ -60,7 +60,7 @@ export default function Step3() {
   const canBop = hasTabAccess("/step3#bop");
   const canSop = hasTabAccess("/step3#sop");
   const [activeTab, setActiveTab] = useState(canBop ? "bop" : "sop");
-  const [openingSlug, setOpeningSlug] = useState(null);
+  const openFile = useFileViewer();
   const presentations = activeTab === "bop" ? bopPresentations : sopPresentations;
 
   useEffect(() => {
@@ -191,11 +191,10 @@ export default function Step3() {
               {/* Open button */}
               <button
                 className={`s3-open-btn s3-open-btn--${p.color}`}
-                disabled={openingSlug === p.slug}
-                onClick={() => openProtectedFile(p.slug, setOpeningSlug)}
+                onClick={() => openFile(p.slug, p.title)}
               >
                 <span className="material-icons s3-btn-icon">open_in_new</span>
-                {openingSlug === p.slug ? "Opening…" : "Open Presentation"}
+                Open Presentation
               </button>
 
             </div>

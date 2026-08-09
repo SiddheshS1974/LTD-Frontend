@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./Step1.css";
 import "./Rollovers.css";
 import "./Information.css";
-import { openProtectedFile } from "./protectedFile";
+import { useFileViewer } from "./FileViewerContext";
 
 const sections = [
   {
@@ -139,22 +139,19 @@ const sections = [
 ];
 
 function InfoDocCard({ doc }) {
-  const [opening, setOpening] = useState(false);
+  const openFile = useFileViewer();
   return (
     <div
       className="info-doc-card"
       role="button"
       tabIndex={0}
-      style={{ cursor: opening ? "wait" : "pointer" }}
-      onClick={() => openProtectedFile(doc.slug, setOpening)}
-      onKeyDown={(e) => e.key === "Enter" && openProtectedFile(doc.slug, setOpening)}
+      onClick={() => openFile(doc.slug, doc.title)}
+      onKeyDown={(e) => e.key === "Enter" && openFile(doc.slug, doc.title)}
     >
       <span className="material-icons info-doc-icon">description</span>
       <span className="info-doc-title">{doc.title}</span>
       {doc.badge && <span className="info-doc-badge">{doc.badge}</span>}
-      <span className="material-icons info-doc-open">
-        {opening ? "hourglass_empty" : "open_in_new"}
-      </span>
+      <span className="material-icons info-doc-open">open_in_new</span>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./Step1.css";
 import "./Step6.css";
-import { openProtectedFile } from "./protectedFile";
+import { useFileViewer } from "./FileViewerContext";
 
 const presentations = [
   {
@@ -19,7 +19,7 @@ const presentations = [
 ];
 
 function PresCard({ p }) {
-  const [opening, setOpening] = useState(false);
+  const openFile = useFileViewer();
 
   return (
     <div className="s6-pres-card">
@@ -35,11 +35,10 @@ function PresCard({ p }) {
         <p className="s6-pres-desc">{p.desc}</p>
         <button
           className="s6-open-btn"
-          disabled={opening}
-          onClick={() => openProtectedFile(p.slug, setOpening)}
+          onClick={() => openFile(p.slug, p.title)}
         >
           <span className="material-icons">open_in_new</span>
-          {opening ? "Opening…" : "Open Full Screen"}
+          Open Full Screen
         </button>
       </div>
     </div>

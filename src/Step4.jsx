@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Brochures.css";
-import { openProtectedFile } from "./protectedFile";
+import { useFileViewer } from "./FileViewerContext";
 import { hasTabAccess } from "./pageAccess";
 
 const flsResources = [
@@ -12,7 +12,7 @@ const flsResources = [
 ];
 
 function FlsCard({ item }) {
-  const [opening, setOpening] = useState(false);
+  const openFile = useFileViewer();
   return (
     <div className="brochure-card">
       <div className="brochure-preview-wrap" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "#9ca3af", background: "#f9f6f3" }}>
@@ -24,9 +24,9 @@ function FlsCard({ item }) {
           <p className="brochure-card-title">{item.title}</p>
           <p className="brochure-card-desc">{item.description}</p>
         </div>
-        <button className="brochure-open-btn" disabled={opening} onClick={() => openProtectedFile(item.slug, setOpening)}>
+        <button className="brochure-open-btn" onClick={() => openFile(item.slug, item.title)}>
           <span className="material-icons">open_in_new</span>
-          {opening ? "Opening…" : "Open"}
+          Open
         </button>
       </div>
     </div>
