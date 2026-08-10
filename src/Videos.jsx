@@ -11,13 +11,6 @@ const pages = {
     icon: "auto_stories",
     groups: [
       {
-        label: "General",
-        icon: "calculate",
-        videos: [
-          { title: "Calculating Death Benefit for Illustrations 2.0", vimeoId: "1207054235" },
-        ],
-      },
-      {
         label: "North American",
         icon: "account_balance",
         videos: [
@@ -41,6 +34,13 @@ const pages = {
         videos: [
           { title: "New Heights IUL Illustration Steps 2.0", vimeoId: "1207054146" },
           { title: "New Heights Select Annuity Illustration Steps 2.0", vimeoId: "1207054478" },
+        ],
+      },
+      {
+        label: "General",
+        icon: "calculate",
+        videos: [
+          { title: "Calculating Death Benefit for Illustrations 2.0", vimeoId: "1207054235" },
         ],
       },
       {
@@ -118,6 +118,7 @@ export default function Videos() {
               <div className="vid-group-header">
                 <span className="material-icons vid-group-icon">{group.icon}</span>
                 <h2 className="vid-group-title">{group.label}</h2>
+                <span className="vid-group-count">{group.videos.length}</span>
               </div>
               <div className="vid-grid">
                 {group.videos.map((v) => (

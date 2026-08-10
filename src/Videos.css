@@ -28,13 +28,29 @@
   margin: 0;
 }
 
+.vid-group-count {
+  margin-left: auto;
+  background: #f0ece7;
+  color: #8b6340;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .vid-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.25rem;
 }
 
 .vid-card {
+  max-width: 460px;
   background: #fafafa;
   border: 1px solid #e8e3dd;
   border-radius: 16px;
@@ -65,9 +81,13 @@
 }
 
 .vid-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
   padding: 1rem 1.25rem;
   font-size: 0.9rem;
   font-weight: 600;
+  line-height: 1.4;
   color: #1f2937;
 }
 
