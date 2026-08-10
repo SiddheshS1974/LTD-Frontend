@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Step1.css";
 import "./Brochures.css";
+import "./Videos.css";
 import { useFileViewer } from "./FileViewerContext";
 import { hasTabAccess } from "./pageAccess";
 
@@ -9,6 +10,15 @@ const flsResources = [
   { title: "Financial Lifestyle Strategy Client Presentation", description: "Use for presenting the Financial Lifestyle Strategy to client", slug: "fls-presentation" },
   { title: "Saving vs Investing", description: "Use to compare saving and investing in IUL", slug: "saving-vs-investing" },
   { title: "Tax Calculation for 401K Overfunding", description: "Use if client is investing more than company match in 401K to show how and why to diversify in IUL", slug: "tax-401k-overfunding" },
+];
+
+const flsTrainingVideos = [
+  { title: "Live Financial Literacy Session - Pratik 2.0", vimeoId: "1207058116" },
+  { title: "Financial Needs Analysis 2.0", vimeoId: "1207089143" },
+  { title: "Financial Literacy Session Q and A 2.0", vimeoId: "1207089422" },
+  { title: "Financial Literacy Session - What to do Before, During and After the Session 2.0", vimeoId: "1207089465" },
+  { title: "Financial Lifestyle Strategy 2.0", vimeoId: "1207089570" },
+  { title: "Copy FNA Data from PDF to Excel to PPT 2.0", vimeoId: "1207089611" },
 ];
 
 function FlsCard({ item }) {
@@ -30,6 +40,23 @@ function FlsCard({ item }) {
           Open
         </button>
       </div>
+    </div>
+  );
+}
+
+function TrainingVideoCard({ v }) {
+  return (
+    <div className="vid-card">
+      <div className="vid-embed">
+        <iframe
+          src={`https://player.vimeo.com/video/${v.vimeoId}?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479`}
+          frameBorder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          title={v.title}
+        />
+      </div>
+      <div className="vid-title">{v.title}</div>
     </div>
   );
 }
@@ -115,6 +142,16 @@ export default function Step4() {
             <div className="brochure-grid" style={{ maxWidth: "960px", width: "100%" }}>
               {flsResources.map((item) => (
                 <FlsCard key={item.slug} item={item} />
+              ))}
+            </div>
+
+            <div className="step-section-label" style={{ marginTop: "2rem" }}>
+              <span className="material-icons step-section-icon">ondemand_video</span>
+              Training Videos
+            </div>
+            <div className="vid-columns" style={{ maxWidth: "960px", width: "100%" }}>
+              {flsTrainingVideos.map((v) => (
+                <TrainingVideoCard key={v.vimeoId} v={v} />
               ))}
             </div>
           </>
