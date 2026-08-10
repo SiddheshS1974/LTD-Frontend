@@ -9,47 +9,17 @@ const pages = {
     title: "Illustrations",
     subtitle: "Step-by-step illustration videos to support your presentations.",
     icon: "auto_stories",
-    groups: [
-      {
-        label: "North American",
-        icon: "account_balance",
-        videos: [
-          { title: "Term Illustration Steps 2.0", vimeoId: "1207053833" },
-          { title: "REVISED Illustration Steps 2.0", vimeoId: "1207053985" },
-          { title: "IUL Illustration Steps in Welis", vimeoId: "1213722075" },
-          { title: "Protection Builder Illustration Steps in Welis", vimeoId: "1213722074" },
-        ],
-      },
-      {
-        label: "Athene",
-        icon: "business",
-        videos: [
-          { title: "Performance Elite Annuity Illustration Steps 2.0", vimeoId: "1207054318" },
-          { title: "Agility Annuity Illustration Steps 2.0", vimeoId: "1207054364" },
-        ],
-      },
-      {
-        label: "Nationwide / Annexus",
-        icon: "trending_up",
-        videos: [
-          { title: "New Heights IUL Illustration Steps 2.0", vimeoId: "1207054146" },
-          { title: "New Heights Select Annuity Illustration Steps 2.0", vimeoId: "1207054478" },
-        ],
-      },
-      {
-        label: "General",
-        icon: "calculate",
-        videos: [
-          { title: "Calculating Death Benefit for Illustrations 2.0", vimeoId: "1207054235" },
-        ],
-      },
-      {
-        label: "AIG",
-        icon: "verified",
-        videos: [
-          { title: "Term Illustration Steps 2.0", vimeoId: "1207054527" },
-        ],
-      },
+    videos: [
+      { title: "North American Term Illustration Steps 2.0", vimeoId: "1207053833" },
+      { title: "North American REVISED Illustration Steps 2.0", vimeoId: "1207053985" },
+      { title: "North American IUL Illustration Steps in Welis", vimeoId: "1213722075" },
+      { title: "North American Protection Builder Illustration Steps in Welis", vimeoId: "1213722074" },
+      { title: "Athene Performance Elite Annuity Illustration Steps 2.0", vimeoId: "1207054318" },
+      { title: "Athene Agility Annuity Illustration Steps 2.0", vimeoId: "1207054364" },
+      { title: "Nationwide Annexus New Heights IUL Illustration Steps 2.0", vimeoId: "1207054146" },
+      { title: "Annexus New Heights Select Annuity Illustration Steps 2.0", vimeoId: "1207054478" },
+      { title: "Illustrations - Calculating Death Benefit for Illustrations 2.0", vimeoId: "1207054235" },
+      { title: "AIG Term Illustration Steps 2.0", vimeoId: "1207054527" },
     ],
   },
   "/videos/application": {
@@ -57,14 +27,14 @@ const pages = {
     title: "Application",
     subtitle: "Walkthroughs for completing and submitting applications correctly.",
     icon: "app_registration",
-    groups: [],
+    videos: [],
   },
   "/videos/stories": {
     badge: "Solutions Videos",
     title: "Stories",
     subtitle: "Client success stories and testimonials to use in your business.",
     icon: "menu_book",
-    groups: [],
+    videos: [],
   },
 };
 
@@ -112,21 +82,12 @@ export default function Videos() {
         </div>
       </header>
       <main className="vid-main">
-        {page.groups.length > 0 ? (
-          page.groups.map((group) => (
-            <section key={group.label} className="vid-group">
-              <div className="vid-group-header">
-                <span className="material-icons vid-group-icon">{group.icon}</span>
-                <h2 className="vid-group-title">{group.label}</h2>
-                <span className="vid-group-count">{group.videos.length}</span>
-              </div>
-              <div className="vid-grid">
-                {group.videos.map((v) => (
-                  <VideoCard key={v.vimeoId} v={v} />
-                ))}
-              </div>
-            </section>
-          ))
+        {page.videos.length > 0 ? (
+          <div className="vid-columns">
+            {page.videos.map((v) => (
+              <VideoCard key={v.vimeoId} v={v} />
+            ))}
+          </div>
         ) : (
           <div className="step-coming-soon">
             <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>{page.icon}</span>
