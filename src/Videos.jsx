@@ -11,6 +11,42 @@ const pages = {
     icon: "auto_stories",
     videos: [
       {
+        title: "North American Term Illustration Steps 2.0",
+        vimeoId: "1207053833",
+      },
+      {
+        title: "North American REVISED Illustration Steps 2.0",
+        vimeoId: "1207053985",
+      },
+      {
+        title: "North American IUL Illustration Steps in Welis",
+        vimeoId: "1213722075",
+      },
+      {
+        title: "North American Protection Builder Illustration Steps in Welis",
+        vimeoId: "1213722074",
+      },
+      {
+        title: "Nationwide Annexus New Heights IUL Illustration Steps 2.0",
+        vimeoId: "1207054146",
+      },
+      {
+        title: "Illustrations - Calculating Death Benefit for Illustrations 2.0",
+        vimeoId: "1207054235",
+      },
+      {
+        title: "Athene Performance Elite Annuity Illustration Steps 2.0",
+        vimeoId: "1207054318",
+      },
+      {
+        title: "Athene Agility Annuity Illustration Steps 2.0",
+        vimeoId: "1207054364",
+      },
+      {
+        title: "Annexus New Heights Select Annuity Illustration Steps 2.0",
+        vimeoId: "1207054478",
+      },
+      {
         title: "AIG Term Illustration Steps 2.0",
         vimeoId: "1207054527",
       },
