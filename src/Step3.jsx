@@ -22,6 +22,11 @@ const bopPresentations = [
   },
 ];
 
+const bopVideos = [
+  { title: "BOP US Feb 2025 2.0", vimeoId: "1207052996" },
+  { title: "Certification Questions during BOP 2.0", vimeoId: "1207052905" },
+];
+
 const sopPresentations = [
   {
     id: "finlit",
@@ -217,19 +222,24 @@ export default function Step3() {
             <span className="material-icons s3-videos-header-icon">ondemand_video</span>
             <div>
               <h2 className="s3-videos-title">Training Videos</h2>
-              <p className="s3-videos-subtitle">Videos for this step will appear here once added.</p>
+              <p className="s3-videos-subtitle">Step-by-step video walkthroughs for the BOP presentation.</p>
             </div>
           </div>
 
           <div className="s3-video-grid">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="s3-video-placeholder">
-                <div className="s3-video-thumb">
-                  <span className="material-icons s3-video-play">play_circle</span>
+            {bopVideos.map((v) => (
+              <div key={v.vimeoId} className="s3-video-card">
+                <div className="s3-video-embed">
+                  <iframe
+                    src={`https://player.vimeo.com/video/${v.vimeoId}?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479`}
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    title={v.title}
+                  />
                 </div>
                 <div className="s3-video-info">
-                  <div className="s3-video-coming">Coming Soon</div>
-                  <div className="s3-video-slot">Video {i}</div>
+                  <div className="s3-video-slot">{v.title}</div>
                 </div>
               </div>
             ))}
