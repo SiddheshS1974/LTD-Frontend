@@ -54,14 +54,6 @@ export default function Step4() {
   );
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://player.vimeo.com/api/player.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => document.body.removeChild(script);
-  }, []);
-
-  useEffect(() => {
     const b = document.body;
     const prev = {
       height: b.style.height, display: b.style.display,
@@ -135,23 +127,6 @@ export default function Step4() {
               {flsResources.map((item) => (
                 <FlsCard key={item.slug} item={item} />
               ))}
-            </div>
-
-            <div className="step-section-label" style={{ marginTop: "2rem" }}>
-              <span className="material-icons step-section-icon">ondemand_video</span>
-              Training Video
-            </div>
-            <div style={{ width: "100%", maxWidth: "720px" }}>
-              <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
-                <iframe
-                  src="https://player.vimeo.com/video/1196162123?badge=0&autopause=0&player_id=0&app_id=58479"
-                  frameBorder="0"
-                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-                  title="FLS Training Video"
-                />
-              </div>
             </div>
           </>
         )}
