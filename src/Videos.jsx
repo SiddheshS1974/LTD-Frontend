@@ -27,7 +27,14 @@ const pages = {
     title: "Application",
     subtitle: "Walkthroughs for completing and submitting applications correctly.",
     icon: "app_registration",
-    videos: [],
+    videos: [
+      { title: "North American Application Steps 2.0", vimeoId: "1207052062" },
+      { title: "Athene Application Steps 2.0", vimeoId: "1207052169" },
+      { title: "Annuity Presentation: Accumulation and Income 2.0", vimeoId: "1207052270" },
+      { title: "Annexus Nationwide IUL Application Steps 2.0", vimeoId: "1207052364" },
+      { title: "Annexus Nationwide Annuity Application Steps 2.0", vimeoId: "1207052577" },
+      { title: "AIG Corebridge Application Steps 2.0", vimeoId: "1207052685" },
+    ],
   },
   "/videos/stories": {
     badge: "Solutions Videos",
