@@ -111,7 +111,7 @@ export default function Videos() {
           <p className="step-subtitle">{page.subtitle}</p>
         </div>
       </header>
-      <main className="step-content vid-content">
+      <main className="vid-main">
         {page.groups.length > 0 ? (
           page.groups.map((group) => (
             <section key={group.label} className="vid-group">
