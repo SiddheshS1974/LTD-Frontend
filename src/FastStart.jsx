@@ -11,6 +11,19 @@ const fastStartVideos = [
   { title: "Field Builder_ Active vs Passive &  Keep Small Numbers Small 2.0", vimeoId: "1207094423" },
 ];
 
+const fastStartTab2Videos = [
+  { title: "FIELD BUILDER_ Indices, Index Strategies, Crediting Methods 2.0", vimeoId: "1207092554" },
+  { title: "Field Builder_ Athene Agility   Surrender Value 2.0", vimeoId: "1207091223" },
+  { title: "FIELD BUILDER_ Annuity 101 - Index Strategies, Crediting Methods 2.0", vimeoId: "1207091525" },
+  { title: "FIELD BUILDER_ Annuity - Income Solution - Athene Agility 2.0", vimeoId: "1207091579" },
+  { title: "FIELD BUILDER_ Annuity - Charge vs No Charge Indices 2.0", vimeoId: "1207092172" },
+  { title: "Field Builder_ Annuities Questions - Taxation of Traditional, ROTH , Cash 2.0", vimeoId: "1207092225" },
+  { title: "Field Builder_ Annuities Questions -  IRS RMD and Early Withdrawal Penalties 2.0", vimeoId: "1207092286" },
+  { title: "Field Builder_ Annuities Questions -  Immediate income & Surrender Period vs Participation Rate 2.0", vimeoId: "1207092333" },
+  { title: "Field Builder_ Annuities - Standard Features + Company Features 2.0", vimeoId: "1207092393" },
+  { title: "Netlaw   Creating Documents 2.0", vimeoId: "1207053376" },
+];
+
 function TrainingVideoCard({ v }) {
   return (
     <div className="vid-card">
@@ -90,10 +103,17 @@ export default function FastStart() {
         )}
 
         {activeTab === "tab2" && (
-          <div className="step-coming-soon">
-            <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>star</span>
-            <p>Fast Start content coming soon.</p>
-          </div>
+          <>
+            <div className="step-section-label">
+              <span className="material-icons step-section-icon">ondemand_video</span>
+              Training Videos
+            </div>
+            <div className="vid-columns fls-vid-columns" style={{ maxWidth: "1100px", width: "100%" }}>
+              {fastStartTab2Videos.map((v) => (
+                <TrainingVideoCard key={v.vimeoId} v={v} />
+              ))}
+            </div>
+          </>
         )}
 
       </main>
