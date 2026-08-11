@@ -11,6 +11,15 @@ const licensePrepVideos = [
   { title: "Annuities 2.0", vimeoId: "1207056374" },
 ];
 
+const afterLicenseVideos = [
+  { title: "Field Builder - Term - What to Say To Show Reality & Important Quotes 2.0", vimeoId: "1207094578" },
+  { title: "Field Builder - Term - What To Do When Health Rating Changes in Application 2.0", vimeoId: "1207094707" },
+  { title: "Field Builder - Term - How to Answer - Term Seems Like an Expense 2.0", vimeoId: "1207094816" },
+  { title: "Field Builder - Term - Group Policies vs Your Own 2.0", vimeoId: "1207094864" },
+  { title: "Field Builder - Term - Do I need Protection If I May Go Back to India 2.0", vimeoId: "1207094907" },
+  { title: "Field Builder - Standard Underwriting Questions 2.0", vimeoId: "1207094966" },
+];
+
 function TrainingVideoCard({ v }) {
   return (
     <div className="vid-card">
@@ -97,10 +106,17 @@ export default function License() {
         )}
 
         {activeTab === "after" && canAfter && (
-          <div className="step-coming-soon">
-            <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>verified</span>
-            <p>After License content coming soon.</p>
-          </div>
+          <>
+            <div className="step-section-label">
+              <span className="material-icons step-section-icon">ondemand_video</span>
+              Training Videos
+            </div>
+            <div className="vid-columns fls-vid-columns" style={{ maxWidth: "1100px", width: "100%" }}>
+              {afterLicenseVideos.map((v) => (
+                <TrainingVideoCard key={v.vimeoId} v={v} />
+              ))}
+            </div>
+          </>
         )}
 
       </main>
