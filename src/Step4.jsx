@@ -12,28 +12,13 @@ const flsResources = [
   { title: "Tax Calculation for 401K Overfunding", description: "Use if client is investing more than company match in 401K to show how and why to diversify in IUL", slug: "tax-401k-overfunding" },
 ];
 
-const flsTrainingVideoGroups = [
-  {
-    category: "Core Concepts",
-    videos: [
-      { title: "Financial Needs Analysis 2.0", vimeoId: "1207089143" },
-      { title: "Financial Lifestyle Strategy 2.0", vimeoId: "1207089570" },
-    ],
-  },
-  {
-    category: "Running the Session",
-    videos: [
-      { title: "Financial Literacy Session - What to do Before, During and After the Session 2.0", vimeoId: "1207089465" },
-      { title: "Live Financial Literacy Session - Pratik 2.0", vimeoId: "1207058116" },
-      { title: "Financial Literacy Session Q and A 2.0", vimeoId: "1207089422" },
-    ],
-  },
-  {
-    category: "Tools & Templates",
-    videos: [
-      { title: "Copy FNA Data from PDF to Excel to PPT 2.0", vimeoId: "1207089611" },
-    ],
-  },
+const flsTrainingVideos = [
+  { title: "Financial Needs Analysis 2.0", vimeoId: "1207089143" },
+  { title: "Financial Lifestyle Strategy 2.0", vimeoId: "1207089570" },
+  { title: "Financial Literacy Session - What to do Before, During and After the Session 2.0", vimeoId: "1207089465" },
+  { title: "Live Financial Literacy Session - Pratik 2.0", vimeoId: "1207058116" },
+  { title: "Financial Literacy Session Q and A 2.0", vimeoId: "1207089422" },
+  { title: "Copy FNA Data from PDF to Excel to PPT 2.0", vimeoId: "1207089611" },
 ];
 
 function FlsCard({ item }) {
@@ -164,16 +149,11 @@ export default function Step4() {
               <span className="material-icons step-section-icon">ondemand_video</span>
               Training Videos
             </div>
-            {flsTrainingVideoGroups.map((group) => (
-              <div key={group.category} className="vid-group">
-                <div className="vid-group-label">{group.category}</div>
-                <div className="vid-columns fls-vid-columns" style={{ maxWidth: "1100px", width: "100%" }}>
-                  {group.videos.map((v) => (
-                    <TrainingVideoCard key={v.vimeoId} v={v} />
-                  ))}
-                </div>
-              </div>
-            ))}
+            <div className="vid-columns fls-vid-columns" style={{ maxWidth: "1100px", width: "100%" }}>
+              {flsTrainingVideos.map((v) => (
+                <TrainingVideoCard key={v.vimeoId} v={v} />
+              ))}
+            </div>
           </>
         )}
 
