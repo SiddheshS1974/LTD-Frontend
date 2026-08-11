@@ -31,6 +31,7 @@ const flsTrainingVideos = [
   { title: "Live Financial Literacy Session - Pratik 2.0", vimeoId: "1207058116" },
   { title: "Financial Literacy Session Q and A 2.0", vimeoId: "1207089422" },
   { title: "Copy FNA Data from PDF to Excel to PPT 2.0", vimeoId: "1207089611" },
+  { title: "Explain IUL features 2.0", vimeoId: "1207092619" },
 ];
 
 function FlsCard({ item }) {
