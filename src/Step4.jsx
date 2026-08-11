@@ -12,6 +12,12 @@ const flsResources = [
   { title: "Tax Calculation for 401K Overfunding", description: "Use if client is investing more than company match in 401K to show how and why to diversify in IUL", slug: "tax-401k-overfunding" },
 ];
 
+const businessTrainingVideos = [
+  { title: "Analysis - Preparing the PowerPoint From FNA 2.0", vimeoId: "1207090021" },
+  { title: "Analysis - How to Analyze Data for Reallocation to IUL and Annuity 2.0", vimeoId: "1207090065" },
+  { title: "Analysis - Analysis of Edge Cases 2.0", vimeoId: "1207090103" },
+];
+
 const fnaTrainingVideos = [
   { title: "FNA - Why Ask The Questions 2.0", vimeoId: "1207089839" },
   { title: "FNA - How To Collect The Data In Excel Sheet 2.0", vimeoId: "1207089882" },
@@ -171,10 +177,17 @@ export default function Step4() {
         )}
 
         {activeTab === "business" && (
-          <div className="step-coming-soon">
-            <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>handshake</span>
-            <p>Business content coming soon.</p>
-          </div>
+          <>
+            <div className="step-section-label">
+              <span className="material-icons step-section-icon">ondemand_video</span>
+              Training Videos
+            </div>
+            <div className="vid-columns fls-vid-columns" style={{ maxWidth: "1100px", width: "100%" }}>
+              {businessTrainingVideos.map((v) => (
+                <TrainingVideoCard key={v.vimeoId} v={v} />
+              ))}
+            </div>
+          </>
         )}
 
       </main>
