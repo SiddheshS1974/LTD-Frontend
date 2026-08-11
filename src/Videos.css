@@ -61,3 +61,31 @@
     column-count: 1;
   }
 }
+
+.vid-group {
+  margin-bottom: 2rem;
+}
+
+.vid-group-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9a8467;
+  margin-bottom: 0.85rem;
+}
+
+.fls-vid-columns {
+  column-count: 2;
+  column-gap: 1.75rem;
+}
+
+.fls-vid-columns .vid-title {
+  font-size: 1rem;
+}
+
+@media (max-width: 1000px) {
+  .fls-vid-columns {
+    column-count: 1;
+  }
+}
