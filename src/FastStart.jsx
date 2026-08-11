@@ -1,5 +1,32 @@
 import { useState, useEffect } from "react";
 import "./Step1.css";
+import "./Videos.css";
+
+const fastStartVideos = [
+  { title: "Filed Builder_  Mindset while doing Fast Start 2.0", vimeoId: "1207094197" },
+  { title: "Field Builder_ Why talk about license and 3 3 30 later in Fast Start 2.0", vimeoId: "1207094254" },
+  { title: "Field Builder_ Edification and Promotion 2.0", vimeoId: "1207094303" },
+  { title: "Field Builder_ Edification & Promotion, EPR, Relationships 2.0", vimeoId: "1207094337" },
+  { title: "Field Builder_ Compensation Plan 2.0", vimeoId: "1207094367" },
+  { title: "Field Builder_ Active vs Passive &  Keep Small Numbers Small 2.0", vimeoId: "1207094423" },
+];
+
+function TrainingVideoCard({ v }) {
+  return (
+    <div className="vid-card">
+      <div className="vid-embed">
+        <iframe
+          src={`https://player.vimeo.com/video/${v.vimeoId}?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479`}
+          frameBorder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          title={v.title}
+        />
+      </div>
+      <div className="vid-title">{v.title}</div>
+    </div>
+  );
+}
 
 export default function FastStart() {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -48,10 +75,26 @@ export default function FastStart() {
           </button>
         </div>
 
-        <div className="step-coming-soon">
-          <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>rocket_launch</span>
-          <p>Fast Start content coming soon.</p>
-        </div>
+        {activeTab === "tab1" && (
+          <>
+            <div className="step-section-label">
+              <span className="material-icons step-section-icon">ondemand_video</span>
+              Training Videos
+            </div>
+            <div className="vid-columns fls-vid-columns" style={{ maxWidth: "1100px", width: "100%" }}>
+              {fastStartVideos.map((v) => (
+                <TrainingVideoCard key={v.vimeoId} v={v} />
+              ))}
+            </div>
+          </>
+        )}
+
+        {activeTab === "tab2" && (
+          <div className="step-coming-soon">
+            <span className="material-icons" style={{ fontSize: 48, color: "#d8c4ae" }}>star</span>
+            <p>Fast Start content coming soon.</p>
+          </div>
+        )}
 
       </main>
     </div>
