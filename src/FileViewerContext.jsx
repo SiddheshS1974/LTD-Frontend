@@ -25,7 +25,7 @@ export function useFileViewer() {
 }
 
 function FileViewerModal({ slug, title, onClose }) {
-  const { blobUrl, loading, error } = useProtectedBlobUrl(slug);
+  const { blobUrl, loading, error, denied } = useProtectedBlobUrl(slug);
 
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
@@ -47,6 +47,12 @@ function FileViewerModal({ slug, title, onClose }) {
             <div className="fv-state">
               <span className="material-icons fv-spin">progress_activity</span>
               <p>Loading…</p>
+            </div>
+          )}
+          {denied && (
+            <div className="fv-state">
+              <span className="material-icons">lock</span>
+              <p>You don't have access to this file yet.</p>
             </div>
           )}
           {error && (
